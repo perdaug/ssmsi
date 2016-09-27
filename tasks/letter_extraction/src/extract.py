@@ -11,9 +11,11 @@ ROW_LENGTH = 62
 COLUMN_LENGTH = 1.25
 NUMBER_OF_ROWS = 8
 
+DATA_PATH = '../data/'
+
 def main():
 
-    run = pymzml.run.Reader("abcdefgh_1.mzML")
+    run = pymzml.run.Reader(DATA_PATH + "abcdefgh_1.mzML")
 
     # Identifying the pixel idensity by extracting molecules required.
     pixel_intensities = []
