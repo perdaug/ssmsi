@@ -1,66 +1,13 @@
 to-ask: 
-    Requirements for 40 credits.
     Problem Statement
     Literature
-    Scheduling
-    Meeting times
 
 to-remember:
     msci research proposal: 30 pages;
     msci research project (MSci): 14 pages.
+    Topic Modeling
 
-
-letters:
-    evens scans only
-
-inkms github!!
-
-lda plsi
-probabilistic latent indexing
-
-match peaks of massess across the scans
-
-bucketixzation
-
-spacial parts of lda
-
-priority queue
-
-
-tolerance 7 parts per million
-
-eacg scan
-
-
-1. fix the image
-2. get some feature combination to have corbus
-3. GitHub LDA repo, file LDA.py
-
-
-two ways for coordinates:
-1. matrix
-2. dictionary
-
-
-2. Objectives send
-
-
-thursday at 13:00-14:00 meeting!@!@
-
-
-google doc and send a link, just addup to the single doc
-
-lda pictures for the data
-
-
-
-
-make figures for the proposal n November
-
-
-plotly jupyter
-
-
-pithon notebook
-
-dictionary of dictionarys data structure. each spectre is one element in a dictionary, and value for that dictionary is another dictionary where the keys are the words of unique masses
+??:
+    lda plsi
+    probabilistic latent indexing
+    make figures for the proposal n November
