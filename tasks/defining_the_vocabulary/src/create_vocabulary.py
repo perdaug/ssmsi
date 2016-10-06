@@ -12,26 +12,23 @@ import numpy as np
 np.set_printoptions(precision=3, threshold=np.inf)
 
 INTENSITY_FLOOR = 10
-CLASS_TOLERANCE = 0.01
+TOLERANCE_FACTOR = 7
 DATA_PATH = "../data/"
 DATA_FILENAME = "abcdefgh_1.mzML"
 OUTPUT_PATH = "../output/"
 OUTPUT_FILENAME = "vocabulary.txt"
 
 def classify(classes, feature):
-
     for class_ in classes:
         if feature >= class_[0] and feature <= class_[1]:
             return str(class_)
 
 def main():
-
     run = pymzml.run.Reader(DATA_PATH + DATA_FILENAME)
 
     # Iterating through the data and storing into a temporary array (`Pymzml Reader' has no length attribute)
     preprocessed_mnis = []  
     for spectrum in run:
-        print(spectrum['id'])
         for mass, intensity in spectrum.peaks:
             if intensity > INTENSITY_FLOOR:
                 preprocessed_mnis.append((mass, intensity, spectrum['id']))
@@ -47,14 +44,15 @@ def main():
     previous_mass = mnis[0][0]
     for entity in mnis:
         mass = entity[0]
-        if mass - previous_mass > CLASS_TOLERANCE:
+        tolerance = (previous_mass / 1000000) * TOLERANCE_FACTOR
+        if mass - previous_mass > tolerance:
             words.append((starting_class_mass, previous_mass))
             starting_class_mass = mass
         previous_mass = mass 
     words.append((starting_class_mass, previous_mass))
 
-    print(len(words))
-    exit()
+    with open(OUTPUT_PATH + "words.txt", 'w') as outfile:
+        json.dump(words, outfile)
 
     # Populating the vocabulary
     vocabulary = {}
