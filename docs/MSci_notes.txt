@@ -8,6 +8,5 @@ to-remember:
     Topic Modeling
 
 ??:
-    lda plsi
-    probabilistic latent indexing
+    plsi
     make figures for the proposal n November

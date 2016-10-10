@@ -1,6 +1,6 @@
 tasks/letter_extraction/data/abcdefgh_1.mzML
-tasks/defining_the_vocabulary/data/abcdefgh_1.mzML
+tasks/defining_the_corpus/data/abcdefgh_1.mzML
 
-tasks/defining_the_vocabulary/output
+tasks/defining_the_corpus/output
 
-tasks/defining_the_vocabulary/notebooks/.ipynb_checkpoints
+tasks/defining_the_corpus/notebooks/.ipynb_checkpoints
