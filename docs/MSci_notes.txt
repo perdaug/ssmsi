@@ -18,4 +18,8 @@ to-remember:
 
 ??:
     plsi
+<<<<<<< HEAD
     make figures for the proposal n November
+=======
+    make figures for the proposal n November
+>>>>>>> 608acfb4ca96dca177a14534c5a3bd643f0635c7
