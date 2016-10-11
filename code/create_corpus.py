@@ -3,7 +3,6 @@ Creating the vocabulary.
 
 Terms:
     mni -- mass and intensity.
-
 """
 
 import json
@@ -16,7 +15,6 @@ TOLERANCE_FACTOR = 7
 DATA_PATH = "../data/"
 DATA_FILENAME = "abcdefgh_1.mzML"
 OUTPUT_PATH = "../output/"
-OUTPUT_FILENAME = "vocabulary.txt"
 
 def classify(classes, feature):
     for class_ in classes:
@@ -51,22 +49,17 @@ def main():
         previous_mass = mass 
     words.append((starting_class_mass, previous_mass))
 
-    with open(OUTPUT_PATH + "words.txt", 'w') as outfile:
-        json.dump(words, outfile)
-
-    # Populating the vocabulary
-    vocabulary = {}
+    # Populating the corpus
+    corpus = {}
     for entity in mnis:
         key = str(entity[2])
-        if key not in vocabulary:
-            vocabulary[key] = {}
+        if key not in corpus:
+            corpus[key] = {}
         class_ = classify(words, entity[0])
-        if class_ not in vocabulary[key]:
-            vocabulary[key][class_] = 0
-        vocabulary[key][class_] += entity[1]
+        if class_ not in corpus[key]:
+            corpus[key][class_] = 0
+        corpus[key][class_] += entity[1]
 
-    with open(OUTPUT_PATH + OUTPUT_FILENAME, 'w') as outfile:
-        json.dump(vocabulary, outfile)
 
 if __name__ == '__main__':
     main()

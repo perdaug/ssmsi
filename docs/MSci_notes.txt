@@ -7,7 +7,15 @@ to-remember:
     msci research project (MSci): 14 pages.
     Topic Modeling
 
+10/10/2016:
+    mass range for the letters is 376--377
+    use plotly for the plots
+    pickle the data
+    run LDA in 100 iterations
+    draw a histogram of the spectra
+    implement an LDA (special attention to the eqns: 6, 7 and 9)
+    3d mxml file format is immxml
+
 ??:
-    lda plsi
-    probabilistic latent indexing
+    plsi
     make figures for the proposal n November
