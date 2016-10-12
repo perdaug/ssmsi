@@ -1,12 +1,3 @@
-<<<<<<< HEAD
 pickles/
 data/
 notebooks/.ipynb_checkpoints
-=======
-tasks/letter_extraction/data/abcdefgh_1.mzML
-tasks/defining_the_corpus/data/abcdefgh_1.mzML
-
-tasks/defining_the_corpus/output
-
-tasks/defining_the_corpus/notebooks/.ipynb_checkpoints
->>>>>>> 608acfb4ca96dca177a14534c5a3bd643f0635c7

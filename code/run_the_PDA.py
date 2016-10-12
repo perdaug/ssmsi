@@ -1,4 +1,3 @@
-
 import sys
 import os
 import pandas as pd
@@ -10,8 +9,10 @@ sys.path.append(HOME_PATH + '/Projects/lda/code')
 from lda import VariationalLDA
 
 def main():
-    corpus = pd.read_pickle('../output/corpus.pickle')
+    corpus = pd.read_pickle('../pickles/corpus.pickle')
     corpus = corpus.to_dict()
+    print(corpus.keys())
+    exit()
 
     v_lda = VariationalLDA(corpus=corpus, K=10)
 

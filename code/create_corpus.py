@@ -5,8 +5,9 @@ Terms:
     mni -- mass and intensity.
 """
 
-import json
+import math
 import pymzml
+import pandas as pd
 import numpy as np
 np.set_printoptions(precision=3, threshold=np.inf)
 
@@ -20,6 +21,37 @@ def classify(classes, feature):
     for class_ in classes:
         if feature >= class_[0] and feature <= class_[1]:
             return str(class_)
+
+def generate_coordinates(data_size, number_of_rows, row_length, column_length):
+    single_scan_size = (data_size + 1) / number_of_rows
+    column_size = math.floor(single_scan_size \
+        * (column_length / (row_length + column_length)))
+    row_size = single_scan_size - column_size 
+    coordinates = []
+
+    x_coord = 0
+    y_coord = 0
+    row_scan = True
+    scanning_right = True
+    for _ in range(0, number_of_rows):
+        for i in range(1, single_scan_size + 1):
+            coordinates.append((x_coord, y_coord))
+            # print (x_coord, y_coord)
+            # Switching the horizontal scanning to the vertical scanning.
+            if i % row_size == 0:
+                row_scan = not row_scan
+            if row_scan:
+                if scanning_right:
+                    x_coord += 1
+                else:
+                    x_coord -= 1
+            else:
+                y_coord += 1
+        # Reversing scanner's direction.
+        row_scan = not row_scan
+        scanning_right = not scanning_right
+    return coordinates
+
 
 def main():
     run = pymzml.run.Reader(DATA_PATH + DATA_FILENAME)
@@ -49,16 +81,28 @@ def main():
         previous_mass = mass 
     words.append((starting_class_mass, previous_mass))
 
-    # Populating the corpus
+    # Generating coordinates.
+    number_of_rows = 8
+    number_of_docs = 6327
+    row_length = 62
+    column_length = 1.25
+    coordinates = generate_coordinates(
+        number_of_docs, number_of_rows, row_length, column_length)
+
+    # Populating the corpus.
     corpus = {}
     for entity in mnis:
-        key = str(entity[2])
+        # print entity[2]
+        key = coordinates[entity[2]]
         if key not in corpus:
             corpus[key] = {}
         class_ = classify(words, entity[0])
         if class_ not in corpus[key]:
             corpus[key][class_] = 0
         corpus[key][class_] += entity[1]
+
+    corpus_series = pd.Series(corpus)
+    corpus_series.to_pickle('../pickles/corpus.pickle')
 
 
 if __name__ == '__main__':

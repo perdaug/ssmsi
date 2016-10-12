@@ -9,17 +9,12 @@ to-remember:
 
 10/10/2016:
     mass range for the letters is 376--377
-    use plotly for the plots
-    pickle the data
-    run LDA in 100 iterations
+    use plotly for the plots; i.e. plot every topic
     draw a histogram of the spectra
     implement an LDA (special attention to the eqns: 6, 7 and 9)
     3d mxml file format is immxml
 
 ??:
     plsi
-<<<<<<< HEAD
     make figures for the proposal n November
-=======
     make figures for the proposal n November
->>>>>>> 608acfb4ca96dca177a14534c5a3bd643f0635c7
