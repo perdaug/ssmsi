@@ -50,9 +50,6 @@ def main():
         if row_idx == row_plus_column_size - 1:
             column_idx += 1
 
-    print(len(image_data))
-    exit()
-
     # Reversing the rows required.
     for row_idx, row in enumerate(image_data):
         row_number = row_idx % NUMBER_OF_ROWS
