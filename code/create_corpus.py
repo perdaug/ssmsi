@@ -15,7 +15,6 @@ INTENSITY_FLOOR = 10
 TOLERANCE_FACTOR = 7
 DATA_PATH = "../data/"
 DATA_FILENAME = "abcdefgh_1.mzML"
-OUTPUT_PATH = "../output/"
 
 def classify(classes, feature):
     for class_ in classes:
@@ -36,7 +35,6 @@ def generate_coordinates(data_size, number_of_rows, row_length, column_length):
     for _ in range(0, number_of_rows):
         for i in range(1, single_scan_size + 1):
             coordinates.append((x_coord, y_coord))
-            # print (x_coord, y_coord)
             # Switching the horizontal scanning to the vertical scanning.
             if i % row_size == 0:
                 row_scan = not row_scan
@@ -92,8 +90,8 @@ def main():
     # Populating the corpus.
     corpus = {}
     for entity in mnis:
-        # print entity[2]
-        key = coordinates[entity[2]]
+        print(entity)
+        key = str(entity[2] - 1)
         if key not in corpus:
             corpus[key] = {}
         class_ = classify(words, entity[0])
@@ -102,7 +100,7 @@ def main():
         corpus[key][class_] += entity[1]
 
     corpus_series = pd.Series(corpus)
-    corpus_series.to_pickle('../pickles/corpus.pickle')
+    corpus_series.to_pickle('../heavy_pickles/corpus.pickle')
 
 
 if __name__ == '__main__':

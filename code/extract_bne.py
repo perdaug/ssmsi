@@ -16,7 +16,6 @@ NUMBER_OF_ROWS = 8
 DATA_PATH = '../data/'
 
 def main():
-
     run = pymzml.run.Reader(DATA_PATH + "abcdefgh_1.mzML")
 
     # Identifying the pixel idensity by extracting molecules required.
@@ -41,9 +40,12 @@ def main():
     image_data = np.zeros(
         (NUMBER_OF_ROWS, row_size))
 
+    print(sample_size, total_row_length)
     column_idx = 0
+    counter = 0
     for idx, pixel_intensity in enumerate(pixel_intensities):
         row_idx = idx % row_plus_column_size
+        counter += 1
         # Cutting the column data.
         if row_idx < row_size:
             image_data[column_idx][row_idx] = pixel_intensity
@@ -56,7 +58,6 @@ def main():
         if row_number % 2 == 1:
             reversed_row = row[::-1]
             image_data[row_idx] = reversed_row
-
 
     plt.figure()
     plt.imshow(image_data, extent=[0, ROW_LENGTH, COLUMN_HEIGHT, 0])

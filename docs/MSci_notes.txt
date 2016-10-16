@@ -18,3 +18,7 @@ to-remember:
     plsi
     make figures for the proposal n November
     make figures for the proposal n November
+
+
+
+use inverted dictionary
