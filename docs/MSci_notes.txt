@@ -8,20 +8,9 @@ to-remember:
     Topic Modeling
 
 10/10/2016:
-    mass range for the letters is 376--377
-    use plotly for the plots; i.e. plot every topic
-    draw a histogram of the spectra
     implement an LDA (special attention to the eqns: 6, 7 and 9)
     3d mxml file format is immxml
 
 ??:
     plsi
     make figures for the proposal n November
-    make figures for the proposal n November
-
-
-
-https://plot.ly/~ArijusP/1/?share_key=5RCKcEYFkKA0IttLtWi8BO
-
-
-think about x axis labels
