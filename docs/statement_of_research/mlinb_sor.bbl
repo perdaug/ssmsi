@@ -1,0 +1,17 @@
+\begin{thebibliography}{1}
+
+\bibitem{Hofmann}
+Thomas Hofmann.
+\newblock Probabilistic {L}atent {S}emantic {I}ndexing, 1999.
+
+\bibitem{Blei}
+David M. Blei{,} Andrew~Y. Ng{,} and Michael~I. Jordan.
+\newblock Latent {D}irichlet {A}llocation, 2003.
+
+\bibitem{Rogers}
+Justin~J.J. van~der Hoofta{,} Joe Wandya{,} Michael P. Barretta{,} Karl
+  E.V.~Burgessa{,} and Simon Rogers.
+\newblock Topic {M}odeling for {U}ntargeted {S}ubstructure {E}xploration in
+  {M}etabolomics, 2016.
+
+\end{thebibliography}
