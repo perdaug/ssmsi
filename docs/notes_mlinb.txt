@@ -1,0 +1,11 @@
+to-remember:
+    msci research proposal: 30 pages;
+    msci research project (MSci): 14 pages.
+    3d mxml file format is immxml
+
+lda:
+    - normalise intensities
+    - detailed literature revie
+
+proposal of esearch:
+    - fix referrences
