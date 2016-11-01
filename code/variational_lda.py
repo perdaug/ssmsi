@@ -1,120 +1,98 @@
+# Implementation of a variational LDA.
+# 
+# Code refers to the variational LDA implementation of Dr Simon Rogers.
+# Comments refer to the LDA paper (Blei et al. 2003)  
+# and the the online LDA implementation (Hoffman et al. 2010).
+
 import os
 import pandas as pd
 import numpy as np
 from scipy.special import psi
+
 np.set_printoptions(suppress=True)
 HOME_PATH = os.path.expanduser('~')
 
-meanchangethresh = 0.001
-
 class Variational_LDA(object):
 
-    def __init__(self, corpus, K, alpha, eta, tau0, kappa):
+    def __init__(self, corpus, K, alpha, eta):
+        """
+        Arguments:
+        corpus: Collection of (mass, intensity) metabolite tuples;
+        K: Number of topics;
+        alpha: Hyperparameter for prior on weight vectors theta;
+        eta: Hyperparameter for prior on topics beta.
+        """
         self.corpus = corpus
         self.vocabulary = create_vocabulary(corpus)
         self._K = K
-        self._W = len(self.vocabulary)
         self._alpha = alpha
         self._eta = eta
-        self._tau0 = tau0 + 1
-        self._kappa = kappa
-        self._updatect = 0
+        self._V = len(self.vocabulary)
+        self._M = len(self.corpus)
 
+    def init_vb(self):
+        # Initialising Beta.
+        self._beta = np.random.rand(self._K, self._V) 
+        self._beta /= self._beta.sum(axis=1)[:, None]
 
-        self._lambda = np.random.gamma(100., 1./100., (self._K, self._W))
-        self._Elogbeta = dirichlet_expectation(self._lambda)
-        self._expElogbeta = np.exp(self._Elogbeta)
+        # Initialising Gamma and Phi.
+        self._phi = {}
+        self._gamma = np.zeros((self._M, self._K))
+        for d, doc in enumerate(self.corpus):
+            self._phi[doc] = {}
+            for word in self.corpus[doc]:
+                w = self.vocabulary[word]
+                # Line (1) in Figure 6.
+                self._phi[doc][w] = np.zeros(self._K)
+            total_intensity = sum(self.corpus[doc].values())
+            # Line (1) in Figure 6 .
+            self._gamma[d, :] = self._alpha + total_intensity / self._K
 
-    def update_lambda_docs(self):
-        self._rhot = pow(self._tau0 + self._updatect, -self._kappa)
+    def run(self, iterations):
+        self.init_vb()
 
-        (gamma, sstats) = self.do_e_step(self.corpus, self.vocabulary)
+        for _ in range(iterations):
+            self.vb_step()
 
-        # INVESTIGATE D
-        self._lambda = self._lambda * (1-self._rhot) + \
-            self._rhot * (self._eta + sstats / len(self.corpus))
-        self._Elogbeta = dirichlet_expectation(self._lambda)
-        self._expElogbeta = np.exp(self._Elogbeta)
-        self._updatect += 1
+    def vb_step(self):
+        temp_beta = self.e_step()
+        temp_beta += self._eta
+        temp_beta /= temp_beta.sum(axis=1)[:, None]
+        self._beta = temp_beta
 
-        return gamma
-
-
-    def do_e_step(self, corpus, vocabulary):
-
-        (wordids, wordcts) = parse_doc_list(corpus, vocabulary)
-
-        gamma = 1*np.random.gamma(100., 1./100., (len(corpus), self._K))
-        Elogtheta = dirichlet_expectation(gamma)
-        expElogtheta = np.exp(Elogtheta)
-
-        sstats = np.zeros(self._lambda.shape)
-
-        meanchange = 0
-        for d in range(0, len(corpus)):
-            ids = wordids[d]
-            cts = wordcts[d]
-            gammad = gamma[d, :]
-            Elogthetad = Elogtheta[d, :]
-            expElogthetad = expElogtheta[d, :]
-            expElogbetad = self._expElogbeta[:, ids]
-            phinorm = np.dot(expElogthetad, expElogbetad) + 1e-100
-            for it in range(0, 100):
-                lastgamma = gammad
-                gammad = self._alpha + expElogthetad * \
-                    np.dot(cts / phinorm, expElogbetad.T)
-                Elogthetad = dirichlet_expectation(gammad)
-                expElogthetad = np.exp(Elogthetad)
-                phinorm = np.dot(expElogthetad, expElogbetad) + 1e-100
-                # If gamma hasn't changed much, we're done.
-                meanchange = np.mean(abs(gammad - lastgamma))
-                if (meanchange < meanchangethresh):
-                    break
-            gamma[d, :] = gammad
-            # Contribution of document d to the expected sufficient
-            # statistics for the M step.
-            sstats[:, ids] += np.outer(expElogthetad.T, cts/phinorm)
-
-        sstats = sstats * self._expElogbeta
-
-        return((gamma, sstats))
-
-def dirichlet_expectation(alpha):
-    if (len(alpha.shape) == 1):
-        return(psi(alpha) - psi(np.sum(alpha)))
-    return(psi(alpha) - psi(np.sum(alpha, 1))[:, np.newaxis])
-
-def parse_doc_list(corpus, vocabulary):
-    wordids = list()
-    wordcts = list()
-    for d in corpus:
-        ddict = dict()
-        for word in corpus[d]:
-            wordtoken = vocabulary[word]
-            ddict[wordtoken] = corpus[d][word]
-        wordids.append(ddict.keys())
-        wordcts.append(ddict.values())
-    return ((wordids, wordcts))
-
-def create_vocabulary(corpus):
-    vocabulary = {}
-    current_position = 0
-    for document in corpus:
-        for word in corpus[document]:
-            if word not in vocabulary:
-                vocabulary[word] = current_position
-                current_position += 1
-    return vocabulary
+    def e_step(self):
+        temp_beta = np.zeros((self._K, self._V))
+        for d, doc in enumerate(self.corpus):
+            temp_gamma = np.zeros(self._K) + self._alpha
+            for word in self.corpus[doc]:
+                w = self.vocabulary[word]
+                # Line (6) in Figure 6. 
+                self._phi[doc][w] = self._beta[:, w] * \
+                    np.exp(psi(self._gamma[d, :])).T
+                # Line (7) in Figure 6. 
+                self._phi[doc][w] /= self._phi[doc][w].sum()
+                # Line (8) in Figure 6. 
+                temp_gamma += self._phi[doc][w] * self.corpus[doc][word]
+                temp_beta[:, w] += self._phi[doc][w] * self.corpus[doc][word]
+            self._gamma[d, :] = temp_gamma
+        return temp_beta
 
 def main():
+    # Reading the dataset.
     corpus_series = pd.read_pickle(HOME_PATH + '/Projects/mlinb/heavy_pickles/corpus.pickle')
     corpus = corpus_series.to_dict()
-    K = 10
-    v_lda = Variational_LDA(corpus, K, 1./K, 1./K, 1024., 0.7)
-    for iteration in range(0, 100):
-        gamma = v_lda.update_lambda_docs()
-        print gamma
 
+    # Defining the number of topics and iterations.
+    K = 10
+    iterations = 100
+
+    # Running the LDA.
+    v_lda = Variational_LDA(corpus, K, 1./K, 1./K)
+    v_lda.run(iterations)
+
+    # Saving the results.
+    topic_probabilities = v_lda._gamma / v_lda._gamma.sum(axis=1)[:, None]
+    topic_probabilities.dump("../pickles/document_topic_probabilities_temp.pickle")
 
 
 if __name__ == '__main__':

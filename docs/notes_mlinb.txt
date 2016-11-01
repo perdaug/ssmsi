@@ -9,3 +9,6 @@ lda:
 
 proposal of esearch:
     - fix referrences
+
+literature:
+    - online PDA -- https://github.com/blei-lab/onlineldavb
