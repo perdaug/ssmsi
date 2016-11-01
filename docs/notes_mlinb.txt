@@ -11,4 +11,4 @@ proposal of esearch:
     - fix referrences
 
 literature:
-    - online PDA -- https://github.com/blei-lab/onlineldavb
+    - online LDA -- https://github.com/blei-lab/onlineldavb
