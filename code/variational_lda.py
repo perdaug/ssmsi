@@ -22,6 +22,8 @@ class Variational_LDA(object):
         alpha: Hyperparameter for prior on weight vectors theta;
         eta: Hyperparameter for prior on topics beta.
         """
+        print corpus.keys()
+        exit()
         self.corpus = corpus
         self.vocabulary = create_vocabulary(corpus)
         self._K = K
@@ -45,7 +47,7 @@ class Variational_LDA(object):
                 # Line (1) in Figure 6.
                 self._phi[doc][w] = np.zeros(self._K)
             total_intensity = sum(self.corpus[doc].values())
-            # Line (1) in Figure 6 .
+            # Line (2) in Figure 6 .
             self._gamma[d, :] = self._alpha + total_intensity / self._K
 
     def run(self, iterations):
