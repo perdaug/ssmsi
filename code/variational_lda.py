@@ -22,8 +22,6 @@ class Variational_LDA(object):
         alpha: Hyperparameter for prior on weight vectors theta;
         eta: Hyperparameter for prior on topics beta.
         """
-        print corpus.keys()
-        exit()
         self.corpus = corpus
         self.vocabulary = create_vocabulary(corpus)
         self._K = K
@@ -81,7 +79,7 @@ class Variational_LDA(object):
 
 def main():
     # Reading the dataset.
-    corpus_series = pd.read_pickle(HOME_PATH + '/Projects/mlinb/heavy_pickles/corpus.pickle')
+    corpus_series = pd.read_pickle(HOME_PATH + '/Projects/tminm/heavy_pickles/corpus.pickle')
     corpus = corpus_series.to_dict()
 
     # Defining the number of topics and iterations.
