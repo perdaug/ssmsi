@@ -15,7 +15,7 @@ def create_vocab(corpus):
     return vocab
 
 def preprocess_corpus(corpus, vocab, factor):
-    pp_corpus = np.zeros((len(corpus), len(vocab)))
+    pp_corpus = np.zeros((len(corpus), len(vocab)), dtype=np.int64)
     for doc in corpus:
         # Finding maximum intensity.
         max_intensity = 0
@@ -32,15 +32,14 @@ def preprocess_corpus(corpus, vocab, factor):
                 pp_corpus[d][w] = normalised_intensity
 
     pp_corpus.dump(HOME_PATH + '/Projects/tminm/heavy_pickles/' + 'preprocessed_corpus.pickle')
-    # corpus_panda = pd.Series(pp_corpus)
-    # corpus_panda.to_pickle(HOME_PATH + '/Projects/tminm/heavy_pickles/' + 'preprocessed_corpus.pickle')
 
 def main():
     corpus_series = pd.read_pickle(HOME_PATH + '/Projects/tminm/heavy_pickles/corpus.pickle')
     corpus = corpus_series.to_dict()
 
     vocab = create_vocab(corpus)
-    preprocess_corpus(corpus, vocab, factor=100)
+    preprocess_corpus(corpus, vocab, factor=20)
 
 if __name__ == '__main__':
     main()
+    

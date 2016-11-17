@@ -1,4 +1,5 @@
 heavy_pickles/
+pickles/
 data/
 notebooks/.ipynb_checkpoints
 notebooks/playground.py.ipynb
