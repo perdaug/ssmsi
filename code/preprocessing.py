@@ -12,6 +12,8 @@ def create_vocab(corpus):
                 vocab.append(word)
     vocab_panda = pd.Series(vocab)
     vocab_panda.to_pickle(HOME_PATH + '/Projects/tminm/heavy_pickles/' + 'vocab.pickle')
+    print(vocab)
+    exit()
     return vocab
 
 def preprocess_corpus(corpus, vocab, factor):
