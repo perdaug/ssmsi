@@ -9,6 +9,7 @@
 % for alternative page numbering use the following package
 % and see documentation for commands
 \usepackage{fancyheadings}
+\usepackage{hyperref}
 
 
 % other potentially useful packages
@@ -51,7 +52,7 @@
 
 In Figure 1 we can see that the word is present throughout all the corpus, whereas Figure 2 displays a smoother distribution of the word. That is, the dynamic generative process induces a structure of the word's existence in the corpus. Also, note that both corpus contain the same number of documents and the number of words in a document is drawn from the Poisson distribution on the same mean $\xi = 200$.
 
-The implementation of the generative processes follow directly from the original LDA paper \cite{Blei:2003:LDA:944919.944937} and the paper on dynamic topic models \cite{Blei:2006:DTM:1143844.1143859}. 
+The implementation of the generative processes follow directly from the original LDA paper \cite{Blei:2003:LDA:944919.944937} and the paper on dynamic topic models \cite{Blei:2006:DTM:1143844.1143859}. The Python Notebook containing the implementation of the processes can be found by using the following link: \url{https://github.com/perdaug/mlinb/blob/master/notebooks/generating_corpus.ipynb}.
 
 \bibliographystyle{unsrt}
 \bibliography{report_generative-process}
