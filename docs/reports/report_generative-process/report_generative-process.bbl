@@ -1,0 +1,14 @@
+\begin{thebibliography}{1}
+
+\bibitem{Blei:2003:LDA:944919.944937}
+David~M. Blei, Andrew~Y. Ng, and Michael~I. Jordan.
+\newblock Latent dirichlet allocation.
+\newblock {\em J. Mach. Learn. Res.}, 3:993--1022, March 2003.
+
+\bibitem{Blei:2006:DTM:1143844.1143859}
+David~M. Blei and John~D. Lafferty.
+\newblock Dynamic topic models.
+\newblock In {\em Proceedings of the 23rd International Conference on Machine
+  Learning}, ICML '06, pages 113--120, New York, NY, USA, 2006. ACM.
+
+\end{thebibliography}
