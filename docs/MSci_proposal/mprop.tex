@@ -88,7 +88,7 @@ The first objective is expected to investigate the perspective applications of t
 
 % Terminology
 \par The terminology used in this proposal is equivalent to the one used in the survey on probabilistic topic models carried by Blei et al. [citation]. Figure \ref{fig:lda} below represents the latent Dirichlet allocation model in plate notation. We will use it as a guide to familiarise with the terminology.   
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{lda}
   \caption{Latent Dirichlet allocation. COPYRIGHT. CHANGE M TO D}
@@ -173,26 +173,53 @@ Note that the algorithm describes the generation of a single document. In order 
 % Intro:
 % - Time series
 % - Both qualitative and quantitative results
-\par
+\par Now we review the paper on Dynamic Topic Models [CITATION]. Effectively, the dynamic topic model can be treated as an extension of static topic models (such as latent Dirichlet allocation). The main idea behind a dynamic topic model is that it induces the topic evolution the processed corpus. That is, the documents in the corpus evolve over time. In this subsection, we review the key assumptions of dynamic topic models, go over the generative process of documents, review the suggested inference methods, and familiarise with the results of the carried experiment. 
 
 % Assumptions:
 % - Data is divided in time slices
-\par
+\par We will emphasise the assumptions given on the dynamic topic models. First of all, even though we are discussing a model of time series suggesting the use of continuous variables, the data remains categorical. The distinction between continuous and categorical data is that continuous data is strictly numeric and infinite, whereas categorical data can take only particular values. The second assumption relaxes the ex-changeability on documents. That is, the documents are expected to form a sequence. Or in other words, the corpus is divided into time-slices. Note that in such time-slice documents are exchangeable.  
 
 % Generative Process:
-\par
+\par The generative process of the models updates the parameters $\alpha$ and $\beta$. This means that the topic distributions over documents and words change over time. The visualisation of the process is given in Figure 2 below.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{dynamic_topic_model}
+  \caption{Dynamic topic model. COPYRIGHT.}
+  \label{fig:dtm}
+\end{figure}
+Notice that each time-slice is equivalent to the model shown in Figure 1. Also, the parameters $\alpha$ and $\beta$ are induced by their predecessors in the previous time-slice. More formal representation of the generative process is given in Algorithm 2. 
+\begin{algorithm}[H]
+\caption{Dynamic document generation.}
+\label{alg:dynamic_document_generation}
+\begin{algorithmic}[2]
+\State $\beta_t | \beta_{t-1} \sim \mathcal{N}(\beta_{t-1}, \sigma^2)$
+\State $\alpha_t | \alpha_{t-1} \sim \mathcal{N}(\alpha_{t-1}, \delta^2)$
+\For {$d \leftarrow 1, D$}
+\State $\eta_d \sim \mathcal{N}(\alpha_{t}, a^2)$
+\For {$n \leftarrow 1, N$}
+\State $z_{d, n} \sim \mbox{Multinomial}(\pi(\eta_d))$
+\State $w_{t, d, n} \sim \mbox{Multinomial}(\pi(\beta_t | z_{d, n}))$
+\EndFor
+\EndFor
+% \EndProcedure
+\end{algorithmic}
+\end{algorithm}
+The given algorithm describes the generative process for the time-scale $t$. It starts by drawing the parameters $\alpha_t$ and $\beta_t$ from the Gaussian distribution with the means given by the previous parameter values. For now, we will not discuss the meaning of the variance values. Further, for each document in the time-scale, we carry the following procedure: we draw the topic distribution in a document $\eta_d$ from the Gaussian distribution with the mean given by $\alpha_t$; then, for each word in the document, we draw the topic $z_{d, n}$ from the Multinomial distribution on the parametrised $\eta_d$, and, finally, we draw the word $w_{t, d, n}$ from the Multinomial distribution on the parametrised $\beta_t$ which is conditioned on $z_{d, n}$. By the use of \textit{parametrisation}, we are expressing the result of the Gaussian distributions into a format suitable for Multinomial distribution. This mapping is expressed as
+\begin{equation}
+\pi(x)_n = \dfrac{\exp{(x_n)}}{\sum^n_{i=1}\exp{(x_i)}}.
+\end{equation}
 
 % Inference:
 % Variational methods are a deterministic alternavive for stochastic simulation
 % Two variations: Kalman filter and wavelet regression
-\par
+\par The authors suggest using variational methods to approximate the inference posterior. It is claimed that stochastic simulation would be unable to scale with large data sets. Two techniques of variational methods are provided: Kalman Filtering and Wavelet Regression. The implementation details of these are provided in a brief manner suggesting the computation of the parameter $\beta_t$. 
 
 % Experiments:
 % - Evolution of Science
-\par
+\par The dynamic topic model is evaluated by conducting an experiment on the journals of \textit{Science}. The experiment is expected to establish the time series on the topic development with the articles. Indeed, the experiment is able to produce results displaying the rises and falls of the topics indicating scientific fields. Note that the experiment is performed using both variational inference methods.   
 
 % Concluison
-\par
+\par The review on the dynamic topic models has familiarised us with more realistic generative process: the documents are induced by time series. Further, we have provided the visualisation of the model and introduced the algorithm for the generative process. Also, we have captured the techniques used for inference. Finally, we have familiarised with the experiment settings. 
 
 
 

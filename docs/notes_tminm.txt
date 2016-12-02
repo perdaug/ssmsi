@@ -12,3 +12,6 @@ proposal of esearch:
 
 literature:
     - online LDA -- https://github.com/blei-lab/onlineldavb
+
+to-do:
+    http://videolectures.net/mlss09uk_blei_tm/
