@@ -4,6 +4,7 @@
 \contentsline {subsection}{\numberline {3.1}Terminology}{4}
 \contentsline {subsection}{\numberline {3.2}Preliminaries}{5}
 \contentsline {subsection}{\numberline {3.3}Latent Dirichlet allocation}{6}
-\contentsline {subsection}{\numberline {3.4}Dynamic Topic Models}{7}
-\contentsline {section}{\numberline {4}Proposed Approach}{9}
-\contentsline {section}{\numberline {5}Work Plan}{9}
+\contentsline {subsection}{\numberline {3.4}Finding scientific topics}{7}
+\contentsline {subsection}{\numberline {3.5}Dynamic Topic Models}{9}
+\contentsline {section}{\numberline {4}Proposed Approach}{11}
+\contentsline {section}{\numberline {5}Work Plan}{11}
