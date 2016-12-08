@@ -1,8 +1,30 @@
 \begin{thebibliography}{1}
 
-\bibitem{BK08}
-C.~Baier and J.-P. Katoen.
-\newblock {\em Principles of Model Checking}.
-\newblock MIT Press, 2008.
+\bibitem{Alonso-et-al}
+Arnald Alonso, Sara Marsal, and Antonio Juli{\`a}.
+\newblock Analytical methods in untargeted metabolomics: state of the art in
+  2015.
+\newblock {\em Frontiers in bioengineering and biotechnology}, 3:23, 2015.
+
+\bibitem{blei_2012}
+David~M Blei.
+\newblock Probabilistic topic models.
+\newblock {\em Communications of the ACM}, 55(4):77--84, 2012.
+
+\bibitem{palmer}
+Andrew Palmer, Prasad Phapale, Ilya Chernyavsky, Regis Lavigne, Dominik Fay,
+  Artem Tarasov, Vitaly Kovalev, Jens Fuchser, Sergey Nikolenko, Charles
+  Pineau, et~al.
+\newblock Fdr-controlled metabolite annotation for high-resolution imaging mass
+  spectrometry.
+\newblock {\em Nature Methods}, 2016.
+
+\bibitem{hooft}
+Justin Johan~Jozias van~der Hooft, Joe Wandy, Michael~P Barrett, Karl~EV
+  Burgess, and Simon Rogers.
+\newblock Topic modeling for untargeted substructure exploration in
+  metabolomics.
+\newblock {\em Proceedings of the National Academy of Sciences}, page
+  201608041, 2016.
 
 \end{thebibliography}

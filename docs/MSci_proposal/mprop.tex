@@ -41,6 +41,8 @@
 % Metabolomics
 % Vision
 \section{Introduction}
+% To-do:
+% - Mention Rogers' paper for the first attempt to use LDA in Metabolomics datasets
 
 % Intro
 % - ML in biology
@@ -49,24 +51,26 @@
 \par This research proposal suggests an application of machine learning in biology. We intend to study the scans of low level biological entities in order to derive their patterns. To be more specific, we will be tackling a problem of noise. This issue of noisiness arise from the hardware limitation of the high precision data collection devices.   
 
 % Metabolomics
-% - Definition
-% - Data gatheting technology
-\par The branch of biology we are expecting to carry out the research is metabolomics. In brief, metabolomics is the scientific study of chemical processes which involve small molecules -- metamobilites. Note that these chemical processes can be predicted by the features of metabolites. More specifically, mass spectrometry (MS) is often used to gather metabolite data sets. By this technique, we have information on the masses and intensities of the metabolites within a sample, i.e., we have the mass spectrum of a sample. Note that a different mass suggests different types of metabolites, whereas intensity suggests the level of concentration. Thereby, a mass spectrum is used to distinguish and visualise the observed metabolites. By deriving the formulae of specific metabolites types, we can induce patterns leading to the prediction of chemical processes. 
+% - Mass spectrometry
+\par The application domain of this project is metabolomics -- a branch of computional biology. In brief, metabolomics is the scientific study of chemical processes which involve small molecules -- metamobilites. Ultimately, these chemical processes can be predicted by the features of metabolites. We intend to set the basis of our study on data sets acquired by \textit{mass spectrometry} (MS). By using this technique, we obtain the masses and intensities of metabolites within a sample of interest. This data representation is known as mass spectrum. Note that a different mass indicates different types of metabolites, whereas intensity suggests the level of concentration. Thereby, a mass spectrum is used to distinguish and visualise the observed metabolites. By deriving the formulae of specific metabolites types, we can induce patterns leading to the prediction of chemical processes. 
 
 % The domain of vision
 % - Expalanation how the scans of metabolites can be treated as images.
 % - Visualisation of particular metabolites or metabolite patterns.
-\par In the terms of machine learning applicability, we are looking into a problem of vision. The metabolites of some biological tissue are sequentially captured within regions of fixed size. Effectively, this process is generating an image: each scan is a pixel, therefore, the collections of scans produce an image. However, each pixel contains a large amount of metabolites, so the visualisation of these in a single image would be rather complex. For this reason, we can choose a specific metabolite type and produce pixels reflecting such metabolite activity. Further, we can choose some specific combination (pattern) of metabolites and produce an image of such pattern concentrations. The problem arises upon finding such valid patterns of metabolites, therefore, we are applying machine learning to find the perspective patterns for us. 
+\par In the terms of machine learning applicability, we are looking into a problem of vision. The metabolites of some biological tissue are sequentially captured within regions of fixed size. Effectively, this process is generating an image: each scan is a pixel, therefore, the collections of scans produce an image. However, each pixel contains a large amount of metabolites, so the visualisation of these in a single image would be rather complex. Thereby, we can choose a specific metabolite type and produce pixels reflecting such metabolite activity. For a rigorous discussion on machine learning applications in metabolomics, the reader can consult the recent survey conducted by Alonso et al. \cite{Alonso-et-al}. Going back to the visualisation of metabolites, we can choose a specific combination (structure) and produce an image where activated pixels would suggest the concentration of the chosen metabolite structure. The problem arises upon discovering valid matabolite structures. Therefore, the techniques of machine learning, or more specifically topic modelling, are used to induce the prospective structures.
 
 % Unsupervisder learning
-% - Topic modelling
-% - Probabilistic processes
-% - LDA variations
-\par The objective to discover new patterns makes it a problem of unsupervised machine learning. That is, we have no initial settings in how these patterns would look like thus we are utilising machine learning in order to structure the data. The problems of this flavour can be tackled using topic modelling. This branch of unsupervised machine learning is a statistical process. In other words, we are looking into probabilistic models -- the hidden structure of the data is inferred by the frequencies of its instances. To be more specific, we will be focusing on enhancing a particular probabilistic machine learning model -- Latent Dirichlet Allocation (LDA). This model dictates the state-of-the-art of topic modeling and is widely applied in the current research on metabolomics [insert citation]. Since the process of the data collection in metabolomics is prone to noise, we will carry a research on whether Latent Dirichlet Allocation could be applied as a method of error correction. 
+% - Topic moels
+% - Probabilistic models
+% - LDA:
+% -- General
+% -- Metabolomics
+\par The objective to discover novel structures is treated as a problem of \textit{unsupervised} machine learning. That is, we have no initial settings in how these structures are expected to look like: the structures will be inferred by machine learning methodology. The inference of unknown structures is studied within \textit{topic modelling}. Further, note that we are concentrating on statistical topic modelling. In other words, we are putting the emphasis on the \textit{probabilistic} models: the structures are inferred from the data instance distributions. To be more specific, we are focusing to enhance a particular probabilistic machine learning model -- \textit{latent Dirichlet allocation} (LDA). First of all, the successor LDA models are treated as a state-of-the-art method in tackling semantic-analysis type problems. For more detailed review on the LDA applications, the reader can consult the survey \cite{blei_2012} conducted by Blei. Further, Hooft et al. \cite{hooft} has recently addressed the applicability of LDA in metabolomics. Note that this proposal is directly influenced by the latter prospect: we will attempt to utilise the LDA-like models to reduce the impact of noise in the data sets of the metabolomics domain.  
 
 % Outline
 % - Sections
-\par The structure of this proposal is set-up as follows: in Section 2 we present the issue of noise in Metabolomics; in section 3 we cover the literature in topic modeling which focuses on the variations of Latent Dirichlet Allocation; in Section 4 we provide the metric of success of the proposed research; finally, in Section 5, we go into details on how the project will be executed.
+\par The structure of this proposal is given as follows: in Section 2 we present the issue of noise in Metabolomics; in section 3 we cover the literature in topic modeling which focuses on the variations of Latent Dirichlet Allocation; in Section 4 we provide the metric of success of the proposed research; finally, in Section 5, we go into details on how the project will be executed.
+% To-do: rewrite the outline
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -75,30 +79,30 @@
 
 % Intro
 % - Suggesting an advance in processing rather than equipment.
-\par Current mass spectrometry (MS) equipment displays a significant accuracy error upon reflecting the exact metabolite construction in a given sample. Rather than relying upon the advances of such equipment, we can investigate the prospect of enhancing the data processing techniques. As described in Section 1, topic modelling is capable to distinguish the hidden structures of metabolites. However, at this point of time, there is no well set generative approach on how to configure Latent Dirichlet Allocation to reduce the impact of noise in a given dataset.  
+\par Currently, MS equipment is incapable to fully represent the metabolite construction. As discussed by Palmer et al. \cite{palmer}, even though the current machinery differentiates metabolites in millidalton precision, we still obtain a significant amount of false positives. Thereby, rather than relying upon the advances of MS equipment, we can investigate the prospect of enhancing the data processing techniques. As described in Section 1, LDA derivatives are promising methods in discovering the hidden structures in metabolomics data sets. For this reason, we raise a hypothesis that the degeneracies of metabolomics data sets can be detected using LDA-like models. Note that currently there is no set approach on how to configure LDA-like models to reduce the impact of noise in metabolomics data sets.  
 
 % Objectives
 % - Research in the state-of-the-art methodology.
 % - Reducing the impact of noise in metabolomics.
 % - Providing a general-purpose machine learning model.
-\par The primary goal of this research is to expand the consensus on whether topic modelling is a valid of approach to smooth datasets. To be more specific, the objectives we will be looking into are listed as follows:
+\par The primary goal of this research is to expand the consensus on whether topic modelling is a valid approach to smooth metabolomics data sets. To be more specific, we set our objectives to the following:
 \begin{enumerate}
-    \item Adapt and utilise the generative Latent Dirichlet Allocation models in metabolomics;
-    \item Reduce the impact of noise in the datasets of metabolomics;
-    \item Give a basis to the generative Latent Dirichlet Allocation model in error correction.
+    \item Utilise general topic modelling methods in metabolomics;
+    \item Reduce the impact of noise in metabolomics data sets;
+    \item Give a basis to a general topic modelling method for error correction.
 \end{enumerate}
-The first objective is expected to investigate the perspective applications of topic modelling which are successfully utilised in other domains. Effectively, we want to assess the general models (or models displaying significant results in other fields). The second objective would adapt, and thus enhance, these general models for the particular use of error correction in metabolomics. Finally, the third objective can be treated as a general contribution to the field of machine learning. 
+Briefly, the first objective is expected to utilise the general state-of-the-art topic modelling methodology to distinguish the techniques displaying better performance in metobolomics applications. In other words, we will conduct a survey on LDA-like topic modelling methodology. The second objective is focusing on enhancing the general models for the particular task of error correction in metabolomics. Finally, the third objective can be treated as a general contribution to the field of machine learning, since the discovered techniques might be applicable to other domains. 
 
 % Hypothesis
 % - Topic modelling can improve the quality of metabolomics data sets.
 % - The negation of the hypothesis would contribute in terms of reassessing the complexity of the problem.
-\par We are setting a hypothesis that topic modelling, or more specifically Latent Dirichlet Allocation, can be utilised to correct the errors in the datasets of metabolomics. Both cases of proving and disproving this hypothesis would be a contribution in metabolomics. The successful outcome would lead to the potential applications provided in the following paragraph, whereas the unsuccessful outcome would set-up additional requirements to tackle this issue.
+\par We are setting a hypothesis that LDA-like topic modelling can be successfully utilised to correct errors in metabolomics data sets. Both cases of proving and disproving this hypothesis would contribute to metabolomics. The successful outcome would lead to the potential applications discussed in the following paragraph, whereas the unsuccessful outcome would set-up additional requirements to tackle the issue of noisiness in metabolomics data sets.
 
 % Results: tools to annotate the metabolites > basis for generative error correction 
 % - Expanding the application of existing machine learning models.
 % - Advancing the current state-of-the-art in metabolomics.
 % - Contributing to machine learning in general.
-\par The potential applications of this research can be induced directly induced from the set-up objectives. First of all, we would show that models from other domains can be applied in metabolomics and, thus, generalised. Further, the developed error correction methodology for the datasets of Metabolomics would improve the accuracy of the chemical processes prediction. Finally, the generalisation of the developed error correction methodologies would provide an alternative tool-kit for other domains as well as expand the potential applications of the results derived from metabolomics. 
+\par The potential applications of this research can be directly induced from the previously listed objectives. First of all, we would show that the general models or the models applied in other domains can be utilised in metabolomics. Further, the developed error correction methodology would improve the accuracy of the chemical processes prediction. Finally, the generalisation of the developed error correction model might suggest different approaches in tackling error correction in general; also, it would impact the awareness in metabolomics and the field's potential in developing machine learning generalisations.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,7 +113,7 @@ The first objective is expected to investigate the perspective applications of t
 % - The reason why the literature review is conducted.
 % - Outline: preliminaries, notation, literature.
 % - A notification the the results will be discussed in the following section.
-\par The provided literature review on latent Dirichlet allocation assesses its underlying methodology and proposes several different implementation variations. The review is structured in progressing order: to start with, we look into the original latent Dirichlet allocation paper and define the terminology which will be used throughout this proposal; then, we familiarise with two different approaches used for the inference of latent Dirichlet allocation;  finally, we review the perspective advances which could be used for error correction.
+\par The provided literature review on topic modelling is directed towards familiarising with LDA derivatives. Also, the review assesses the methodology of LDA-like models and proposes several implementation variations. The review is structured in progressing order: at the start, we look into the original LDA paper and define the terminology (it will be used throughout the proposal); then, we familiarise with two different techniques used for the inference of LDA-like models; finally, we review LDA derivatives which shows the potential to be utilised in designing the error correction technique.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -117,32 +121,40 @@ The first objective is expected to investigate the perspective applications of t
 
 % General intuition on topic modelling
 % - Example
-\par Recall that in topic modelling we are trying to induce some hidden structure within the studied data. For instance, if we were analysing a book, it would be likely to address several different topics. Further, the chapters of the book itself would have unique concentrations of such topics. In order to cluster these topics, a probabilistic topic modelling method would look into the structure of the words used in the book. Also, the performance of the method would depend on its ability to optimise this clustering, for example, we could dismiss the commonly used words (such as and, or, the, etc.). Note that in we will assess only the topic modelling where we do not know the naming of topics. That is, we will be looking into a \textit{unsupervised learning} problem.
+\par Recall that in topic modelling induces a hidden structure within the studied data sets. We will provide an example providing an intuition in this process. Say, if we were analysing a book, its chapters might address different topics or address the topics at a different extent. Further, the chapters itself would have unique distributions of the topics. Note that we are assuming that we do not know what the topics addressed in the book. In order to derive these hidden topics, a probabilistic topic modelling method would analyse the structure of the words used in the book. In other words, the model would induce patterns which would refer to a particular topic. Regarding the method's performance, it would depend on the method's ability to optimise the inference of the patterns. For example, commonly used words (such as and, or, the, etc.) would be relevant in all topics. Therefore, their semantic impact in defining the topics would be negligible. For this reason, we could dismiss these to improve the time performance of the method. 
 
 % LDA intro
 % - the model
 % - A notification that the terminology and the notation will be useful throughout the proposal.
-\par The terminology used in this proposal is equivalent to the one used in the survey on probabilistic topic models carried by Blei et al. [citation]. Figure \ref{fig:lda} below represents the latent Dirichlet allocation model in plate notation. We will use it as a guide to familiarise with the terminology.   
+\par The terminology used in this proposal is equivalent to the terminology used by Blei \cite{blei_2012}. Figure \ref{fig:lda} below represents the original LDA model in plate notation. We will use it as a guide to familiarise with the terminology.   
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.7\textwidth]{lda}
-  \caption{Latent Dirichlet allocation. COPYRIGHT. CHANGE M TO D}
+  \includegraphics[width=0.7\textwidth]{lda_model}
+  \caption{The design of the original LDA model}
   \label{fig:lda}
 \end{figure}
 
 % High level LDA terminology
+% - Notation:
+% -- List LDA definitions
+% -- Explain the definitions
+\par To start with, we will familiarise with the higher level entities of the model. The circles represent an entity, whereas the plates indicate the number of entities. For example, there would $N \times M$ entities of $z$ and $M$ entities of $\theta$. Further, LDA is a three-level hierarchical structure: the smallest entity (grey circle) is defined as a \textit{word}; then a collection of words (inner plate) is defined as a \textit{document}; and a collection of documents (outer plate) is a \textit{corpus}. Note that Figure 1 represents $M$ documents and $N$ words per document, it follows that in the corpus there would be $M \times N$ words. Also, as suggested by Figure 1, let's denote a word by $w$. Then, let's denote the sequence of words in document $d$ by 
+\begin{equation*}
+\mathbf{w}_d = \{w_1, w_2, \dots, w_N\},
+\end{equation*}
+then the sequence of words in the corpus would be denoted by
+\begin{equation*}
+\mathcal{\mathbf{D}} = \{\mathbf{w_1}, \mathbf{w_2}, \dots, \mathbf{w_M}\}.
+\end{equation*}
+ 
+% Low level LDA terminology
 % - Intro to observable and hidden variables
 % - Notation:
 % -- List the definitions
 % -- Explain the definitions
-\par To start with, we will familiarise with the domain of the model in a high level. The grey circle represents a single word, whereas a collection of words (document) is represented by the inner plate, and the outer plate corresponds to a collection of documents (corpus). In the model, words are the only \textit{observable variables} -- this is indicated by the grey colour of the circle, whereas the white coloured circles indicate the \textit{hidden variables}. As suggested by the figure, a \textit{word} is denoted by $w$; a \textit{document} (sequence of words) is denoted by $\mathbf{w} = \{w_1, w_2, \dots, w_N\}$, where $N$ indicates the number of words in the document; and a \textit{corpus} is denoted by $\mathcal{\mathbf{D}} = \{\mathbf{w_1}, \mathbf{w_2}, \dots, \mathbf{w_M}\}$, where $D$ is the number of documents in the corpus. 
- 
-% Low level LDA terminology
-% - An explanation on the hidden variables
-% - Notation:
-% -- List the definitions
-% -- Explain the definitions
-\par Now, we will introduce the lower level entities -- the hidden variables. Recall that latent Dirichlet allocation attempts to induce an arbitrary mixture of topics. The corpus and each document is expected to vary in the proportions of the induced topics; and each document is likely to have a different number of word. Let's denote the number of such arbitrary topics by $K$, and the number of unique words in the corpus by $V$. This notation will simplify the explanation on the remaining entities in Figure \ref{fig:lda}. To start with, $\beta$ is the hyper-parameter (a matrix of dimension $V \times K$) referring to the prior distribution of the topics over the vocabulary. The hyper-parameter $\alpha$ (a vector of length $K$) refers to the prior distribution of the topics over the documents. Further, the latent variable $\theta$ (a matrix of dimension $D \times K$) is the topic distribution over documents. Finally, $z$ is the latent variable on the topic assignments of each word in every document, effectively, it is a matrix of dimension $M \times V$.
+\par Now, we will introduce the lower level entities. The grey circle indicates that an \textit{observable variables}, whereas the white coloured circles indicate the \textit{hidden variables}. Note that the words are the only observable variables in the model; all other entities are within the underlying structure of the model. Further, recall that topic modelling attempts to discover a mixture of topics. To be more specific, a corpus and each document could be represented as an arbitrary mixture of topics. 
+
+Recall that latent Dirichlet allocation attempts to induce an arbitrary mixture of topics. The corpus and each document is expected to vary in the proportions of the induced topics; and each document is likely to have a different number of word. Let's denote the number of such arbitrary topics by $K$, and the number of unique words in the corpus by $V$. This notation will simplify the explanation on the remaining entities in Figure \ref{fig:lda}. To start with, $\beta$ is the hyper-parameter (a matrix of dimension $V \times K$) referring to the prior distribution of the topics over the vocabulary. The hyper-parameter $\alpha$ (a vector of length $K$) refers to the prior distribution of the topics over the documents. Further, the latent variable $\theta$ (a matrix of dimension $D \times K$) is the topic distribution over documents. Finally, $z$ is the latent variable on the topic assignments of each word in every document, effectively, it is a matrix of dimension $M \times V$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -374,8 +386,8 @@ The given algorithm describes the generative process for the time-scale $t$. It 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % it is fine to change the bibliography style if you want
-\bibliographystyle{plain}
 \bibliography{mprop}
+\bibliographystyle{plain}
 \end{document}
 
 
