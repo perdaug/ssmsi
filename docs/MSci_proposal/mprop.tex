@@ -152,9 +152,19 @@ then the sequence of words in the corpus would be denoted by
 % - Notation:
 % -- List the definitions
 % -- Explain the definitions
-\par Now, we will introduce the lower level entities. The grey circle indicates that an \textit{observable variables}, whereas the white coloured circles indicate the \textit{hidden variables}. Note that the words are the only observable variables in the model; all other entities are within the underlying structure of the model. Further, recall that topic modelling attempts to discover a mixture of topics. To be more specific, a corpus and each document could be represented as an arbitrary mixture of topics. 
-
-Recall that latent Dirichlet allocation attempts to induce an arbitrary mixture of topics. The corpus and each document is expected to vary in the proportions of the induced topics; and each document is likely to have a different number of word. Let's denote the number of such arbitrary topics by $K$, and the number of unique words in the corpus by $V$. This notation will simplify the explanation on the remaining entities in Figure \ref{fig:lda}. To start with, $\beta$ is the hyper-parameter (a matrix of dimension $V \times K$) referring to the prior distribution of the topics over the vocabulary. The hyper-parameter $\alpha$ (a vector of length $K$) refers to the prior distribution of the topics over the documents. Further, the latent variable $\theta$ (a matrix of dimension $D \times K$) is the topic distribution over documents. Finally, $z$ is the latent variable on the topic assignments of each word in every document, effectively, it is a matrix of dimension $M \times V$.
+\par Now, we will introduce the lower level entities. The grey circle indicates that the \textit{observable} variables, whereas the white coloured circles indicate the \textit{hidden} variables. Note that in Figure 1 the words are the only observable variables; all other entities are hidden, i.e., they describe the underlying structure of the model. Further, recall that topic modelling is applied in order to discover a mixture of topics; or in other words, topic modelling could describe a corpus and its documents in terms of topic distributions. This intuition will simplify the definitions of the remaining entities in Figure 1, these are given as follows:
+\begin{itemize}
+\item $K$ is the number of topics;
+\item $V$ is the size of the vocabulary, i.e. the number of unique words in the corpus;
+\item $\alpha$ is the parameter referring to the prior distribution of the topics over documents;
+\item $\beta$ is the parameter referring to the prior distribution of the vocabulary over topics;
+\item $\theta$ is the latent variable referring to the topic distribution over documents;
+\item $\phi$ is the latent variable referring to the vocabulary over topics
+\item $w$ is the observable variable referring to the words in documents;
+\item and $z$ is the latent variable of topic assignments over the words.
+\end{itemize}
+Further, note that the listed entities can be perceived as matrices of the following dimensions: $\alpha$ is $1 \times K$; $\beta$ is $K \times V$; $\theta$ is $M \times K$; $\phi$ is $M \times K$; $w$ is $M \times N$; and $z$ is $M \times V$.
+% To-do: check the dimensions
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -163,7 +173,7 @@ Recall that latent Dirichlet allocation attempts to induce an arbitrary mixture 
 % Basic LDA
 % - Generative process
 % - The derivation of the posterior
-\par The relationship between observable and hidden variables, effectively, describes the inference of the underlying topic structure. We will go through an arbitrary example in order to give intuition in the inference process and provide the notation of the variable instances. By looking into Figure \ref{fig:lda}, we can see that $\alpha_k$ (the prior weight of the $k$th topic in a document) influences $\theta_{:, k}$ (the latent $k$th topic distribution over $M$ documents). It follows that $\theta_{d, k}$ (the probability of the $k$th topic occurrence in the document $d$) influences $z_{d, :}$ (the topic assignment over $V$ vocabulary terms in document $d$). Note that $z_{d, v}$ would refer to the assignment of some specific vocabulary term $v$. Now, by taking $z_{d, v}$ and $\beta_{v, k}$ (the prior weight of the $k$th topic on the vocabulary $v$) we describe the origins of word $w_{d, v}$. The relationship of the terms, effectively, induces the generation of the corpus, this can be expressed as the following joint probability distribution
+\par The relationship the between observable and hidden variables, effectively, describes the inference of the underlying topic structure. We will go through an arbitrary example in order to give an intuition in the inference process and familiarise with the lower level notation of the previous listed variables. Figure \ref{fig:lda} shows see that $\alpha_k$ (the prior for the $k$th topic in a document) influences $\theta_{:, k}$ (the latent variable describing the distribution of topic $k$ over all documents). It follows that $\theta_{d, k}$ (the probability of the $k$th topic occurrence in document $d$) influences $z_{d, :}$ (the topic assignment over all vocabulary terms for document $d$). Further, $z_{d, v}$ refers to the topic assignment of vocabulary term $v$. By taking $z_{d, v}$ and $\beta_{v, k}$ (the prior of topic $k$ on vocabulary term $v$), we obtain word $w_{d, v}$. In the complete perspective, the generative process of the corpus is given by the following joint probability distribution
 \begin{equation}
 p(\beta, \theta, z, w) = \prod_{k=1}^Kp(\beta_{:, k})\prod_{d=1}^Dp(\theta_{d, :})\bigg(\prod_{v=1}^Vp(z_{d, v} | \theta_{d, :})p(w_{d, v} | \beta, z_{d, v})\bigg).
 \end{equation}
@@ -171,30 +181,28 @@ By using Bayes Theorem, we derive the computation of the conditional distributio
 \begin{equation}
 p(\beta, \theta, z | w) = \frac{p(\beta, \theta, z, w)}{p(w)}. 
 \end{equation}
-This equation expresses the computation of the posterior -- the derivation of the hidden corpus structure given observable variable $w$. The problem arises from inefficient analytical computation of evidence $p(w)$. By reviewing the literature on latent Dirichlet allocation [CITATION], we will also familiarise with the numerical methods used in approximating $p(w)$.
-% To-do: COPYRIGHT for the equation
-% To-do: reconsider the name of the subsection
+This equation expresses the computation of the posterior -- the derivation of the hidden corpus structure given observable variable $w$. The problem arises from inefficient analytical computation of evidence $p(w)$. The approximation of it will be considered during the literature review on LDA-like models. The naming of the following subsections corresponds to the reviewed papers. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Latent Dirichlet allocation}
+\subsection{Latent Dirichlet Allocation}
 
 % Intro
 % - Detailed approach in covering implementations details
-\par Latent Dirichlet allocation is a probabilistic topic modelling technique  proposed by Blei et al [citation]. Since this subsection is dedicated for the origins of the technique, it will be broader in detail. This will cover aspects addressed in the following subsections covering the advances on latent Dirichlet Allocation. 
+\par Latent Dirichlet allocation is a probabilistic topic modelling technique proposed by Blei et al. \cite{blei_2003}. Since this paper is the origin of LDA-like models, it will be discussed in more detail to introduce the basis of LDA-like methodology. As a result, this coverage will simplify the review on the LDA derivatives discussed in the upcoming subsections. 
 
 % Assumptions 
 % - Bag of words principle
 % - Discrete data sets
 % - Topic dimensionality
-\par The initial latent Dirichlet allocation model sets some assumptions for the data which will be processed by the model. First of all, it is assumed that both documents and words in the documents are \textit{exchangeable}. That is, the order in which these will be processed does not matter. More formally, this assumption means that the model follows the \textit{bag-of-words} principle. The next assumption is that the model works on discrete data. Effectively, the original paper does not cover the treatment of continuous features. Another assumption is on the dimensionality of the topic variables: the number of topics is set to be fixed during the complete run of inference.  
+\par The original LDA model sets some assumptions for the data processed by the model. First of all, it is assumed that documents and words are \textit{exchangeable}. That is, the order in which these entities are processed does not matter. In other words, we can say the model follows the \textit{bag-of-words} principle. The next assumption states that we should use discrete data. Effectively, the basic LDA does not cover  continuous features. Another assumption is on the number of topics: it is set to be fixed throughout the complete run of inference.  
 
 % Generative process
 % - Three level hierarchy
 % - The generative algorithm
-\par As discussed in the preliminaries subsection, the process of latent Dirichlet allocation assumes that the corpus can be generated by a probabilistic process. The generation of the corpus is made of three levels: the parameters $\alpha$ and $\beta$ are sampled once; the variable $\theta$ is sampled once per document; and the variables $z$ and $w$ are sampled once per word. The generative algorithm given in the original paper is equivalent to Algorithm 1 below.
+\par As discussed in the preliminaries subsection, we are also taking an assumption that the corpus is induced by a probabilistic process. The generation of the corpus has three levels: the parameters $\alpha$ and $\beta$ are sampled once; the variable $\theta$ is sampled once per document; and the variables $z$ and $w$ are sampled once per word. This hierarchical process relates to the generative algorithm given in the original LDA paper, it is equivalent to Algorithm 1 below.
 \begin{algorithm}[H]
-\caption{Document Generation.}
+\caption{Document Generation}
 \label{alg:document_generation}
 \begin{algorithmic}[1]
 \State $N \sim \mbox{Poisson}(\xi)$
@@ -205,14 +213,19 @@ This equation expresses the computation of the posterior -- the derivation of th
 \EndFor
 \end{algorithmic}
 \end{algorithm}
-Note that the algorithm describes the generation of a single document. In order to generate the corpus, we would run the algorithm several times. To start with, in the line 1 we draw the number of words in the document $N$, where $\xi$ is an ancillary variable suggesting the mean for the Poisson Distribution. In the line 2 we draw the topic distribution $\theta$ from the Dirichlet distribution on $\alpha$. Now in the lines 3--6 we generate the words: in the line 4 we draw topic $z_n$ from the multinomial distribution on $\theta$; and, finally, in the line 5 we obtain the word $w_n$ from the conditional probability on $z_n$ and the distribution over the words in the vocabulary $\beta$.
+Note that the algorithm describes the generation of a single document. In order to generate the whole corpus, we would run the algorithm for each document. Going back to Algorithm 1, a brief intuition behind it is given as follows: in line 1 we draw the number of words $N$ in a document ($\xi$ is an ancillary variable used as the mean for the Poisson Distribution); in line 2 we draw topic distribution $\theta$ from the Dirichlet distribution on parameter $\alpha$; further, in lines 3--6 we generate the words: in line 4 we draw topic $z_n$ from the multinomial distribution on $\theta$ and, finally, in line 5 we obtain  word $w_n$ from the conditional probability on $z_n$ and $\beta$, recall that $\beta$ is the prior on the vocabulary terms correspondence to topics.
 
 
 % Variational inference 
 % - Variational parameters gamma and fi
-\par The inference is, effectively, the computation of the evidence for the posterior distribution. The original latent Dirichlet allocation paper uses the method of variational inference. Basically, the authors introduce the variational parameters $\gamma$ and $\phi$ (computation of these set-ups a problem of optimisation). Note that the original paper provides pseudo code for solving the optimisation problem.
-% To-do: connect with the parameter estimation paragraph
-% To-do: reforming the posterior formula
+\par As suggested in the ending paragraph of the preliminaries subsection, the inference relates to the computation of evidence $p(w)$ (it is the denominator term given in Equation 2). Even though the original paper mentions the inference methods such as Markov chain Monte Carlo, it suggests using the method of variational inference. In order to develop an intuition over the method, the authors introduce the variational parameters $\gamma$ and $\phi$. It is also mentioned that the computation of $\gamma$ and $\phi$ is an optimisation problem. That is, we are assessing the minimum bound over the latter parameters. Further, recall that in Figure 1 we explicitly express the parameter $\phi$ in describing the basic LDA model. However, the authors have chosen to show it separately -- upon describing the variational method. Their expression is given in Figure \ref{fig:var_par} below.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{variational_parameters}
+  \caption{Variational parameters}
+  \label{fig:var_par}
+\end{figure}
+Note that the authors provide pseudo code to build an intuition in tackling this optimisation problem.
 
 % Parameter estimation
 % - M-step is an update of beta
@@ -220,24 +233,24 @@ Note that the algorithm describes the generation of a single document. In order 
 % - The smoothing issue: 
 % -- Sparsity from large data sets
 % -- The incoorperation of documents which were not used for the training
-\par Additionally, the authors emphasise the estimations of the parameters $\alpha$ and $\beta$. They suggest a two-step EM procedure utilising the variational parameters $\gamma$ and $\phi$: E-step is the optimisation problem addressed in the previous paragraph; and M-step updates the parameters $\alpha$ and $\beta$. Note that the authors provide an analytical update for $\beta$ and a Newton--Raphson method for updating $\alpha$. Apart from that, the authors also introduce the issue of a sparse corpus. Such corpus would be expected upon having a large vocabulary or a significant amount of documents. The authors suggest addressing this problem by introducing smoothing. They introduce an additional parameter $\eta$ which impacts the estimation of $\beta$. 
+\par Additionally, the authors emphasise the estimation of the parameters $\alpha$ and $\beta$. They use a two-step EM procedure which involves the previously introduced variational parameters $\gamma$ and $\phi$. E-step is the solution of the variational parameters optimisation problem; and M-step is an update of the parameters $\alpha$ and $\beta$. Note that the authors provide an analytical approach to estimate $\beta$ which is proportional to the changes of $\phi$; and for $\alpha$, they provide an approach utilising the Newton--Raphson method. Apart from that, the authors introduce the an issue of \textit{sparsity} in a corpus structure. A sparse corpus is expected upon using a large vocabulary or a large amount of documents. This issue is addressed by introducing smoothing: an additional parameter $\eta$ is utilised to smooth the estimation of $\beta$. 
 
 % Experiments
 % - Document modelling: issue with pLSI and mixture unigrams~ 
 % - Document classification: 
 % -- Dimensionality reduction
 % -- Comparison with SVM
-\par The conducted experiments display the improvement performance over the predecessor models and suggest the application domain of latent Dirichlet allocation. The first experiment addresses document modelling. The latent Dirichlet allocation model is reported to display balanced hidden topic proportions in the set of test documents. That is, the test set has replicated the proportions of the training set. The second experiment addresses document classification. In order to display better performance compared to a support vector machine (SVM) model, the authors address the dimensionality reduction of the tested documents. This means that the documents would possess a lower amount of features. It follows that the latent Dirichlet allocation model has successfully reduced the number of features and displayed an improvement in accuracy compared to the support vector machine model. 
+\par The conducted experiments display an improvement in performance over the predecessor models and suggest the application domains of LDA-like models. The first experiment addresses document modelling. LDA  has displayed balanced hidden topic proportions in the set of tested documents. That is, the tested documents has replicated the topic proportions of the training documents. The second experiment is directed towards the problem of document classification. They have addressed the \textit{dimensionality reduction} in order to surpass the performance of the support-vector-machine-like models. To be more specific, the documents with reduced dimensionality would possess a lower amount of features. The results of the experiment indicate that the basic LDA model has successfully reduced the number of features. Also, it has displayed an improvement in accuracy compared to the support-vector machine-like model. 
 % To-do: explain perplexity (UNTOUCHED)
 
 % Conclusion
 % - Summary of the results established by the paper
-\par The review on the initial latent Dirichlet allocation model has set-up a basis for introducing the successor variations. These will be provided in the following sections. We have introduced the initial methodology for the following reasons: (1) the novel models will display the relaxation of the initial assumptions; (2) the provided document generation methodology will be compared to the document generation in batches; (3) we will cover different inference and parameter estimation approaches. Also, note that the paper is relatively old in time, and the experiments do not display the state-of-the-art performance. Rather than that, they were introduced to address the application domains of the model. 
-% To-do: rework the paragraph to reflect its purpose: remove the discussion
+\par The review on the original LDA model has set up a basis required to understand the model's derivatives. That is, the introduced methodology will be useful in considering the following improvements: (1) the  relaxation of the exchangeability assumption; (2) the adaptation of time-series suggesting word correspondence to topic over time; (3) the discussion over alternative inference methods. Apart from that, the experiments introduced in this section has reflected the LDA performance upon the model's introduction to the public. The current state-of-the-hard topic modelling techniques overcome the shown results. The experiments were addressed in order to suggest the application fields of LDA-like models.
+% To-do: rework the paragraph name to reflect its purpose: remove the discussion (you might think it's done, but it's not)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Finding scientific topics}
+\subsection{Finding Scientific Topics}
 
 % Intro
 % - Sampling as a method of inference

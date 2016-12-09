@@ -11,6 +11,11 @@ David~M Blei.
 \newblock Probabilistic topic models.
 \newblock {\em Communications of the ACM}, 55(4):77--84, 2012.
 
+\bibitem{blei_2003}
+David~M Blei, Andrew~Y Ng, and Michael~I Jordan.
+\newblock Latent dirichlet allocation.
+\newblock {\em Journal of machine Learning research}, 3(Jan):993--1022, 2003.
+
 \bibitem{palmer}
 Andrew Palmer, Prasad Phapale, Ilya Chernyavsky, Regis Lavigne, Dominik Fay,
   Artem Tarasov, Vitaly Kovalev, Jens Fuchser, Sergey Nikolenko, Charles

@@ -3,13 +3,13 @@
 \contentsline {section}{\numberline {3}Background Survey}{4}
 \contentsline {subsection}{\numberline {3.1}Terminology}{4}
 \contentsline {subsection}{\numberline {3.2}Preliminaries}{6}
-\contentsline {subsection}{\numberline {3.3}Latent Dirichlet allocation}{6}
-\contentsline {subsection}{\numberline {3.4}Finding scientific topics}{8}
+\contentsline {subsection}{\numberline {3.3}Latent Dirichlet Allocation}{6}
+\contentsline {subsection}{\numberline {3.4}Finding scientific topics}{9}
 \contentsline {subsection}{\numberline {3.5}Dynamic Topic Models}{10}
-\contentsline {section}{\numberline {4}Proposed Approach}{12}
-\contentsline {subsection}{\numberline {4.1}Overview}{12}
-\contentsline {subsection}{\numberline {4.2}Approach}{12}
-\contentsline {subsection}{\numberline {4.3}Risk Management}{12}
-\contentsline {section}{\numberline {5}Work Plan}{12}
-\contentsline {subsection}{\numberline {5.1}Schedule}{12}
-\contentsline {subsection}{\numberline {5.2}Deliverables}{12}
+\contentsline {section}{\numberline {4}Proposed Approach}{13}
+\contentsline {subsection}{\numberline {4.1}Overview}{13}
+\contentsline {subsection}{\numberline {4.2}Approach}{13}
+\contentsline {subsection}{\numberline {4.3}Risk Management}{13}
+\contentsline {section}{\numberline {5}Work Plan}{13}
+\contentsline {subsection}{\numberline {5.1}Schedule}{13}
+\contentsline {subsection}{\numberline {5.2}Deliverables}{13}

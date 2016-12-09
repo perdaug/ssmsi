@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: mprop.aux
 The style file: plain.bst
 Database file #1: mprop.bib
-You've used 4 entries,
+You've used 5 entries,
             2118 wiz_defined-function locations,
-            523 strings with 4842 characters,
-and the built_in function-call counts, 1654 in all, are:
-= -- 156
-> -- 111
+            530 strings with 4982 characters,
+and the built_in function-call counts, 2027 in all, are:
+= -- 194
+> -- 129
 < -- 1
-+ -- 44
-- -- 40
-* -- 120
-:= -- 285
-add.period$ -- 12
-call.type$ -- 4
-change.case$ -- 31
++ -- 51
+- -- 46
+* -- 152
+:= -- 347
+add.period$ -- 15
+call.type$ -- 5
+change.case$ -- 37
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 62
-empty$ -- 93
-format.name$ -- 40
-if$ -- 336
+cite$ -- 5
+duplicate$ -- 73
+empty$ -- 121
+format.name$ -- 46
+if$ -- 411
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 4
-newline$ -- 23
-num.names$ -- 8
-pop$ -- 28
+int.to.str$ -- 5
+missing$ -- 5
+newline$ -- 28
+num.names$ -- 10
+pop$ -- 32
 preamble$ -- 1
-purify$ -- 27
+purify$ -- 32
 quote$ -- 0
-skip$ -- 55
+skip$ -- 62
 stack$ -- 0
-substring$ -- 63
-swap$ -- 23
+substring$ -- 96
+swap$ -- 24
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 16
+type$ -- 20
 warning$ -- 0
-while$ -- 12
-width$ -- 5
-write$ -- 45
+while$ -- 16
+width$ -- 6
+write$ -- 56
