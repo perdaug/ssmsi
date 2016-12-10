@@ -163,7 +163,7 @@ then the sequence of words in the corpus would be denoted by
 \item $w$ is the observable variable referring to the words in documents;
 \item and $z$ is the latent variable of topic assignments over the words.
 \end{itemize}
-Further, note that the listed entities can be perceived as matrices of the following dimensions: $\alpha$ is $1 \times K$; $\beta$ is $K \times V$; $\theta$ is $M \times K$; $\phi$ is $M \times K$; $w$ is $M \times N$; and $z$ is $M \times V$.
+Further, note that the listed entities can be perceived as matrices of the following dimensions: $\alpha$ is $1 \times K$; $\beta$ is $K \times V$; $\theta$ is $M \times K$; $\phi$ is $K \times V$; $w$ is $M \times N$; and $z$ is $M \times V$.
 % To-do: check the dimensions
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -241,7 +241,6 @@ Note that the authors provide pseudo code to build an intuition in tackling this
 % -- Dimensionality reduction
 % -- Comparison with SVM
 \par The conducted experiments display an improvement in performance over the predecessor models and suggest the application domains of LDA-like models. The first experiment addresses document modelling. LDA  has displayed balanced hidden topic proportions in the set of tested documents. That is, the tested documents has replicated the topic proportions of the training documents. The second experiment is directed towards the problem of document classification. They have addressed the \textit{dimensionality reduction} in order to surpass the performance of the support-vector-machine-like models. To be more specific, the documents with reduced dimensionality would possess a lower amount of features. The results of the experiment indicate that the basic LDA model has successfully reduced the number of features. Also, it has displayed an improvement in accuracy compared to the support-vector machine-like model. 
-% To-do: explain perplexity (UNTOUCHED)
 
 % Conclusion
 % - Summary of the results established by the paper
@@ -254,33 +253,33 @@ Note that the authors provide pseudo code to build an intuition in tackling this
 
 % Intro
 % - Sampling as a method of inference
-\par The paper on "Finding scientific topics" [CITATION] suggests an alternative approach to the inference in latent Dirichlet allocation. To be more specific, the paper provides a readable introduction on how to apply a Markov chain Monte Carlo (MCMC) algorithm as a sampling-based method for the inference in topic modelling. Further, the authors discuss the method's application settings in vision and conduct an experiment on deriving topics from the abstracts of papers published in "Proceedings of the National Academy of Sciences" (PNAS). Finally, the authors compare the performance of the suggested sampling-based inference method to variational inference methods. 
+\par The article titled as `Finding Scientific Topics' \cite{griffiths} suggests an alternative approach to the inference which is suitable for LDA-like models. To be more specific, the article provides a readable introduction on the application of the Markov chain Monte Carlo (MCMC) algorithm. That is, the MCMC algorithm is applied as a sampling-based method to infer an underlying topic structure. Further, the authors discuss the method's application settings for the machine learning problems in vision. Also, the authors conduct an experiment on inferring the structure of topics in the abstracts of papers published in `Proceedings of the National Academy of Sciences' (PNAS). Finally, the paper is concluded by a discussion on assessing the sampling-based method usability. To be more specific, the performance of the sampled-based method is compared to the performance of variational inference methods. 
 
 % Gibbs Sampling
 % - Recall the meaning of phi and theta.
 % - Introduce the inference method
-\par The inference method using a Markov chain Monte Carlo algorithm can be referred by \textit{Gibbs sampling}. The authors claim that the method provides a first-order approximation in deriving the topics on the given corpus. That is, we can establish quantitative reasoning on the document correlation in terms of content and content's change over time. Recall that by $\theta$ we denote the topic distribution over documents and by $\phi$ we denote the topic distribution over words. In Gibbs sampling, these values can be obtained by examining the posterior distribution. Essentially, the variables are sequentially sampled from their respective distributions. The process draws topic assignment $z_i$ and keeps a track of this assignment with respect to each word and document. Note that $z_i$ is drawn from the following distribution:
+\par The MCMC-based inference method is often referred by \textit{Gibbs sampling}. The authors claim that the method provides a first-order approximation upon inferring the hidden structure of the data. That is, the performance is sufficient to establish quantitative reasoning in assessing the correlating sections and semantic structure of the data. Recall that by $\theta$ we denote the topic distribution over the documents and by $\phi$ we denote the vocabulary terms distribution over the topics. In Gibbs sampling, the latter variables are obtained by examining the posterior distribution, whereas topic assignments $z$ are sampled sequentially. That is, we sample topic assignment $z$ and update the distribution depending on the obtained value (this will impact the next sample of $z$); we repeat this process until the topic distribution converges. To be more specific, each drawn $z_i$ ($i$ denotes the iteration) is recorded as a count. That is, we keep a track of topic assignments for particular words and documents. The value of drawn topic $z_i$ is proportional to the distribution given below:
 \begin{equation}
-P(z_i = j | z_{-i}, w) \propto \dfrac{n_{-i, j}^{(w_i)} + \beta}{n_{-i, j}^{(\cdot)} + W\beta}\dfrac{n_{-i, j}^{(d_i)} + \alpha}{n_{-i, \cdot}^{(d_i)} + T\alpha}.
+P(z_i = j | z_{-i}, w) \propto \dfrac{n_{-i, j}^{(w_i)} + \beta}{n_{-i, j}^{(\cdot)} + V\beta}\dfrac{n_{-i, j}^{(d_i)} + \alpha}{n_{-i, \cdot}^{(d_i)} + K\alpha}.
 \end{equation}
-It follows that this distribution is utilise the previously mentioned topic assignments. For a brief familiarisation with the notation used in the previous expression, note the following: $n_j^{d}$ and $n_j^{w}$ are the counts of topic $j$ assignments in document $d$ and word $w$; $W$ is the number of words; and $T$ is the number of topics. Ultimately, the left side of the expression is $\phi$ and the right side is $\theta$. That is, 
-\begin{align*}
-\phi_j &= \dfrac{n_{-i, j}^{(w_i)} + \beta}{n_{-i, j}^{(\cdot)}},\\
-\theta_j &= \dfrac{n_{-i, j}^{(d_i)} + \alpha}{n_{-i, \cdot}^{(d_i)} + T\alpha}.
-\end{align*}
-This process of topic assignment would be executed for every word in a document and for all documents in the corpus. The procedure would be repeated until the distributions displayed fluctuations below some set threshold. Notice that the procedure does not require direct assignment of $\theta$ and $\phi$. If needed, the values of these can be sampled upon converge by using the previously provided representations.
+For a brief familiarisation with the notation used in the expression, note the following: $n_j^{d}$ and $n_j^{w}$ are the counts of topic $j$ assignments in document $d$ and word $w$; recall that $V$ is the number of words in the vocabulary and $K$ is the number of topics. Also, note that the counts do not include the last assignment of the topic, this is indicated by $-i$. Ultimately, the left side of the expression is $\phi$ and the right side is $\theta$. That is, 
+\begin{align}
+\phi_j &= \dfrac{n_{-i, j}^{(w_i)} + \beta}{n_{-i, j}^{(\cdot)} + W\beta},\\
+\theta_j &= \dfrac{n_{-i, j}^{(d_i)} + \alpha}{n_{-i, \cdot}^{(d_i)} + K\alpha}.
+\end{align}
+This process of the topic assignment is executed for every word in the document and for all documents in the corpus. The procedure is repeated until convergence or, more pragmatically, until the distribution displays the assigned topic fluctuations below the set threshold. In the Gibbs sampling procedure, there is no need to explicitly assign $\theta$ and $\phi$ values. If needed, these values are obtained directly from the topic distribution, as shown by the two previous equations.
 
-% Auxilliary xperiments
+% Auxilliary experiments
 % - Vision
 % - Time series
-\par The authors have executed Gibbs sampling in the domain of vision. They have represented an image as a document and each pixel as a word. This means that they were able to recover the underlying basis from which the images could be constructed. The performance was compared to the latent Dirichlet allocations models which use variational inference. Note that we define the performance in terms of perplexity, which indicates the uncertainty of the word assignment to a topic. It appears that, with relatively small data sets, Gibbs sampling displays superior performance. Further, the authors have investigated the performance upon varying the number of topics. The results indicate that there exists a trade-off between the model being able to cover the significant underlying topics (low number of topics) and start deriving irrelevant branches (high number of topics).
+\par The authors has shown a use of Gibbs sampling on a problem of vision. In their experiment settings, it is assumed that a collection of images represents a corpus; an image represent a document; and a pixel of an image is a word. The experiment has shown that the model is able to infer the underlying basis (topics) from which the images could be constructed. The performance of the model was compared to the variational inference based LDA models. Note that the performance was assessed in terms of \textit{perplexity} -- the uncertainty in assigning a word assignment to a topic. It has been shown that Gibbs sampling displays superior performance in the small data sets, whereas the performance in larger data tends to fall off. Furthermore, the authors have assessed the performance upon varying the number of topics. The results of this experiment indicate a trade-off in deriving high-level and low-level structures. That is, the low number of topics might result in mashing several structures, whereas the high number of topics is likely to infer irrelevant structures.
 
 % The main experiment
 % - PNAS
-\par The main experiment was carried in the PNAS data set, note that the processed papers were published from 1991 to 2001. By having a varying notion of time, the authors were able to investigate the prevailing topics. Thus, establish a sense in dynamic topic modelling. Even though the model was not adjusted to smooth the time-series, from the derived results we can deduce the varying relevance of underlying science domains.  
+\par The main experiment of the article is conducted on the PNAS data set containing abstracts of the articles published from 1991 to 2001. The authors have noticed that the topic distribution over the vocabulary terms change over time. However, the model had not yet been optimised to take this notion of time-series into account upon the inference. Nevertheless, the authors have emphasised the necessity to assess the dynamic topic modelling. 
 
 % Conclusion
-\par We have reviewed an alternative method for the inference in latent Dirichlet allocation. The idea behind the inference process was explained by considering the primary aspects: the notion of counts and the implicit use of hidden variables. Also, we have introduced the experiment settings its results. This allowed to familiarise with an example of topic modelling application and vision. Further, the experiment on PNAS has emphasised the relevance of time series
+\par The review has introduced an alternative method used in the process of inference of LDA-like models. We have familiarised with the intuition in the implementation requirements of the sampling-based inference method. Also, we have reviewed experiments suggesting an approach in tackling problems of vision. Further, we have introduced the relevance of dynamic topic modelling (topic modelling with the notion of time-series). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -289,55 +288,56 @@ This process of topic assignment would be executed for every word in a document 
 % Intro:
 % - Time series
 % - Qualitative and quantitative improvement
-\par Now we review the paper on Dynamic Topic Models [CITATION]. Effectively, the dynamic topic model can be treated as an extension of static topic models (such as latent Dirichlet allocation). The main idea behind a dynamic topic model is that it induces the topic evolution the processed corpus. That is, the documents in the corpus evolve over time. In this subsection, we review the key assumptions of dynamic topic models, go over the generative process of documents, review the suggested inference methods, and familiarise with the results of the carried experiment. 
+\par At this point, we have set up the preliminaries to cover the article on utilising the notion of time-series in LDA-like models. We review the initial article on utilising time-series -- `Dynamic Topic Models' \cite{blei_2006}. Note that by a \textit{static} model we mean that the assumed generative process does not take the development/change of the vocabulary terms into account, whereas in \textit{dynamic} topic modelling we assume the notion of that the documents were generated in a sequential process. That is, in dynamic topic modelling, the topics evolve in terms of their distribution over the vocabulary terms. Upon reviewing the dynamic topic modelling article, we emphasise the following aspects: the fundamental dynamic topic modelling assumptions and their differences compared to the basic LDA model; the generative process; the suggested inference methods; and the results displayed by the experiments on the initial dynamic topic model.
+% To-do: qualitative and quantitative improvements
 
 % Assumptions
 % - Data is divided in time slices
-\par We will emphasise the assumptions given on the dynamic topic models. First of all, even though we are discussing a model of time series suggesting the use of continuous variables, the data remains categorical. The distinction between continuous and categorical data is that continuous data is strictly numeric and infinite, whereas categorical data can take only particular values. The second assumption relaxes the ex-changeability on documents. That is, the documents are expected to form a sequence. Or in other words, the corpus is divided into time-slices. Note that in such time-slice documents are exchangeable.  
+\par The assumptions set for the dynamic topic model emphasises its strengths over the basic LDA model. Most importantly, the dynamic topic model relaxes the assumption of the document exchangeability. Since the documents are generated over time, we assign them to specific time-slices. The combination of these time-slices would represent the corpus. Note that the documents in each time-slice are exchangeable. This treatment of time set-ups a basis to tackle the problems which involve the sequential development of the data. On the other hand, note that another assumption of discrete data remains the same as in the basic LDA model. Even though we are inducing time series (which would suggest the use of \textit{continuous} variables), the authors use only \textit{categorical} (discrete) data. The distinction between continuous and categorical data is the following: continuous data is strictly numeric and infinite, whereas categorical data takes a fixed value from a finite set of values. 
 
 % Generative Process
 % - Algorithm
 % - An explanation of the algorithm
-\par The generative process of the models updates the parameters $\alpha$ and $\beta$. This means that the topic distributions over documents and words change over time. The visualisation of the process is given in Figure 2 below.
+\par In the dynamic topic modelling, the generative process updates the parameters $\alpha$ and $\beta$ for each new time-slice. This means that the topic distribution over documents and the vocabulary terms distribution over topics change over time. The visualisation of this process is given in Figure 3 below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{dynamic_topic_model}
   \caption{Dynamic topic model. COPYRIGHT.}
   \label{fig:dtm}
 \end{figure}
-Notice that each time-slice is equivalent to the model shown in Figure 1. Also, the parameters $\alpha$ and $\beta$ are induced by their predecessors in the previous time-slice. More formal representation of the generative process is given in Algorithm 2. 
+Effectively, Figure 3 is a sequential combination of the basic LDA model illustrated in Figure 1. In Figure 3, one basic LDA model represents one time-slice. Also, the parameters $\alpha$ and $\beta$ are induced by their predecessors. More formal representation of the generative process is given in Algorithm 2 below. 
 \begin{algorithm}[H]
 \caption{Dynamic document generation.}
 \label{alg:dynamic_document_generation}
 \begin{algorithmic}[2]
-\State $\beta_t | \beta_{t-1} \sim \mathcal{N}(\beta_{t-1}, \sigma^2)$
-\State $\alpha_t | \alpha_{t-1} \sim \mathcal{N}(\alpha_{t-1}, \delta^2)$
-\For {$d \leftarrow 1, D$}
-\State $\eta_d \sim \mathcal{N}(\alpha_{t}, a^2)$
+\State $\beta_t | \beta_{t-1} \sim \mathcal{N}(\beta_{t-1}, \sigma^2I)$
+\State $\alpha_t | \alpha_{t-1} \sim \mathcal{N}(\alpha_{t-1}, \delta^2I)$
+\For {$d \leftarrow 1, M$}
+\State $\eta_d \sim \mathcal{N}(\alpha_{t}, a^2I)$
 \For {$n \leftarrow 1, N$}
 \State $z_{d, n} \sim \mbox{Multinomial}(\pi(\eta_d))$
 \State $w_{t, d, n} \sim \mbox{Multinomial}(\pi(\beta_t | z_{d, n}))$
 \EndFor
 \EndFor
-% \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-The given algorithm describes the generative process for the time-scale $t$. It starts by drawing the parameters $\alpha_t$ and $\beta_t$ from the Gaussian distribution with the means given by the previous parameter values. For now, we will not discuss the meaning of the variance values. Further, for each document in the time-scale, we carry the following procedure: we draw the topic distribution in a document $\eta_d$ from the Gaussian distribution with the mean given by $\alpha_t$; then, for each word in the document, we draw the topic $z_{d, n}$ from the Multinomial distribution on the parametrised $\eta_d$, and, finally, we draw the word $w_{t, d, n}$ from the Multinomial distribution on the parametrised $\beta_t$ which is conditioned on $z_{d, n}$. By the use of \textit{parametrisation}, we are expressing the result of the Gaussian distributions into a format suitable for Multinomial distribution. This mapping is expressed as
+
+Algorithm 2 describe the generative process of the documents in time-slice $t$. The algorithm is initialised by drawing the parameters $\alpha_t$ and $\beta_t$ from the Gaussian distribution with the means given by the previous parameter values. Note that the parameters $\alpha_0$ and $\beta_0$ are the the special case. They can be initialised randomly, i.e. the mean of the Gaussian distribution is random. However, for the parameters $\alpha_0$ and $\beta_0$ we take larger variance values compared to $\alpha_t$ and $\beta_t$. The larger variance values  induce the initial time-slice with larger fluctuations in the topic and vocabulary term distributions; and the smaller variance values in the following time-slices induce the smoothness. Further, in lines 3--9, for every document in time-slice $t$ we execute the following procedure: for document $d$, we draw the topic distribution $\eta_d$ (the meaning of the parameter is equivalent to the previously introduced $\theta_d$); then, in lines 5--7, for every word in document $d$ we draw topic assignment $z_{d, n}$ and, finally, we draw word $w_{t, d, n}$. Note that the means for the Multinomial distributions are normalised by the use of \textit{parametrisation}. Parametrisation mapping $\pi$ is expressed as
 \begin{equation}
-\pi(x)_n = \dfrac{\exp{(x_n)}}{\sum^n_{i=1}\exp{(x_i)}}.
+\pi(x)_n = \dfrac{\exp{(x_n)}}{\sum^N_{i=1}\exp{(x_i)}}.
 \end{equation}
 
 % Inference
 % Variational methods are a deterministic alternavive for stochastic simulation
 % Two variations: Kalman filtering and wavelet regression
-\par The authors suggest using variational methods to approximate the inference posterior. It is claimed that stochastic simulation would be unable to scale with large data sets. Two techniques of variational methods are provided: Kalman Filtering and Wavelet Regression. The implementation details of these are provided in a brief manner suggesting the computation of the parameter $\beta_t$. 
+\par The authors have used variational methods to approximate the inference of the posterior. It is claimed that stochastic simulation (sampling-based variance methods) would be unable to scale with larger data sets. Further, the authors discuss two methods used for the variational inference: Kalman Filtering and Wavelet Regression. The implementation details of these methods can be found in the `Dynamic Topic Modelling' article \cite{blei_2006}. Note that the implementation details are provided in a brief manner suggesting the use of additional literature, these are also provided in the article. 
 
 % Experiments
 % - Evolution of Science
-\par The dynamic topic model is evaluated by conducting an experiment on the journals of \textit{Science}. The experiment is expected to establish the time series on the topic development with the articles. Indeed, the experiment is able to produce results displaying the rises and falls of the topics indicating scientific fields. Note that the experiment is performed using both variational inference methods.   
+\par The dynamic topic model is evaluated by conducting an experiment on the journals of `Science'. The experiment is expected to infer the prevalent science fields and the prevalent vocabulary used in these fields. Note that the relevance of the science fields can be respectively obtained from the latent variables $\theta$ and $\phi$. That is, the authors would compare these variables throughout all time-slices in order to induce the reasoning over the prevalent science fields (by using $\theta$) and the prevalent vocabulary terms (by using $\phi$). The experiment has successfully established this notion of time-series. This is proved by comparing the inferred rises and falls of the scientific fields to the history of science. Note that the experiment has been performed both Kalman Filtering and Wavelet Regression methods. 
 
 % Conclusion
-\par The review on the dynamic topic models has familiarised us with more realistic generative process: the documents are induced by time series. Further, we have provided the visualisation of the model and introduced the algorithm for the generative process. Also, we have captured the techniques used for inference. Finally, we have familiarised with the experiment settings. 
+\par By reviewing the original dynamic topic model, we have familiarised with the generative process which takes time-series into account. We have provided the visualisation of the model and introduced the algorithm for the generative process. Further, we have outlined the inference methods suggests be the authors. Finally, we have familiarised with the experiment settings which were used to infer time series in the articles of `Science'. 
 
 % Section Conclusion
 \par

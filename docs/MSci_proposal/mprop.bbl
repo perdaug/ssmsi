@@ -11,10 +11,22 @@ David~M Blei.
 \newblock Probabilistic topic models.
 \newblock {\em Communications of the ACM}, 55(4):77--84, 2012.
 
+\bibitem{blei_2006}
+David~M Blei and John~D Lafferty.
+\newblock Dynamic topic models.
+\newblock In {\em Proceedings of the 23rd international conference on Machine
+  learning}, pages 113--120. ACM, 2006.
+
 \bibitem{blei_2003}
 David~M Blei, Andrew~Y Ng, and Michael~I Jordan.
 \newblock Latent dirichlet allocation.
 \newblock {\em Journal of machine Learning research}, 3(Jan):993--1022, 2003.
+
+\bibitem{griffiths}
+Thomas~L Griffiths and Mark Steyvers.
+\newblock Finding scientific topics.
+\newblock {\em Proceedings of the National academy of Sciences}, 101(suppl
+  1):5228--5235, 2004.
 
 \bibitem{palmer}
 Andrew Palmer, Prasad Phapale, Ilya Chernyavsky, Regis Lavigne, Dominik Fay,
