@@ -453,16 +453,15 @@ In the boundary case shown on the left, time-slice $t_{0,0}$ relates to  three s
 % - Preprocessing
 % -- Dismissing low intensity values
 % -- Storing the ranges of ions
-\par In order to address the scalability of the model in terms of the large MSI data sets, we will address two techniques for the dimensionality reduction: utilisation of a dictionary and pre-processing of the data. Both of these techniques reduces the sparsity of the data sets. To start with, the use of dictionary will eliminate the irrelevant use of memory in storing the words which do not occur in particular documents. For example, let's assume that the masses of the ions in our data can be represented as the set $\{1, 2, 3, 4, 5\}$, also assume that the ions can be represented in the form of (mass, intensity) tupple. Then, if our sample contained two following documents: $\mathbf{w_0} = \{(1, 100), (2, 200)\}$ and $\mathbf{w_1} = \{(3, 300)\}$, the sample representation in matrix and dictionary forms would be interchangeable with the expression given in Table \ref{tab:m_and_d} below.
-
+\par In order to address the scalability of the model in terms of the large MSI data sets, we will address two techniques for the dimensionality reduction: utilisation of a dictionary and pre-processing of the data. Both of these techniques reduces the sparsity of the data sets. To start with, the use of dictionary will eliminate the irrelevant use of memory in storing the words which do not occur in particular documents. For example, let's assume that the masses of the ions in our data can be represented as the set $\{1, 2, 3, 4, 5\}$, also assume that the ions can be represented in the form of (mass, intensity) tuple. Then, if our sample contained two following documents: $\mathbf{w_0} = \{(1, 0.1), (2, 200), (3, 500)\}$ and $\mathbf{w_1} = \{(5, 300)\}$, the sample representation in matrix and dictionary forms would be interchangeable with the expression given in Table \ref{tab:m_and_d} below.
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{|c||c|c|c|c|c|}
 \hline
 &1&2&3&4&5\\
 \hline
-$\mathbf{w_0}$&100&200&0&0&0\\
-$\mathbf{w_1}$&0&0&300&0&0\\
+$\mathbf{w_0}$&0.1&200&500&0&0\\
+$\mathbf{w_1}$&0&0&0&0&300\\
 \hline
 \end{tabular}
 \quad
@@ -470,22 +469,62 @@ $\mathbf{w_1}$&0&0&300&0&0\\
 \hline
 &1&2&3&4&5\\
 \hline
-$\mathbf{w_0}$&100&200&$\O$&$\O$&$\O$\\
-$\mathbf{w_1}$&$\O$&$$\O$$&300&$\O$&$\O$\\
+$\mathbf{w_0}$&0.1&200&500&$\O$&$\O$\\
+$\mathbf{w_1}$&$\O$&$\O$&$\O$&$\O$&300\\
 \hline
 \end{tabular}
 \end{center}
 \caption{Matrix and dictionary representation of the data set.}
 \label{tab:m_and_d}
 \end{table}
+Note that, in these settings, empty set symbol $\O$ represents a value which is not assigned to the memory; and the matrix and dictionary forms are respectively given on the left and right hand sides. It follows that the use of dictionary requires about as half as much memory. Another dimensionality reduction technique can be introduced by setting the minimum threshold value. That is, we can limit the data set by dismissing values which do not reach the sufficient significance criteria. If we set the threshold of intensity to be $1$, then the dictionary could be represented in Table \ref{tab:d_threshhold} below.
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|c|}
+\hline
+&1&2&3&4&5\\
+\hline
+$\mathbf{w_0}$&\O&200&500&$\O$&$\O$\\
+$\mathbf{w_1}$&$\O$&$\O$&$\O$&$\O$&300\\
+\hline
+\end{tabular}
+\end{center}
+\caption{The dictionary of the data set with the minimum intensity threshold of 1.}
+\label{tab:d_threshhold}
+\end{table}
 
-
+% Ion grouping
+\par As discussion in Section 1, the captured ions of same time are likely to have fluctuations in their masses. For this reason, we are applying another pre-processing step. By setting the threshold which would indicate the maximum fluctuation between ions masses, we would group the ions which are likely to represent the same time, also, we would reduce the data set even further. By taking the example of previous paragraph and setting the fluctuation tolerance to $1$, we obtain the data structure given in Table \ref{tab:d_f_threshhold} below.
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c||c|c|}
+\hline
+&[2,3]&[5,5]\\
+\hline
+$\mathbf{w_0}$&700&$\O$\\
+$\mathbf{w_1}$&$\O$&300\\
+\hline
+\end{tabular}
+\end{center}
+\caption{The dictionary of the data set with the fluctuation threshold of 1.}
+\label{tab:d_f_threshhold}
+\end{table}
+Notice that the masses are now represented by intervals, and the intensities below the threshold are summed together. Ultimately, by utilising the latter dimensionality reduction and ion grouping techniques, we establish data structure which would scale better compared to the initial data capturing settings.
 
 % Generative process
-% - induce time-series in terms of z axis
-\par
+% 3-D data sets
+\par The generative process of the MSI data set discussed in the discussion over the reviewed literature has utilised 2-dimensional data set. However, we are expecting to work on 3-dimensional data sets. Therefore, the established relationship between time-slices is illustrated by Figure \ref{fig:3-d_generative_process} below.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{3-d_generative_process}
+  \caption{3-dimensional generative process.}
+  \label{fig:3-d_generative_process}
+\end{figure}
+The time-slice indicated by the green colour, which is one of the boundary cases, is related to eleven other documents indicated by the red colour. Note that in the general case, the time-slice would have twenty-six relating documents. Effectively, we are intending to establish a 3-dimensional topic modelling.  
+% - To-ask: 4-dimensions (time-series)
 
 % Inference
+% - Metropolis--Hasting
 \par
 
 
