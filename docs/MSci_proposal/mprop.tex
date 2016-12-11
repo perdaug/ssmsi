@@ -403,11 +403,11 @@ Algorithm 2 describe the generative process of the documents in time-slice $t$. 
 % Intro
 % - Literature review shows the mathematical underlying
 % - Extract the relevant bits
-\par Throughout the literature review, we have looked into the papers which are considered to have a significant influence on the LDA-like modelling. For this reason, we have set up the basis of the LDA-like model mathematical underlying. However, the approach in utilising those models in MSI like data sets have not been reviewed. Nevertheless, two sources of relevant research have been mentioned (the paper by Hooft et al. \cite{hooft} and the survey by Alonso et al. \cite{alonso-et-al}). Ultimately, this section is focused to emphasise the superior approaches of the previously reviewed papers. 
+\par Throughout the literature review, we have looked into the papers establishing the mathematical underlying of the LDA-like models. However, the approach in utilising those models in MSI like data sets have not been reviewed. Nevertheless, two sources of relevant research have been provided (the paper by Hooft et al. \cite{hooft} and the survey by Alonso et al. \cite{alonso-et-al}). Ultimately, this section is focused to emphasise the superior approaches of the previously reviewed papers and establish the appropriate techniques in the generative and inference processes.
 
 % Generative processess
 % - Comparison between static and dynamic data sets
-\par The reviewed generative processes sets an assumption on the formulation of the data. We have reviewed two generative processes: static and dynamic. The static generative process is given by the initial LDA paper -- `Latent Dirichlet Allocation', and the dynamic generative processes is given by the 'Dynamic Topic Models' paper. These generative processes are expressed respectively in Figure \ref{fig:static} and Figure \ref{fig:dynamic} below. 
+\par The reviewed generative processes sets an assumption on the formulation of the data. We have reviewed two generative processes: static and dynamic. The static generative process is given by the initial LDA paper -- `Latent Dirichlet Allocation', and the dynamic generative processes is given by the `Dynamic Topic Models' paper. These generative processes are expressed respectively in Figure \ref{fig:static} and Figure \ref{fig:dynamic} below. 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{static}
@@ -432,24 +432,60 @@ The initial dynamic topic modelling motivation suggests the application of time-
   \caption{2-dimensional generative process.}
   \label{fig:2-d_generative_process}
 \end{figure}
-In the boundary case shown on the left, time-slice $t_{0,0}$ relates to  three surrounding time-slices, whereas, in the general case indicated on the right side, time-slice $t_{1,1}$ relates to eight surrounding time-slices. 
+In the boundary case shown on the left, time-slice $t_{0,0}$ relates to  three surrounding time-slices, whereas, in the general case indicated on the right side, time-slice $t_{1,1}$ relates to eight surrounding time-slices. Thereby, the notion of dynamic topic modelling is preserved even upon relaxing the assumption of time-series.
 
-
-time-slice $t$ would be dependant on it's adjacent time-slices as shown  
-Even though the dynamic topic modelling suggests 
+% Inference
+% - Stochastic and optimisation based methods
+% - Evaluation
+\par The reviewed inference techniques have covered the mathematical underlying of two approaches: stochastic (sampling-based) and optimisation (variational). The variational methods are discussed in the `Latent Dirichlet Allocation' and `Dynamic Topic Models' papers, and the sampling-based method is discussed in the `Finding Scientific Topics' paper. Since both methods have been utilised in the state-of-the-art topic modelling applications, we will implement both of them in order to set up a discussion for the developed model's evaluation. However, since the authors of `Dynamic Topic Models' has utilised only the variational methods, we have to address the compatibility of the sampling-based methods in terms of applicability to the dynamic topic modelling.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Design}
 
-% Design
+% Intro
 % - The required model supplements
-% -- Dictionary
-\par
-% To-do: induce time-series in terms of z axis 
+\par By covering the design of the model, we will set up the requirements for the project's execution and propose methods which would supplement the techniques derived from the reviewed literature. To start with, we will address the dimensionality reduction of the MSI data sets. Then, we will introduce the additional data capturing requirements shifting the set-up of the generative process. Finally, we will suggest an approach for utilising sampling-based methodology in the dynamic topic modelling. 
 
-% Implementation
+% Dimensionality Reduction
+% - Dictionary
+% - Preprocessing
+% -- Dismissing low intensity values
+% -- Storing the ranges of ions
+\par In order to address the scalability of the model in terms of the large MSI data sets, we will address two techniques for the dimensionality reduction: utilisation of a dictionary and pre-processing of the data. Both of these techniques reduces the sparsity of the data sets. To start with, the use of dictionary will eliminate the irrelevant use of memory in storing the words which do not occur in particular documents. For example, let's assume that the masses of the ions in our data can be represented as the set $\{1, 2, 3, 4, 5\}$, also assume that the ions can be represented in the form of (mass, intensity) tupple. Then, if our sample contained two following documents: $\mathbf{w_0} = \{(1, 100), (2, 200)\}$ and $\mathbf{w_1} = \{(3, 300)\}$, the sample representation in matrix and dictionary forms would be interchangeable with the expression given in Table \ref{tab:m_and_d} below.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|c|}
+\hline
+&1&2&3&4&5\\
+\hline
+$\mathbf{w_0}$&100&200&0&0&0\\
+$\mathbf{w_1}$&0&0&300&0&0\\
+\hline
+\end{tabular}
+\quad
+\begin{tabular}{|c||c|c|c|c|c|}
+\hline
+&1&2&3&4&5\\
+\hline
+$\mathbf{w_0}$&100&200&$\O$&$\O$&$\O$\\
+$\mathbf{w_1}$&$\O$&$$\O$$&300&$\O$&$\O$\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Matrix and dictionary representation of the data set.}
+\label{tab:m_and_d}
+\end{table}
+
+
+
+% Generative process
+% - induce time-series in terms of z axis
+\par
+
+% Inference
 \par
 
 
