@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.12.7)  9 DEC 2016 20:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.12.7)  11 DEC 2016 15:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -609,65 +609,93 @@ f>] (./mprop.toc)
 \tf@toc=\write3
 \openout3 = `mprop.toc'.
 
- [1] [2] [3]
-<images/lda_model.png, id=23, 636.3775pt x 324.21124pt>
+ [1]
+<images/b_and_e.png, id=16, 935.495pt x 241.90375pt>
+File: images/b_and_e.png Graphic file (type png)
+ <use images/b_and_e.png>
+Package pdftex.def Info: images/b_and_e.png used on input line 79.
+(pdftex.def)             Requested size: 323.58757pt x 83.67465pt.
+
+[2 <./images/b_and_e.png>] [3] [4]
+<images/lda_model.png, id=29, 636.3775pt x 324.21124pt>
 File: images/lda_model.png Graphic file (type png)
 
 <use images/lda_model.png>
-Package pdftex.def Info: images/lda_model.png used on input line 132.
+Package pdftex.def Info: images/lda_model.png used on input line 176.
 (pdftex.def)             Requested size: 323.58757pt x 164.85579pt.
- [4]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 157.
+ [5 <./images/lda_model.png>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 201.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 157.
- [5 <./images/lda_model.png>] [6]
-<images/variational_parameters.png, id=42, 364.36125pt x 243.91125pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 201.
+ [6]
+<images/variational_parameters.png, id=44, 364.36125pt x 243.91125pt>
 File: images/variational_parameters.png Graphic file (type png)
 
 <use images/variational_parameters.png>
 Package pdftex.def Info: images/variational_parameters.png used on input line 2
-24.
+68.
 (pdftex.def)             Requested size: 184.90517pt x 123.77899pt.
  [7] [8 <./images/variational_parameters.png>] [9] [10]
-<images/dynamic_topic_model.png, id=59, 494.84875pt x 334.24875pt>
+<images/dynamic_topic_model.png, id=61, 494.84875pt x 334.24875pt>
 File: images/dynamic_topic_model.png Graphic file (type png)
 
 <use images/dynamic_topic_model.png>
-Package pdftex.def Info: images/dynamic_topic_model.png used on input line 304.
+Package pdftex.def Info: images/dynamic_topic_model.png used on input line 348.
 
 (pdftex.def)             Requested size: 323.58757pt x 218.56985pt.
  [11 <./images/dynamic_topic_model.png>]
-(./mprop.bbl [12]) [13] (./mprop.aux) ) 
+[12] <images/static.png, id=70, 702.625pt x 351.3125pt>
+File: images/static.png Graphic file (type png)
+
+<use images/static.png>
+Package pdftex.def Info: images/static.png used on input line 413.
+(pdftex.def)             Requested size: 323.58757pt x 161.79868pt.
+ <images/dynamic.png, id=71, 702.625pt x 351.3125pt>
+File: images/dynamic.png Graphic file (type png)
+
+<use images/dynamic.png>
+Package pdftex.def Info: images/dynamic.png used on input line 419.
+(pdftex.def)             Requested size: 323.58757pt x 161.79868pt.
+ [13 <./images/static.png>]
+<images/2-d_generative_process.png, id=76, 367.3725pt x 163.61125pt>
+File: images/2-d_generative_process.png Graphic file (type png)
+
+<use images/2-d_generative_process.png>
+Package pdftex.def Info: images/2-d_generative_process.png used on input line 4
+31.
+(pdftex.def)             Requested size: 231.135pt x 102.93831pt.
+ [14 <./images/dynamic.png> <./images/2-d_generative_process.png>] (./mprop.bbl
+) [15] (./mprop.aux) ) 
 Here is how much of TeX's memory you used:
- 12663 strings out of 493029
- 255979 string characters out of 6136234
- 264685 words of memory out of 5000000
- 16076 multiletter control sequences out of 15000+600000
+ 12688 strings out of 493029
+ 256535 string characters out of 6136234
+ 263723 words of memory out of 5000000
+ 16097 multiletter control sequences out of 15000+600000
  18254 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  38i,10n,45p,10375b,488s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
-i6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmti12.pfb>
-Output written on mprop.pdf (14 pages, 242003 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmti12.pfb>
+Output written on mprop.pdf (16 pages, 288178 bytes).
 PDF statistics:
- 113 PDF objects out of 1000 (max. 8388607)
- 76 compressed objects within 1 object stream
+ 127 PDF objects out of 1000 (max. 8388607)
+ 80 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

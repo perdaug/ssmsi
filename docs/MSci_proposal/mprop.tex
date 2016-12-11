@@ -25,7 +25,7 @@
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Probabilistic Topic Modelling to Reduce the Noise in Metabolomics}
+\title{Probabilistic Topic Modelling for Spatial Smoothing in Mass Spectrometry Imaging}
 \author{Arijus Pleska}
 \date{Date of submission placed here}
 \maketitle
@@ -39,25 +39,69 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Metabolomics
+% Mass Spectrometry
 % Vision
 \section{Introduction}
+
 % To-do:
-% - Mention Rogers' paper for the first attempt to use LDA in Metabolomics datasets
+% - Ionisation
+% - Mass Spectrum
+
+% Notes:
+% -- Mass spectrum measures the masses of the ions entering mass spectrometer. For this reason, the sample has to be ionised beforehand.
+% -- The ionisation process takes the molecules of a metabolite and a adds to something like a `proton'. Then, the resulting measure of mass would be the metabolite plus the proton.
+
+
+% Structure:
+% 1. General statement of the proposal (novel techniques for the analysis in Mass Spectrometry Imaging (MSI))
+% 2. Mass Spectrometry Imaging. What is it used for?
+% 3. Challenges in the analysis of MSI data.
+% 4. Your contributions to the domain.
+% 5. Report outline.
+
 
 % Intro
 % - ML in biology
-% - Data patterns
+% - MSI
+% - Spatial Smoothing
+\par This proposal is focused on applying machine learning techniques to improve the analysis of biology data sets. We intend to enhance the quality of \textit{mass spectrometry imaging} (MSI) data. Briefly, by the use of MSI, the researchers are able to interpret the formation of chemical processes. However, as suggested by a recent overview by Smith et al. \cite{smith_2004}, the pre-processing of molecular-level entity data sets is lagging in terms of the current noise reduction algorithm effectiveness. We will attempt to tackle this issue of noise by utilising spatial smoothing. 
+  
+
+% MSI
+% - Connection to metabolomics
+% -- Metabolomics definition
+% - Vision
+% - Chemical Process occurrence
+
+\par In this project, the application domain of MSI is set to be \textit{metabolomics} -- it is the scientific study of chemical processes which involve metabolites (small molecules) and metabolomes (sets of small molecules). In the settings of metabolomics, we utilise \text{mass spectrometry} (MS) to obtain the distribution of chemical entities within a sample. By utilising MSI, we can visualise the distributions of the ions (or ion sets) of different masses. For instance, Figure \ref{fig:b_and_e} below represents the whole sample as an image, where each picture's pixel is a small region within the sample. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{b_and_e}
+  \caption{MSI application on a sample with the letters b and e.}
+  \label{fig:b_and_e}
+\end{figure}
+Note that each pixel contains a distribution of chemical entities as well. In Figure \ref{fig:b_and_e} we have chosen the range of mass to reflect the ink used to inscribe the letters. That is, in each pixel we have summed the intensities of the chemical entities meeting the mass criteria. Then, each pixel has been assigned an intensity value. Therefore, the sample could be expressed as the latter image. An open problem in metabolomics is to find the sets of chemical entities  inducing valid visual patterns. Ultimately, the discovered biological patterns could be used to suggest and measure the likelihood of particular chemical process occurrence. For a rigorous discussion on machine learning applications in metabolomics, the reader can consult the recent survey conducted by Alonso et al. \cite{alonso-et-al}.
+
+% -- The ionisation process might be executed in different means. This results in a different sum of masses.
+% -- Metabolite might be fragmentised during the ionisation.
+% -- Atoms of the same thing might have a different mass. This would result in the different ion mass.
+
+% Challenges
+% - Explanation of the data capturing process
+% - Ionisation
+% -- Fragmentation
+% -- Different means to ionise the metabolite
+% -- Atoms might have a different mass
 % - Noise
-\par This research proposal suggests an application of machine learning in biology. We intend to study the scans of low level biological entities in order to derive their patterns. To be more specific, we will be tackling a problem of noise. This issue of noisiness arise from the hardware limitation of the high precision data collection devices.   
+% -- Spatial Smoothing
 
-% Metabolomics
-% - Mass spectrometry
-\par The application domain of this project is metabolomics -- a branch of computional biology. In brief, metabolomics is the scientific study of chemical processes which involve small molecules -- metamobilites. Ultimately, these chemical processes can be predicted by the features of metabolites. We intend to set the basis of our study on data sets acquired by \textit{mass spectrometry} (MS). By using this technique, we obtain the masses and intensities of metabolites within a sample of interest. This data representation is known as mass spectrum. Note that a different mass indicates different types of metabolites, whereas intensity suggests the level of concentration. Thereby, a mass spectrum is used to distinguish and visualise the observed metabolites. By deriving the formulae of specific metabolites types, we can induce patterns leading to the prediction of chemical processes. 
-
+\par The challenges on working with MSI data arise from the data capturing process. In metabolomics, the MS equipment requires the ionisation of metabolites. Effectively, a metabolite is compounded with an appropriate chemical entity to produce an ion. It follows that the mass spectrometers are capable to capture some properties of the ionised metabolites. Since the mass of an ion belongs to these properties, the collection of captured ions can be represented in terms of mass spectra. However, the following issues have to be considered upon reasoning from the MSI data: (1) the ionisation of a metabolite can be performed using different chemical entities, therefore the ions of same metabolite type would have different masses; (2) a metabolite might be fragmented during the ionisation; (3) the metabolites of same type might have different atom structure, which suggests a different mass value. The latter issues, effectively, corresponds to a problem of error correction.
+ 
 % The domain of vision
 % - Expalanation how the scans of metabolites can be treated as images.
 % - Visualisation of particular metabolites or metabolite patterns.
-\par In the terms of machine learning applicability, we are looking into a problem of vision. The metabolites of some biological tissue are sequentially captured within regions of fixed size. Effectively, this process is generating an image: each scan is a pixel, therefore, the collections of scans produce an image. However, each pixel contains a large amount of metabolites, so the visualisation of these in a single image would be rather complex. Thereby, we can choose a specific metabolite type and produce pixels reflecting such metabolite activity. For a rigorous discussion on machine learning applications in metabolomics, the reader can consult the recent survey conducted by Alonso et al. \cite{Alonso-et-al}. Going back to the visualisation of metabolites, we can choose a specific combination (structure) and produce an image where activated pixels would suggest the concentration of the chosen metabolite structure. The problem arises upon discovering valid matabolite structures. Therefore, the techniques of machine learning, or more specifically topic modelling, are used to induce the prospective structures.
+
+% \par In the terms of machine learning applicability, we are looking into a problem of vision. The metabolites of some biological tissue are sequentially captured within regions of fixed size. Effectively, this process is generating an image: each scan is a pixel, therefore, the collections of scans produce an image. However, each pixel contains a large amount of metabolites, so the visualisation of these in a single image would be rather complex. Thereby, we can choose a specific metabolite type and produce pixels reflecting such metabolite activity.  Going back to the visualisation of metabolites, we can choose a specific combination (structure) and produce an image where activated pixels would suggest the concentration of the chosen metabolite structure. The problem arises upon discovering valid matabolite structures. Therefore, the techniques of machine learning, or more specifically topic modelling, are used to induce the prospective structures.
 
 % Unsupervisder learning
 % - Topic moels
@@ -65,11 +109,11 @@
 % - LDA:
 % -- General
 % -- Metabolomics
-\par The objective to discover novel structures is treated as a problem of \textit{unsupervised} machine learning. That is, we have no initial settings in how these structures are expected to look like: the structures will be inferred by machine learning methodology. The inference of unknown structures is studied within \textit{topic modelling}. Further, note that we are concentrating on statistical topic modelling. In other words, we are putting the emphasis on the \textit{probabilistic} models: the structures are inferred from the data instance distributions. To be more specific, we are focusing to enhance a particular probabilistic machine learning model -- \textit{latent Dirichlet allocation} (LDA). First of all, the successor LDA models are treated as a state-of-the-art method in tackling semantic-analysis type problems. For more detailed review on the LDA applications, the reader can consult the survey \cite{blei_2012} conducted by Blei. Further, Hooft et al. \cite{hooft} has recently addressed the applicability of LDA in metabolomics. Note that this proposal is directly influenced by the latter prospect: we will attempt to utilise the LDA-like models to reduce the impact of noise in the data sets of the metabolomics domain.  
+\par Since this proposal is focused on utilising spatial smoothing to reduce the impact of noise in MSI data sets, we will familiarise with the machine learning techniques and problems tackled in the MSI domain. The objective to discover novel patterns can be treated as a problem of \textit{unsupervised} machine learning. That is, we have no initial settings in how the patterns are expected to look like. However, upon appropriate optimisation, the unsupervised machine learning techniques are capable to learn the patterns on their own. To be more specific, we will utilise the techniques of \textit{topic modelling} (in this case, a pattern is referred by a topic). Also, we are focusing on the \textit{probabilistic} (statistical) models, more specifically, \textit{latent Dirichlet allocation} (LDA). First of all, the successor LDA-like models are treated as a state-of-the-art method in tackling semantic-analysis type problems. For more detailed review on the LDA applications, the reader can consult the survey conducted by Blei \cite{blei_2012}. Also, Hooft et al. \cite{hooft} has recently addressed the applicability of LDA in MSI data sets. This proposal is directly influenced by the latter study: we will utilise the LDA-like models to reduce the impact of noise in the MSI data sets.  
 
 % Outline
 % - Sections
-\par The structure of this proposal is given as follows: in Section 2 we present the issue of noise in Metabolomics; in section 3 we cover the literature in topic modeling which focuses on the variations of Latent Dirichlet Allocation; in Section 4 we provide the metric of success of the proposed research; finally, in Section 5, we go into details on how the project will be executed.
+\par The structure of this proposal is given as follows: in Section 2 we present the issue of noise in MSI data sets; in section 3 we cover the literature in topic modelling which focuses on the variations of LDA-like models; in Section 4 we provide the metric of success of the proposed research; finally, in Section 5, we go into details on how the project will be executed.
 % To-do: rewrite the outline
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,30 +123,30 @@
 
 % Intro
 % - Suggesting an advance in processing rather than equipment.
-\par Currently, MS equipment is incapable to fully represent the metabolite construction. As discussed by Palmer et al. \cite{palmer}, even though the current machinery differentiates metabolites in millidalton precision, we still obtain a significant amount of false positives. Thereby, rather than relying upon the advances of MS equipment, we can investigate the prospect of enhancing the data processing techniques. As described in Section 1, LDA derivatives are promising methods in discovering the hidden structures in metabolomics data sets. For this reason, we raise a hypothesis that the degeneracies of metabolomics data sets can be detected using LDA-like models. Note that currently there is no set approach on how to configure LDA-like models to reduce the impact of noise in metabolomics data sets.  
+\par Currently, MS equipment is incapable to fully represent the metabolite construction. As discussed by Palmer et al. \cite{palmer},  the current hardware limit in differentiating between the ions in millidalton precision does not mitigate the issue of the false positive data. Thereby, rather than relying upon the advances in MS equipment, we can investigate the prospect of enhancing the data processing techniques. As described in Section 1, LDA derivatives are promising methods in discovering the hidden patterns in MSI data sets. For this reason, we raise a hypothesis that the degeneracies of MSI data sets can be detected using LDA-like models.   
 
 % Objectives
 % - Research in the state-of-the-art methodology.
 % - Reducing the impact of noise in metabolomics.
 % - Providing a general-purpose machine learning model.
-\par The primary goal of this research is to expand the consensus on whether topic modelling is a valid approach to smooth metabolomics data sets. To be more specific, we set our objectives to the following:
+\par The primary goal of this research is to expand the consensus on whether topic modelling is a valid approach to apply spatial smoothing in MSI data sets. To be more specific, we set our objectives to the following:
 \begin{enumerate}
-    \item Utilise general topic modelling methods in metabolomics;
-    \item Reduce the impact of noise in metabolomics data sets;
+    \item Optimise the general topic modelling methods for MSI data sets;
+    \item Successfully apply spatial smoothing in MSI data sets;
     \item Give a basis to a general topic modelling method for error correction.
 \end{enumerate}
-Briefly, the first objective is expected to utilise the general state-of-the-art topic modelling methodology to distinguish the techniques displaying better performance in metobolomics applications. In other words, we will conduct a survey on LDA-like topic modelling methodology. The second objective is focusing on enhancing the general models for the particular task of error correction in metabolomics. Finally, the third objective can be treated as a general contribution to the field of machine learning, since the discovered techniques might be applicable to other domains. 
+Briefly, the first objective is expected to utilise the general state-of-the-art topic modelling methodology to distinguish the techniques displaying better performance in MSI applications -- we will conduct a survey on LDA-like topic modelling methodology. The second objective focuses on optimising those general models for the particular task of spatial smoothing in MSI data sets. Finally, the third objective can be treated as a general contribution to the field of machine learning, since the discovered spatial smoothing techniques might be applicable to other domains. 
 
 % Hypothesis
 % - Topic modelling can improve the quality of metabolomics data sets.
 % - The negation of the hypothesis would contribute in terms of reassessing the complexity of the problem.
-\par We are setting a hypothesis that LDA-like topic modelling can be successfully utilised to correct errors in metabolomics data sets. Both cases of proving and disproving this hypothesis would contribute to metabolomics. The successful outcome would lead to the potential applications discussed in the following paragraph, whereas the unsuccessful outcome would set-up additional requirements to tackle the issue of noisiness in metabolomics data sets.
+\par The main project hypothesis -- the LDA-like models can detect and correct the degeneracies of MSI data sets -- can be interpreted as the spatial smoothing of MSI data sets. Both cases of proving and disproving this hypothesis would contribute to the research in MSI. The successful outcome would lead to the potential applications discussed in the following paragraph, whereas the unsuccessful outcome would set up additional requirements to tackle the issue of noisiness in MSI data sets.
 
 % Results: tools to annotate the metabolites > basis for generative error correction 
 % - Expanding the application of existing machine learning models.
 % - Advancing the current state-of-the-art in metabolomics.
 % - Contributing to machine learning in general.
-\par The potential applications of this research can be directly induced from the previously listed objectives. First of all, we would show that the general models or the models applied in other domains can be utilised in metabolomics. Further, the developed error correction methodology would improve the accuracy of the chemical processes prediction. Finally, the generalisation of the developed error correction model might suggest different approaches in tackling error correction in general; also, it would impact the awareness in metabolomics and the field's potential in developing machine learning generalisations.  
+\par The potential applications of the successful research outcome can be directly induced from the previously listed objectives. First of all, we would show that the general models (or the models applied in other domains) can be utilised for MSI data analysis. Further, the developed spatial smoothing methodology would improve the accuracy of the chemical processes prediction. Finally, the generalisation of the developed spatial smoothing model might suggest different approaches in tackling error correction in general; finally, the successful research outcome would suggest the applicability prospect of topic modelling in MSI data sets; reversely, it would also impact the prospect to derive machine learning generalisations from the research in MSI data sets.  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -138,7 +182,7 @@ Briefly, the first objective is expected to utilise the general state-of-the-art
 % - Notation:
 % -- List LDA definitions
 % -- Explain the definitions
-\par To start with, we will familiarise with the higher level entities of the model. The circles represent an entity, whereas the plates indicate the number of entities. For example, there would $N \times M$ entities of $z$ and $M$ entities of $\theta$. Further, LDA is a three-level hierarchical structure: the smallest entity (grey circle) is defined as a \textit{word}; then a collection of words (inner plate) is defined as a \textit{document}; and a collection of documents (outer plate) is a \textit{corpus}. Note that Figure 1 represents $M$ documents and $N$ words per document, it follows that in the corpus there would be $M \times N$ words. Also, as suggested by Figure 1, let's denote a word by $w$. Then, let's denote the sequence of words in document $d$ by 
+\par To start with, we will familiarise with the higher level entities of the model. The circles represent an entity, whereas the plates indicate the number of entities. For example, there would $N \times M$ entities of $z$ and $M$ entities of $\theta$. Further, LDA is a three-level hierarchical structure: the smallest entity (grey circle) is defined as a \textit{word}; then a collection of words (inner plate) is defined as a \textit{document}; and a collection of documents (outer plate) is a \textit{corpus}. Note that Figure \ref{fig:lda} represents $M$ documents and $N$ words per document, it follows that in the corpus there would be $M \times N$ words. Also, as suggested by Figure \ref{fig:lda}, let's denote a word by $w$. Then, let's denote the sequence of words in document $d$ by 
 \begin{equation*}
 \mathbf{w}_d = \{w_1, w_2, \dots, w_N\},
 \end{equation*}
@@ -161,7 +205,7 @@ then the sequence of words in the corpus would be denoted by
 \item $\theta$ is the latent variable referring to the topic distribution over documents;
 \item $\phi$ is the latent variable referring to the vocabulary over topics
 \item $w$ is the observable variable referring to the words in documents;
-\item and $z$ is the latent variable of topic assignments over the words.
+\item $z$ is the latent variable of topic assignments over the words.
 \end{itemize}
 Further, note that the listed entities can be perceived as matrices of the following dimensions: $\alpha$ is $1 \times K$; $\beta$ is $K \times V$; $\theta$ is $M \times K$; $\phi$ is $K \times V$; $w$ is $M \times N$; and $z$ is $M \times V$.
 % To-do: check the dimensions
@@ -218,7 +262,7 @@ Note that the algorithm describes the generation of a single document. In order 
 
 % Variational inference 
 % - Variational parameters gamma and fi
-\par As suggested in the ending paragraph of the preliminaries subsection, the inference relates to the computation of evidence $p(w)$ (it is the denominator term given in Equation 2). Even though the original paper mentions the inference methods such as Markov chain Monte Carlo, it suggests using the method of variational inference. In order to develop an intuition over the method, the authors introduce the variational parameters $\gamma$ and $\phi$. It is also mentioned that the computation of $\gamma$ and $\phi$ is an optimisation problem. That is, we are assessing the minimum bound over the latter parameters. Further, recall that in Figure 1 we explicitly express the parameter $\phi$ in describing the basic LDA model. However, the authors have chosen to show it separately -- upon describing the variational method. Their expression is given in Figure \ref{fig:var_par} below.
+\par As suggested in the ending paragraph of the preliminaries subsection, the inference relates to the computation of evidence $p(w)$ (it is the denominator term given in Equation 2). Even though the original paper mentions the inference methods such as Markov chain Monte Carlo, it suggests using the method of variational inference. In order to develop an intuition over the method, the authors introduce the variational parameters $\gamma$ and $\phi$. It is also mentioned that the computation of $\gamma$ and $\phi$ is an optimisation problem. That is, we are assessing the minimum bound over the latter parameters. Further, recall that in Figure \ref{fig:lda} we explicitly express the parameter $\phi$ in describing the basic LDA model. However, the authors have chosen to show it separately -- upon describing the variational method. Their expression is given in Figure \ref{fig:var_par} below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.4\textwidth]{variational_parameters}
@@ -293,19 +337,19 @@ This process of the topic assignment is executed for every word in the document 
 
 % Assumptions
 % - Data is divided in time slices
-\par The assumptions set for the dynamic topic model emphasises its strengths over the basic LDA model. Most importantly, the dynamic topic model relaxes the assumption of the document exchangeability. Since the documents are generated over time, we assign them to specific time-slices. The combination of these time-slices would represent the corpus. Note that the documents in each time-slice are exchangeable. This treatment of time set-ups a basis to tackle the problems which involve the sequential development of the data. On the other hand, note that another assumption of discrete data remains the same as in the basic LDA model. Even though we are inducing time series (which would suggest the use of \textit{continuous} variables), the authors use only \textit{categorical} (discrete) data. The distinction between continuous and categorical data is the following: continuous data is strictly numeric and infinite, whereas categorical data takes a fixed value from a finite set of values. 
+\par The assumptions set for the dynamic topic model emphasises its strengths over the basic LDA model. Most importantly, the dynamic topic model relaxes the assumption of the document exchangeability. Since the documents are generated over time, we assign them to specific time-slices. The combination of these time-slices would represent the corpus. Note that the documents in each time-slice are exchangeable. This treatment of time set ups a basis to tackle the problems which involve the sequential development of the data. On the other hand, note that another assumption of discrete data remains the same as in the basic LDA model. Even though we are inducing time series (which would suggest the use of \textit{continuous} variables), the authors use only \textit{categorical} (discrete) data. The distinction between continuous and categorical data is the following: continuous data is strictly numeric and infinite, whereas categorical data takes a fixed value from a finite set of values. 
 
 % Generative Process
 % - Algorithm
 % - An explanation of the algorithm
-\par In the dynamic topic modelling, the generative process updates the parameters $\alpha$ and $\beta$ for each new time-slice. This means that the topic distribution over documents and the vocabulary terms distribution over topics change over time. The visualisation of this process is given in Figure 3 below.
+\par In the dynamic topic modelling, the generative process updates the parameters $\alpha$ and $\beta$ for each new time-slice. This means that the topic distribution over documents and the vocabulary terms distribution over topics change over time. The visualisation of this process is given in Figure \ref{fig:dtm} below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{dynamic_topic_model}
   \caption{Dynamic topic model. COPYRIGHT.}
   \label{fig:dtm}
 \end{figure}
-Effectively, Figure 3 is a sequential combination of the basic LDA model illustrated in Figure 1. In Figure 3, one basic LDA model represents one time-slice. Also, the parameters $\alpha$ and $\beta$ are induced by their predecessors. More formal representation of the generative process is given in Algorithm 2 below. 
+Effectively, Figure \ref{fig:dtm} is a sequential combination of the basic LDA model illustrated in Figure \ref{fig:lda}. In Figure \ref{fig:dtm}, one basic LDA model represents one time-slice. Also, the parameters $\alpha$ and $\beta$ are induced by their predecessors. More formal representation of the generative process is given in Algorithm 2 below. 
 \begin{algorithm}[H]
 \caption{Dynamic document generation.}
 \label{alg:dynamic_document_generation}
@@ -339,42 +383,81 @@ Algorithm 2 describe the generative process of the documents in time-slice $t$. 
 % Conclusion
 \par By reviewing the original dynamic topic model, we have familiarised with the generative process which takes time-series into account. We have provided the visualisation of the model and introduced the algorithm for the generative process. Further, we have outlined the inference methods suggests be the authors. Finally, we have familiarised with the experiment settings which were used to infer time series in the articles of `Science'. 
 
-% Section Conclusion
-\par
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Proposed Approach}
 
 % Section intro
-\par
+% - Discussion over literature
+% - Design of the model
+% - Evaluation of the model
+\par In this section, we will set up the approach of the project's execution. To start with, we will go over the literature reviewed in Section 3 in order to derive the promising techniques in terms of applicability to MSI data sets. Then, we will go over the high-level design and implementation requirements. Finally, we will set the basis for the model's evaluation. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Overview}
 
 % Discussion over the literature
-\par
+\subsection{Discussion}
+
+% Intro
+% - Literature review shows the mathematical underlying
+% - Extract the relevant bits
+\par Throughout the literature review, we have looked into the papers which are considered to have a significant influence on the LDA-like modelling. For this reason, we have set up the basis of the LDA-like model mathematical underlying. However, the approach in utilising those models in MSI like data sets have not been reviewed. Nevertheless, two sources of relevant research have been mentioned (the paper by Hooft et al. \cite{hooft} and the survey by Alonso et al. \cite{alonso-et-al}). Ultimately, this section is focused to emphasise the superior approaches of the previously reviewed papers. 
+
+% Generative processess
+% - Comparison between static and dynamic data sets
+\par The reviewed generative processes sets an assumption on the formulation of the data. We have reviewed two generative processes: static and dynamic. The static generative process is given by the initial LDA paper -- `Latent Dirichlet Allocation', and the dynamic generative processes is given by the 'Dynamic Topic Models' paper. These generative processes are expressed respectively in Figure \ref{fig:static} and Figure \ref{fig:dynamic} below. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{static}
+  \caption{Static generative process.}
+  \label{fig:static}
+\end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{dynamic}
+  \caption{Dynamic generative process.}
+  \label{fig:dynamic}
+\end{figure}
+In the previous plots, we have visualised the occurrences of a particular entity within a corpus. The static generative process suggests a random distribution of the entities, whereas the dynamic generative process induces a particular pattern. Since in metabolomics we expect the metabolites of same type to form clusters (rather than to be randomly distributed across the sample), the static generative process is more appropriate to reflect the nature of a biological entity development.  
+
+% Generative process
+% - Rather than sequential development, we induce a relationship between the documents
+
+The initial dynamic topic modelling motivation suggests the application of time-series into the generative process of data sets. However, the way we capture the ions is done simultaneously for the whole corpus. Therefore, we are relaxing the assumption of time-series. Instead of that, we will use the dynamic topic modelling techniques to establish the relationship between the time-slices (even though we are not taking time into account, we will stick to the same terminology to preserve the consistency). For example, if we assume that the data is generated in a 1-dimensional manner, then time-slice $t$ would depends on its adjacent time-slices $t-1$ and $t+1$. However, since the data sets we are working on are 2-dimensional, the induced relationship considers more adjacent time-slices. This relationship is shown in Figure \ref{fig:2-d_generative_process} below.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{2-d_generative_process}
+  \caption{2-dimensional generative process.}
+  \label{fig:2-d_generative_process}
+\end{figure}
+In the boundary case shown on the left, time-slice $t_{0,0}$ relates to  three surrounding time-slices, whereas, in the general case indicated on the right side, time-slice $t_{1,1}$ relates to eight surrounding time-slices. 
+
+
+time-slice $t$ would be dependant on it's adjacent time-slices as shown  
+Even though the dynamic topic modelling suggests 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Approach}
+\subsection{Design}
 
 % Design
+% - The required model supplements
+% -- Dictionary
 \par
+% To-do: induce time-series in terms of z axis 
 
 % Implementation
 \par
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Evaluation}
+
 % Evaluation/Experiments
-\par
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Risk Management}
-
-% Section conclusion
 \par
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

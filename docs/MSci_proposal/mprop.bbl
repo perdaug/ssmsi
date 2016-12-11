@@ -1,6 +1,6 @@
 \begin{thebibliography}{1}
 
-\bibitem{Alonso-et-al}
+\bibitem{alonso-et-al}
 Arnald Alonso, Sara Marsal, and Antonio Juli{\`a}.
 \newblock Analytical methods in untargeted metabolomics: state of the art in
   2015.
@@ -35,6 +35,12 @@ Andrew Palmer, Prasad Phapale, Ilya Chernyavsky, Regis Lavigne, Dominik Fay,
 \newblock Fdr-controlled metabolite annotation for high-resolution imaging mass
   spectrometry.
 \newblock {\em Nature Methods}, 2016.
+
+\bibitem{smith_2004}
+Rob Smith, Andrew~D Mathis, Dan Ventura, and John~T Prince.
+\newblock Proteomics, lipidomics, metabolomics: a mass spectrometry tutorial
+  from a computer scientist's point of view.
+\newblock {\em BMC bioinformatics}, 15(7):1, 2014.
 
 \bibitem{hooft}
 Justin Johan~Jozias van~der Hooft, Joe Wandy, Michael~P Barrett, Karl~EV
