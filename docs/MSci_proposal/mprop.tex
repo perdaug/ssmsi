@@ -392,7 +392,7 @@ Algorithm 2 describe the generative process of the documents in time-slice $t$. 
 % - Discussion over literature
 % - Design of the model
 % - Evaluation of the model
-\par In this section, we will set up the approach of the project's execution. To start with, we will go over the literature reviewed in Section 3 in order to derive the promising techniques in terms of applicability to MSI data sets. Then, we will go over the high-level design and implementation requirements. Finally, we will set the basis for the model's evaluation. 
+\par In this section, we will set up the approach of the project's execution. To start with, we will go over the literature reviewed in Section 3 to derive the promising techniques in terms of applicability to MSI data sets. Then, we will go over the high-level design and implementation requirements. Finally, we will set the basis for the model's evaluation. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -403,11 +403,11 @@ Algorithm 2 describe the generative process of the documents in time-slice $t$. 
 % Intro
 % - Literature review shows the mathematical underlying
 % - Extract the relevant bits
-\par Throughout the literature review, we have looked into the papers establishing the mathematical underlying of the LDA-like models. However, the approach in utilising those models in MSI like data sets have not been reviewed. Nevertheless, two sources of relevant research have been provided (the paper by Hooft et al. \cite{hooft} and the survey by Alonso et al. \cite{alonso-et-al}). Ultimately, this section is focused to emphasise the superior approaches of the previously reviewed papers and establish the appropriate techniques in the generative and inference processes.
+\par Throughout the literature review, we have looked into the papers establishing the mathematical underlying of the LDA-like models. However, the approach in utilising those models in MSI like data sets have not been reviewed. Nevertheless, two sources of relevant research have been provided (the paper by Hooft et al. \cite{hooft} and the survey by Alonso et al. \cite{alonso-et-al}). Ultimately, this section is focused to emphasise the superior approaches of the previously reviewed papers; also, we will establish the appropriate techniques for the generative and inference processes.
 
 % Generative processess
 % - Comparison between static and dynamic data sets
-\par The reviewed generative processes sets an assumption on the formulation of the data. We have reviewed two generative processes: static and dynamic. The static generative process is given by the initial LDA paper -- `Latent Dirichlet Allocation', and the dynamic generative processes is given by the `Dynamic Topic Models' paper. These generative processes are expressed respectively in Figure \ref{fig:static} and Figure \ref{fig:dynamic} below. 
+\par The reviewed generative processes describe how the initial data is expected to be formed. Recall that we have reviewed two generative processes: static and dynamic. The static generative process is given by the initial LDA paper -- `Latent Dirichlet Allocation', and the dynamic generative processes is given by the `Dynamic Topic Models' paper. The applications of these generative processes are expressed respectively in Figure \ref{fig:static} and Figure \ref{fig:dynamic} below. 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{static}
@@ -420,19 +420,19 @@ Algorithm 2 describe the generative process of the documents in time-slice $t$. 
   \caption{Dynamic generative process.}
   \label{fig:dynamic}
 \end{figure}
-In the previous plots, we have visualised the occurrences of a particular entity within a corpus. The static generative process suggests a random distribution of the entities, whereas the dynamic generative process induces a particular pattern. Since in metabolomics we expect the metabolites of same type to form clusters (rather than to be randomly distributed across the sample), the static generative process is more appropriate to reflect the nature of a biological entity development.  
+In the previous plots, we have visualised the occurrences of a particular entity within a corpus. The static generative process suggests a random distribution of the entities, whereas the dynamic generative process induces a particular pattern. Since we expect the ions of same type be in clusters (rather than to be randomly distributed across the sample), the dynamic generative process is more appropriate to reflect the nature of the chemical entities patterns.  
 
 % Generative process
 % - Rather than sequential development, we induce a relationship between the documents
 
-The initial dynamic topic modelling motivation suggests the application of time-series into the generative process of data sets. However, the way we capture the ions is done simultaneously for the whole corpus. Therefore, we are relaxing the assumption of time-series. Instead of that, we will use the dynamic topic modelling techniques to establish the relationship between the time-slices (even though we are not taking time into account, we will stick to the same terminology to preserve the consistency). For example, if we assume that the data is generated in a 1-dimensional manner, then time-slice $t$ would depends on its adjacent time-slices $t-1$ and $t+1$. However, since the data sets we are working on are 2-dimensional, the induced relationship considers more adjacent time-slices. This relationship is shown in Figure \ref{fig:2-d_generative_process} below.
+The initial dynamic topic modelling paper suggests to induce the time-series into the generative process of data sets. However, the way we capture the ions is done instantaneously for the whole corpus. Therefore, we are relaxing the assumption of time-series. Instead of that, we will use the dynamic topic modelling techniques to establish the relationship between the time-slices (even though we are not taking time into account, we will stick to the same terminology to preserve the consistency). For example, if we assume that the data is generated in a 1-dimensional manner, then time-slice $t$ would depends on its adjacent time-slices $t-1$ and $t+1$. However, since the image of the sample is 2-dimensional, there are more adjacent time-slices. This relationship is shown in Figure \ref{fig:2-d_generative_process} below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{2-d_generative_process}
   \caption{2-dimensional generative process.}
   \label{fig:2-d_generative_process}
 \end{figure}
-In the boundary case shown on the left, time-slice $t_{0,0}$ relates to  three surrounding time-slices, whereas, in the general case indicated on the right side, time-slice $t_{1,1}$ relates to eight surrounding time-slices. Thereby, the notion of dynamic topic modelling is preserved even upon relaxing the assumption of time-series.
+In the boundary case shown on the left, time-slice $t_{0,0}$ is related to three surrounding time-slices, whereas, in the general case indicated on the right side, time-slice $t_{1,1}$ relates to eight surrounding time-slices. Ultimately, the notion of dynamic topic modelling can be  preserved even upon relaxing the assumption of time-series.
 
 % Inference
 % - Stochastic and optimisation based methods
@@ -453,7 +453,7 @@ In the boundary case shown on the left, time-slice $t_{0,0}$ relates to  three s
 % - Preprocessing
 % -- Dismissing low intensity values
 % -- Storing the ranges of ions
-\par In order to address the scalability of the model in terms of the large MSI data sets, we will address two techniques for the dimensionality reduction: utilisation of a dictionary and pre-processing of the data. Both of these techniques reduces the sparsity of the data sets. To start with, the use of dictionary will eliminate the irrelevant use of memory in storing the words which do not occur in particular documents. For example, let's assume that the masses of the ions in our data can be represented as the set $\{1, 2, 3, 4, 5\}$, also assume that the ions can be represented in the form of (mass, intensity) tuple. Then, if our sample contained two following documents: $\mathbf{w_0} = \{(1, 0.1), (2, 200), (3, 500)\}$ and $\mathbf{w_1} = \{(5, 300)\}$, the sample representation in matrix and dictionary forms would be interchangeable with the expression given in Table \ref{tab:m_and_d} below.
+\par In order to address the scalability of the model in terms of the large MSI data sets, we will address two techniques for the dimensionality reduction: utilisation of a dictionary and pre-processing of the data. Both of these techniques reduce the sparsity of the data sets. To start with, the use of dictionary will eliminate the irrelevant use of memory by not storing the words which do not occur in the documents. For example, let's assume that the masses of the ions in our data can be represented as the set $\{1, 2, 3, 4, 5\}$, also assume that the ions can be represented in the form of a (mass, intensity) tuple. Then, if our sample contained two following documents: $\mathbf{w_0} = \{(1, 0.1), (2, 200), (3, 500)\}$ and $\mathbf{w_1} = \{(5, 300)\}$, the sample representation in matrix and dictionary forms would be interchangeable with the expressions given in Table \ref{tab:m_and_d} below.
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{|c||c|c|c|c|c|}
@@ -494,7 +494,7 @@ $\mathbf{w_1}$&$\O$&$\O$&$\O$&$\O$&300\\
 \end{table}
 
 % Ion grouping
-\par As discussion in Section 1, the captured ions of same time are likely to have fluctuations in their masses. For this reason, we are applying another pre-processing step. By setting the threshold which would indicate the maximum fluctuation between ions masses, we would group the ions which are likely to represent the same time, also, we would reduce the data set even further. By taking the example of previous paragraph and setting the fluctuation tolerance to $1$, we obtain the data structure given in Table \ref{tab:d_f_threshhold} below.
+\par As discussion in Section 1, the captured ions of same time are likely to have fluctuations in their masses. For this reason, we are applying another pre-processing step. By setting the threshold which indicated the maximum fluctuation between the masses of the ions, we would group the ions which are likely to represent the same type; also, we would reduce the dimensionality of the data set. By taking the example of the previous paragraph and setting the fluctuation tolerance to $1$, we obtain the data structure given in Table \ref{tab:d_f_threshhold} below.
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{|c||c|c|}
@@ -520,20 +520,37 @@ Notice that the masses are now represented by intervals, and the intensities bel
   \caption{3-dimensional generative process.}
   \label{fig:3-d_generative_process}
 \end{figure}
-The time-slice indicated by the green colour, which is one of the boundary cases, is related to eleven other documents indicated by the red colour. Note that in the general case, the time-slice would have twenty-six relating documents. Effectively, we are intending to establish a 3-dimensional topic modelling.  
+The time-slice indicated by the green colour, which is one of the boundary cases, is related to other elven time-slices indicated by the red colour. Note that in the general case, the time-slice would have twenty-six relating documents. Effectively, we have introduced the application settings of the dynamic topic modelling in the 3-dimensional space.  
 % - To-ask: 4-dimensions (time-series)
 
 % Inference
-% - Metropolis--Hasting
-\par
+% - Metropolis--Hastings
+\par In Section 3, we have addressed a sampling-based inference method -- Gibbs sampling. However, for the dynamic topic models, the latter method has to be reconsidered due to the change from Dirichlet to Gaussian distributions. Therefore, we will look into another MCMC based algorithm -- Metropolis--Hastings.
+% - To-do: Analyse the details of the MH. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Evaluation}
 
+% Intro
+% - Spatial Smoothing
+% - Two inference methods
+% - Risk management
+\par The developed technique addressing the spatial smoothing of the MSI data sets will evaluated by the model's performance. The performance will be assessed by investigating the inferred patterns of the captured ions. Also, we will utilise two different inference methods: sampling-based and variational. By having two model variations, we will be able to compare the time performance. Hence, we will be able to deduce which variation scales better with the size of the data sets. Finally, the section will be finished by investigating the possible risks. Also, we will provide a plan to mitigate these risks.  
+
+
 % Evaluation/Experiments
 \par
+
+% Risks
+\par 
+
+% To-do:
+% - Ask about experiments
+% - Ask about risks
+\par
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
