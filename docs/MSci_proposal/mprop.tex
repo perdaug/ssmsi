@@ -6,6 +6,8 @@
 \usepackage{siunitx}
 \usepackage{xspace}
 \usepackage{cite}
+\usepackage{pgfgantt}
+
 \graphicspath{ {images/} }
 
 % alternative font if you prefer
@@ -73,14 +75,14 @@
 % - Vision
 % - Chemical Process occurrence
 
-\par In this project, the application domain of MSI is set to be \textit{metabolomics} -- it is the scientific study of chemical processes which involve metabolites (small molecules) and metabolomes (sets of small molecules). In the settings of metabolomics, we utilise \text{mass spectrometry} (MS) to obtain the distribution of chemical entities within a sample. By utilising MSI, we can visualise the distributions of the ions (or ion sets) of different masses. For instance, Figure \ref{fig:b_and_e} below represents the whole sample as an image, where each picture's pixel is a small region within the sample. 
+\par In this project, the application domain of MSI is set to be \textit{metabolomics} -- it is the scientific study of chemical processes which involve metabolites (small molecules) and metabolomes (sets of small molecules). In the settings of metabolomics, we utilise \text{mass spectrometry} (MS) to obtain the distribution of chemical entities within a sample. By utilising MSI, we can visualise the distributions of the ions (or ion sets) of different masses. For instance, Figure \ref{fig:b_and_e} below represents a captured sample as an image, where each picture's pixel is a small region within the sample. 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{b_and_e}
   \caption{MSI application on a sample with the letters b and e.}
   \label{fig:b_and_e}
 \end{figure}
-Note that each pixel contains a distribution of chemical entities as well. In Figure \ref{fig:b_and_e} we have chosen the range of mass to reflect the ink used to inscribe the letters. That is, in each pixel we have summed the intensities of the chemical entities meeting the mass criteria. Then, each pixel has been assigned an intensity value. Therefore, the sample could be expressed as the latter image. An open problem in metabolomics is to find the sets of chemical entities  inducing valid visual patterns. Ultimately, the discovered biological patterns could be used to suggest and measure the likelihood of particular chemical process occurrence. For a rigorous discussion on machine learning applications in metabolomics, the reader can consult the recent survey conducted by Alonso et al. \cite{alonso-et-al}.
+Note that each pixel contains a distribution of chemical entities as well. In Figure \ref{fig:b_and_e} we have chosen the range of mass to reflect the ink used to inscribe the letters. That is, in each pixel we have summed the intensities of the chemical entities meeting the mass criteria. Then, each pixel has been assigned an intensity value. Therefore, the sample could be expressed as the latter image. An open problem in metabolomics is to find the sets of chemical entities  inducing valid visual patterns. Ultimately, the discovered biological patterns could be used to suggest and measure the likelihood of a particular chemical process occurrence. For a rigorous discussion on machine learning applications in metabolomics, the reader can consult the recent survey conducted by Alonso et al. \cite{alonso-et-al}.
 
 % -- The ionisation process might be executed in different means. This results in a different sum of masses.
 % -- Metabolite might be fragmentised during the ionisation.
@@ -113,7 +115,7 @@ Note that each pixel contains a distribution of chemical entities as well. In Fi
 
 % Outline
 % - Sections
-\par The structure of this proposal is given as follows: in Section 2 we present the issue of noise in MSI data sets; in section 3 we cover the literature in topic modelling which focuses on the variations of LDA-like models; in Section 4 we provide the metric of success of the proposed research; finally, in Section 5, we go into details on how the project will be executed.
+\par The structure of this proposal is given as follows: in Section 2 we present the issue of noise in MSI data sets; in section 3 we cover the literature in topic modelling which focuses on the variations of LDA-like models; in Section 4 we discuss the approach to tackle the problem (we discuss the reviewed literature, address design and evaluation details); finally, in Section 5, we set and schedule the tasks required to complete the project.
 % To-do: rewrite the outline
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -558,12 +560,69 @@ The time-slice indicated by the green colour, which is one of the boundary cases
 \section{Work Plan}
 
 % Intro
-\par
+% - Tasks.
+% - Schedule
+% - Deliverables
+\par In this section, we will outline the project milestones and deliverables. That is, we will outline the most important steps and provide the estimations in a form of Gantt chart. Further, the deliverables will be directly induced from the project's objectives and hypothesis (these are addressed in Section 2). The deliverables will contain both successful and successful outcomes of the set hypothesis.
 
-% Schedule
-% - Dates
-% - Tasks
 \subsection{Schedule}
+
+% Tasks
+% - Design
+% -- Investigate the literature on the spatial smoothing application in MSI data sets
+% -- Design the dynamic topic model
+% - Implementation
+% -- Implement the generative process of the dynamic topic modelling with applied spatial smoothing
+% -- Implement both sampling-based and variational inference to the dynamic topic model
+% - Evaluation
+% -- Test the performance of the applied spatial smoothing
+% - Documentation/Presentation
+% -- Dissertation
+% -- Reports
+% -- Presentation
+\par The high-level plan of the project's execution include the following milestones: design, implementation, evaluation, and documentation/presentation. To establish a basis for the design, we will continuously review the literature on spatial smoothing, MSI, and dynamic topic models. Then, the implementation will require the utilisation of spatial smoothing in the generative process of the dynamic topic model; also, for the inference, we will implement both: sampling-based and variational methods. Further, the evaluation will be conducted by assessing the performance of the developed models. Finally, the results will be documented in a form of weekly reports, dissertation, and presentation.
+
+% Dates
+% - Non-continuous
+% - Estimations
+\par The outlined tasks will not be necessarily executed in sequential manner. For some of the tasks, we will use parallel approach as given in Figure \ref{fig:gantt} below.
+
+\begin{figure}[H]
+\begin{ganttchart}[
+hgrid, 
+vgrid,
+y unit chart=.8cm
+]{1}{15}
+
+\gantttitle{Weeks}{15} \\
+\gantttitlelist{1,...,15}{1} \\
+
+\ganttgroup{Design}{1}{7} \\
+\ganttbar{Dynamic Generative Process}{1}{5} \\
+\ganttbar{Spatial Smoothing}{3}{7} \ganttnewline
+
+\ganttgroup{Implementation}{3}{10} \\
+\ganttbar{Dynamic Generative Process}{3}{6} \\
+\ganttbar{Inference Methods}{4}{7} \\
+\ganttbar{Spatial Smoothing}{7}{10} \\
+
+\ganttgroup{Evaluation}{8}{11} \\
+\ganttbar{Usability}{8}{10} \\
+\ganttbar{Performance}{9}{11} \ganttnewline
+
+\ganttgroup{Documentation/Presentation}{2}{15} \\
+\ganttbar{Reports}{2}{11} \\
+\ganttbar{Dissertation}{10}{15} \ganttnewline
+\ganttbar[
+=TBA
+]{Presentation}{12}{14}
+
+\end{ganttchart}
+\caption{Gantt chart of the project's execution.}
+\label{fig:gantt}
+\end{figure}
+
+
 
 % Code
 % Dissertation
@@ -573,10 +632,8 @@ The time-slice indicated by the green colour, which is one of the boundary cases
 \par 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% it is fine to change the bibliography style if you want
+
 \bibliography{mprop}
 \bibliographystyle{plain}
+% To-do: list, in alphabetical order by author and date
 \end{document}
-
-
-% To-do: relaxing the matrix dimension assumptions, i.e., introducing the dictionary variation

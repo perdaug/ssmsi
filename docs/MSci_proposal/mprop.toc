@@ -11,5 +11,5 @@
 \contentsline {subsection}{\numberline {4.2}Design}{15}
 \contentsline {subsection}{\numberline {4.3}Evaluation}{17}
 \contentsline {section}{\numberline {5}Work Plan}{17}
-\contentsline {subsection}{\numberline {5.1}Schedule}{17}
-\contentsline {subsection}{\numberline {5.2}Deliverables}{17}
+\contentsline {subsection}{\numberline {5.1}Schedule}{18}
+\contentsline {subsection}{\numberline {5.2}Deliverables}{19}
