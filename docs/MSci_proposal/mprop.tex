@@ -66,7 +66,7 @@
 % - ML in biology
 % - MSI
 % - Spatial Smoothing
-\par This proposal is focused on applying machine learning techniques to improve the analysis of biology data sets. We intend to enhance the quality of \textit{mass spectrometry imaging} (MSI) data. Briefly, by the use of MSI, the researchers are able to interpret the formation of chemical processes. However, as suggested by a recent overview by Smith et al. \cite{smith_2004}, the pre-processing of molecular-level entity data sets is lagging in terms of the current noise reduction algorithm effectiveness. We will attempt to tackle this issue of noise by utilising spatial smoothing. 
+\par This proposal is focused on applying machine learning techniques in order to improve the analysis of biology data sets. We intend to enhance the quality of \textit{mass spectrometry imaging} (MSI) data. Briefly, by the use of MSI, the researchers are able to interpret the formation of chemical processes. However, as suggested by a recent overview by Smith et al. \cite{smith_2004}, the pre-processing of molecular-level entity data sets is lagging in terms of the current noise reduction algorithm effectiveness. We will attempt to tackle this issue of noise by utilising spatial smoothing. 
   
 
 % MSI
@@ -137,7 +137,7 @@ Note that each pixel contains a distribution of chemical entities as well. In Fi
     \item Successfully apply spatial smoothing in MSI data sets;
     \item Give a basis to a general topic modelling method for error correction.
 \end{enumerate}
-Briefly, the first objective is expected to utilise the general state-of-the-art topic modelling methodology to distinguish the techniques displaying better performance in MSI applications -- we will conduct a survey on LDA-like topic modelling methodology. The second objective focuses on optimising those general models for the particular task of spatial smoothing in MSI data sets. Finally, the third objective can be treated as a general contribution to the field of machine learning, since the discovered spatial smoothing techniques might be applicable to other domains. 
+Briefly, for the first objective, we will conduct a survey on LDA-like topic modelling methodology. This survey will distinguish the potential models for the applications in MSI. The second objective focuses on optimising these potential models for the particular task of spatial smoothing in MSI data sets. Finally, the third objective can be treated as a general contribution to the field of machine learning, since the discovered spatial smoothing techniques might be applicable in other domains. 
 
 % Hypothesis
 % - Topic modelling can improve the quality of metabolomics data sets.
@@ -167,12 +167,12 @@ Briefly, the first objective is expected to utilise the general state-of-the-art
 
 % General intuition on topic modelling
 % - Example
-\par Recall that in topic modelling induces a hidden structure within the studied data sets. We will provide an example providing an intuition in this process. Say, if we were analysing a book, its chapters might address different topics or address the topics at a different extent. Further, the chapters itself would have unique distributions of the topics. Note that we are assuming that we do not know what the topics addressed in the book. In order to derive these hidden topics, a probabilistic topic modelling method would analyse the structure of the words used in the book. In other words, the model would induce patterns which would refer to a particular topic. Regarding the method's performance, it would depend on the method's ability to optimise the inference of the patterns. For example, commonly used words (such as and, or, the, etc.) would be relevant in all topics. Therefore, their semantic impact in defining the topics would be negligible. For this reason, we could dismiss these to improve the time performance of the method. 
+\par Recall that topic modelling infers hidden patterns from the processed data sets. For example, if we were analysing a book, its chapters might address different topics or address the topics at different extent. Further, the chapters itself would have unique distributions of the topics. Note that we are assuming that there is no knowledge about the actual topics covered in the book. In order to derive these hidden topics, a probabilistic topic modelling method would analyse the structure of the words used in the book. In other words, the model would induce patterns which would refer to a particular topic. Regarding the method's performance, it would depend on the method's ability to optimise the inference of the patterns. For example, commonly used words (such as and, or, the, etc.) would be relevant in all topics. Therefore, their semantic impact in defining the topics would be negligible. For this reason, we could dismiss these to improve the time performance of the method. 
 
 % LDA intro
 % - the model
 % - A notification that the terminology and the notation will be useful throughout the proposal.
-\par The terminology used in this proposal is equivalent to the terminology used by Blei \cite{blei_2012}. Figure \ref{fig:lda} below represents the original LDA model in plate notation. We will use it as a guide to familiarise with the terminology.   
+\par The terminology used in this proposal is similar to the terminology used by Blei \cite{blei_2012}. Figure \ref{fig:lda} below represents the original LDA model in plate notation. We will use it as a guide to familiarise with the terminology.   
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{lda_model}
@@ -184,11 +184,11 @@ Briefly, the first objective is expected to utilise the general state-of-the-art
 % - Notation:
 % -- List LDA definitions
 % -- Explain the definitions
-\par To start with, we will familiarise with the higher level entities of the model. The circles represent an entity, whereas the plates indicate the number of entities. For example, there would $N \times M$ entities of $z$ and $M$ entities of $\theta$. Further, LDA is a three-level hierarchical structure: the smallest entity (grey circle) is defined as a \textit{word}; then a collection of words (inner plate) is defined as a \textit{document}; and a collection of documents (outer plate) is a \textit{corpus}. Note that Figure \ref{fig:lda} represents $M$ documents and $N$ words per document, it follows that in the corpus there would be $M \times N$ words. Also, as suggested by Figure \ref{fig:lda}, let's denote a word by $w$. Then, let's denote the sequence of words in document $d$ by 
+\par To start with, we will familiarise with the higher level entities of the model. The circles represent an entity, whereas the plates indicate the number of entities. For example, there would be $N \times M$ entities of $z$ and $M$ entities of $\theta$. Further, LDA is a three-level hierarchical structure: the smallest entity (grey circle) is defined as a \textit{word}; then a collection of words (inner plate) is defined as a \textit{document}; and a collection of documents (outer plate) is a \textit{corpus}. Note that Figure \ref{fig:lda} represents $M$ documents and $N$ words per document, it follows that in the corpus there would be $M \times N$ words. Also, as suggested by Figure \ref{fig:lda}, let's denote a word by $w$; then, the sequence of words in document $d$ is denoted by 
 \begin{equation*}
 \mathbf{w}_d = \{w_1, w_2, \dots, w_N\},
 \end{equation*}
-then the sequence of words in the corpus would be denoted by
+and the sequence of documents in the corpus is denoted by
 \begin{equation*}
 \mathcal{\mathbf{D}} = \{\mathbf{w_1}, \mathbf{w_2}, \dots, \mathbf{w_M}\}.
 \end{equation*}
@@ -198,7 +198,7 @@ then the sequence of words in the corpus would be denoted by
 % - Notation:
 % -- List the definitions
 % -- Explain the definitions
-\par Now, we will introduce the lower level entities. The grey circle indicates that the \textit{observable} variables, whereas the white coloured circles indicate the \textit{hidden} variables. Note that in Figure 1 the words are the only observable variables; all other entities are hidden, i.e., they describe the underlying structure of the model. Further, recall that topic modelling is applied in order to discover a mixture of topics; or in other words, topic modelling could describe a corpus and its documents in terms of topic distributions. This intuition will simplify the definitions of the remaining entities in Figure 1, these are given as follows:
+\par Now, we will introduce the lower level entities. The grey circle indicates the \textit{observable} variables, whereas the white coloured circles indicate the \textit{hidden} variables. Note that in Figure 1 the words are the only observable variables; all other entities are hidden, i.e., they describe the underlying structure of the model. Further, recall that topic modelling is applied in order to discover a mixture of topics. In other words, topic modelling could describe a corpus and its documents in terms of topic distributions. This intuition will simplify the definitions of the remaining entities in Figure 1, these are given as follows:
 \begin{itemize}
 \item $K$ is the number of topics;
 \item $V$ is the size of the vocabulary, i.e. the number of unique words in the corpus;
@@ -219,7 +219,7 @@ Further, note that the listed entities can be perceived as matrices of the follo
 % Basic LDA
 % - Generative process
 % - The derivation of the posterior
-\par The relationship the between observable and hidden variables, effectively, describes the inference of the underlying topic structure. We will go through an arbitrary example in order to give an intuition in the inference process and familiarise with the lower level notation of the previous listed variables. Figure \ref{fig:lda} shows see that $\alpha_k$ (the prior for the $k$th topic in a document) influences $\theta_{:, k}$ (the latent variable describing the distribution of topic $k$ over all documents). It follows that $\theta_{d, k}$ (the probability of the $k$th topic occurrence in document $d$) influences $z_{d, :}$ (the topic assignment over all vocabulary terms for document $d$). Further, $z_{d, v}$ refers to the topic assignment of vocabulary term $v$. By taking $z_{d, v}$ and $\beta_{v, k}$ (the prior of topic $k$ on vocabulary term $v$), we obtain word $w_{d, v}$. In the complete perspective, the generative process of the corpus is given by the following joint probability distribution
+\par The relationship of observable and hidden variables, effectively, describes the inference of the underlying topic structure. We will go through an arbitrary example in order to give an intuition in the inference process; also, we will familiarise with the lower level notation of the previous listed variables. Figure \ref{fig:lda} illustrates that $\alpha_k$ (the prior for the $k$th topic in a document) influences $\theta_{:, k}$ (the latent variable describing the distribution of topic $k$ over all documents). It follows that $\theta_{d, k}$ (the probability of the $k$th topic occurrence in document $d$) influences $z_{d, :}$ (the topic assignment over all vocabulary terms for document $d$). Further, $z_{d, v}$ refers to the topic assignment of vocabulary term $v$. By taking $z_{d, v}$ and $\beta_{v, k}$ (the prior of topic $k$ on vocabulary term $v$), we obtain word $w_{d, v}$. In the complete perspective, the generative process of the corpus is given by the following joint probability distribution
 \begin{equation}
 p(\beta, \theta, z, w) = \prod_{k=1}^Kp(\beta_{:, k})\prod_{d=1}^Dp(\theta_{d, :})\bigg(\prod_{v=1}^Vp(z_{d, v} | \theta_{d, :})p(w_{d, v} | \beta, z_{d, v})\bigg).
 \end{equation}
@@ -227,7 +227,7 @@ By using Bayes Theorem, we derive the computation of the conditional distributio
 \begin{equation}
 p(\beta, \theta, z | w) = \frac{p(\beta, \theta, z, w)}{p(w)}. 
 \end{equation}
-This equation expresses the computation of the posterior -- the derivation of the hidden corpus structure given observable variable $w$. The problem arises from inefficient analytical computation of evidence $p(w)$. The approximation of it will be considered during the literature review on LDA-like models. The naming of the following subsections corresponds to the reviewed papers. 
+This equation expresses the computation of the posterior -- the derivation of the hidden corpus structure given observable variable $w$. The problem arises from inefficient analytical computation of evidence $p(w)$. The approximation of it will be considered during the literature review on LDA-like models. Note that the naming of the following subsections corresponds to the reviewed papers. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -235,7 +235,7 @@ This equation expresses the computation of the posterior -- the derivation of th
 
 % Intro
 % - Detailed approach in covering implementations details
-\par Latent Dirichlet allocation is a probabilistic topic modelling technique proposed by Blei et al. \cite{blei_2003}. Since this paper is the origin of LDA-like models, it will be discussed in more detail to introduce the basis of LDA-like methodology. As a result, this coverage will simplify the review on the LDA derivatives discussed in the upcoming subsections. 
+\par Latent Dirichlet allocation is a probabilistic topic modelling technique proposed by Blei et al. \cite{blei_2003}. Since this paper is the origin of LDA-like models, it will be discussed in more detail in order to introduce the basis of LDA-like methodology. As a result, this coverage will simplify the review on the LDA derivatives discussed in the upcoming subsections. 
 
 % Assumptions 
 % - Bag of words principle
@@ -246,7 +246,7 @@ This equation expresses the computation of the posterior -- the derivation of th
 % Generative process
 % - Three level hierarchy
 % - The generative algorithm
-\par As discussed in the preliminaries subsection, we are also taking an assumption that the corpus is induced by a probabilistic process. The generation of the corpus has three levels: the parameters $\alpha$ and $\beta$ are sampled once; the variable $\theta$ is sampled once per document; and the variables $z$ and $w$ are sampled once per word. This hierarchical process relates to the generative algorithm given in the original LDA paper, it is equivalent to Algorithm 1 below.
+\par As discussed in the preliminaries subsection, we also set an assumption that the corpus is induced by a probabilistic process. The generation of the corpus has three levels: the parameters $\alpha$ and $\beta$ are sampled once; the variable $\theta$ is sampled once per document; and the variables $z$ and $w$ are sampled once per word. This hierarchical process relates to the generative algorithm given in the original LDA paper, it is equivalent to Algorithm 1 below.
 \begin{algorithm}[H]
 \caption{Document Generation}
 \label{alg:document_generation}
@@ -259,12 +259,12 @@ This equation expresses the computation of the posterior -- the derivation of th
 \EndFor
 \end{algorithmic}
 \end{algorithm}
-Note that the algorithm describes the generation of a single document. In order to generate the whole corpus, we would run the algorithm for each document. Going back to Algorithm 1, a brief intuition behind it is given as follows: in line 1 we draw the number of words $N$ in a document ($\xi$ is an ancillary variable used as the mean for the Poisson Distribution); in line 2 we draw topic distribution $\theta$ from the Dirichlet distribution on parameter $\alpha$; further, in lines 3--6 we generate the words: in line 4 we draw topic $z_n$ from the multinomial distribution on $\theta$ and, finally, in line 5 we obtain  word $w_n$ from the conditional probability on $z_n$ and $\beta$, recall that $\beta$ is the prior on the vocabulary terms correspondence to topics.
+Note that the algorithm describes the generation of a single document. In order to generate the whole corpus, we would run the algorithm for each document. Going back to Algorithm 1, a brief intuition behind it is given as follows: in line 1 we draw the number of words in a document $N$($\xi$ is an ancillary variable used as the mean for the Poisson Distribution); in line 2 we draw topic distribution $\theta$ from the Dirichlet distribution on parameter $\alpha$; further, in lines 3--6 we generate the words: in line 4 we draw topic $z_n$ from the multinomial distribution on $\theta$ and, finally, in line 5 we obtain  word $w_n$ from the conditional probability on $z_n$ and $\beta$, recall that $\beta$ is the prior on the vocabulary terms correspondence to topics.
 
 
 % Variational inference 
 % - Variational parameters gamma and fi
-\par As suggested in the ending paragraph of the preliminaries subsection, the inference relates to the computation of evidence $p(w)$ (it is the denominator term given in Equation 2). Even though the original paper mentions the inference methods such as Markov chain Monte Carlo, it suggests using the method of variational inference. In order to develop an intuition over the method, the authors introduce the variational parameters $\gamma$ and $\phi$. It is also mentioned that the computation of $\gamma$ and $\phi$ is an optimisation problem. That is, we are assessing the minimum bound over the latter parameters. Further, recall that in Figure \ref{fig:lda} we explicitly express the parameter $\phi$ in describing the basic LDA model. However, the authors have chosen to show it separately -- upon describing the variational method. Their expression is given in Figure \ref{fig:var_par} below.
+\par As suggested by the last paragraph of the preliminaries subsection, the inference relates to the computation of evidence $p(w)$ (it is the denominator term given in Equation 2). Even though the original paper mentions the inference methods such as Markov chain Monte Carlo, the authors suggest using the method of variational inference. In order to develop an intuition over the method, the authors introduce the variational parameters $\gamma$ and $\phi$. It is also mentioned that the computation of $\gamma$ and $\phi$ is an optimisation problem. That is, we are assessing the minimum bound over the latter parameters. Further, recall that in Figure \ref{fig:lda} we explicitly express the parameter $\phi$ in describing the basic LDA model. However, the authors have chosen to show it separately -- upon describing the variational method. Their expression is given in Figure \ref{fig:var_par} below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.4\textwidth]{variational_parameters}
@@ -286,11 +286,11 @@ Note that the authors provide pseudo code to build an intuition in tackling this
 % - Document classification: 
 % -- Dimensionality reduction
 % -- Comparison with SVM
-\par The conducted experiments display an improvement in performance over the predecessor models and suggest the application domains of LDA-like models. The first experiment addresses document modelling. LDA  has displayed balanced hidden topic proportions in the set of tested documents. That is, the tested documents has replicated the topic proportions of the training documents. The second experiment is directed towards the problem of document classification. They have addressed the \textit{dimensionality reduction} in order to surpass the performance of the support-vector-machine-like models. To be more specific, the documents with reduced dimensionality would possess a lower amount of features. The results of the experiment indicate that the basic LDA model has successfully reduced the number of features. Also, it has displayed an improvement in accuracy compared to the support-vector machine-like model. 
+\par The conducted experiments display an improvement in performance over the predecessor models and suggest the application domains of LDA-like models. The first experiment addresses document modelling. To be more specific, LDA has displayed balanced hidden topic proportions in the set of tested documents. That is, the tested documents has replicated the topic proportions of the training documents. The second experiment is directed towards the problem of document classification. The authors have addressed the \textit{dimensionality reduction} in order to surpass the performance of the support vector machine (SVM) models. To be more specific, the documents with reduced dimensionality would possess a lower amount of features. The results of the experiment indicate that the basic LDA model has successfully reduced the number of features. Also, it has displayed an improvement in accuracy compared to the SVM-like models. 
 
 % Conclusion
 % - Summary of the results established by the paper
-\par The review on the original LDA model has set up a basis required to understand the model's derivatives. That is, the introduced methodology will be useful in considering the following improvements: (1) the  relaxation of the exchangeability assumption; (2) the adaptation of time-series suggesting word correspondence to topic over time; (3) the discussion over alternative inference methods. Apart from that, the experiments introduced in this section has reflected the LDA performance upon the model's introduction to the public. The current state-of-the-hard topic modelling techniques overcome the shown results. The experiments were addressed in order to suggest the application fields of LDA-like models.
+\par The review on the original LDA model has set up a basis required to understand the model's derivatives. That is, the introduced methodology will be useful in considering the following improvements: (1) the  relaxation of the exchangeability assumption; (2) the adaptation of time-series suggesting the word-topic correspondence over time; (3) the discussion over alternative inference methods. Apart from that, the experiments introduced in this section have reflected the LDA performance during the time of the initial model release. The current state-of-the-hard topic modelling techniques overcome the shown results. Nevertheless, the carried experiments suggest the application fields of LDA-like models.
 % To-do: rework the paragraph name to reflect its purpose: remove the discussion (you might think it's done, but it's not)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -299,12 +299,12 @@ Note that the authors provide pseudo code to build an intuition in tackling this
 
 % Intro
 % - Sampling as a method of inference
-\par The article titled as `Finding Scientific Topics' \cite{griffiths} suggests an alternative approach to the inference which is suitable for LDA-like models. To be more specific, the article provides a readable introduction on the application of the Markov chain Monte Carlo (MCMC) algorithm. That is, the MCMC algorithm is applied as a sampling-based method to infer an underlying topic structure. Further, the authors discuss the method's application settings for the machine learning problems in vision. Also, the authors conduct an experiment on inferring the structure of topics in the abstracts of papers published in `Proceedings of the National Academy of Sciences' (PNAS). Finally, the paper is concluded by a discussion on assessing the sampling-based method usability. To be more specific, the performance of the sampled-based method is compared to the performance of variational inference methods. 
+\par The research paper titled as `Finding Scientific Topics' \cite{griffiths} suggests an alternative approach to the inference which is suitable for LDA-like models. To be more specific, the article provides a readable introduction on the application of the Markov chain Monte Carlo (MCMC) algorithm. That is, the MCMC algorithm is applied as a sampling-based method to infer an underlying topic structure. Further, the authors discuss the method's application settings for the machine learning problems in vision. Also, the authors conduct an experiment on inferring the structure of topics in the abstracts of papers published in `Proceedings of the National Academy of Sciences' (PNAS). Finally, the paper is concluded by a discussion on assessing the sampling-based method usability. To be more specific, the performance of the sampled-based method is compared to the performance of variational inference methods. 
 
 % Gibbs Sampling
 % - Recall the meaning of phi and theta.
 % - Introduce the inference method
-\par The MCMC-based inference method is often referred by \textit{Gibbs sampling}. The authors claim that the method provides a first-order approximation upon inferring the hidden structure of the data. That is, the performance is sufficient to establish quantitative reasoning in assessing the correlating sections and semantic structure of the data. Recall that by $\theta$ we denote the topic distribution over the documents and by $\phi$ we denote the vocabulary terms distribution over the topics. In Gibbs sampling, the latter variables are obtained by examining the posterior distribution, whereas topic assignments $z$ are sampled sequentially. That is, we sample topic assignment $z$ and update the distribution depending on the obtained value (this will impact the next sample of $z$); we repeat this process until the topic distribution converges. To be more specific, each drawn $z_i$ ($i$ denotes the iteration) is recorded as a count. That is, we keep a track of topic assignments for particular words and documents. The value of drawn topic $z_i$ is proportional to the distribution given below:
+\par The MCMC-based inference method is often referred by \textit{Gibbs sampling}. The authors claim that the method provides a first-order approximation for the inference of the hidden structure of the data. That is, the performance is sufficient to establish quantitative reasoning in assessing the correlating sections and semantic structure of the data. Recall that by $\theta$ we denote the topic distribution over the documents and by $\phi$ we denote the vocabulary terms distribution over the topics. In Gibbs sampling, the latter variables are obtained by examining the posterior distribution, whereas topic assignments $z$ are sampled sequentially. That is, we sample topic assignment $z$ and update the distribution depending on the obtained value (this will impact the next sample of $z$); we repeat this process until the topic distribution converges. To be more specific, each drawn $z_i$ ($i$ denotes the iteration) is recorded as a count. That is, we keep a track of topic assignments for particular words and documents. The value of drawn topic $z_i$ is proportional to the distribution given below:
 \begin{equation}
 P(z_i = j | z_{-i}, w) \propto \dfrac{n_{-i, j}^{(w_i)} + \beta}{n_{-i, j}^{(\cdot)} + V\beta}\dfrac{n_{-i, j}^{(d_i)} + \alpha}{n_{-i, \cdot}^{(d_i)} + K\alpha}.
 \end{equation}
@@ -318,11 +318,11 @@ This process of the topic assignment is executed for every word in the document 
 % Auxilliary experiments
 % - Vision
 % - Time series
-\par The authors has shown a use of Gibbs sampling on a problem of vision. In their experiment settings, it is assumed that a collection of images represents a corpus; an image represent a document; and a pixel of an image is a word. The experiment has shown that the model is able to infer the underlying basis (topics) from which the images could be constructed. The performance of the model was compared to the variational inference based LDA models. Note that the performance was assessed in terms of \textit{perplexity} -- the uncertainty in assigning a word assignment to a topic. It has been shown that Gibbs sampling displays superior performance in the small data sets, whereas the performance in larger data tends to fall off. Furthermore, the authors have assessed the performance upon varying the number of topics. The results of this experiment indicate a trade-off in deriving high-level and low-level structures. That is, the low number of topics might result in mashing several structures, whereas the high number of topics is likely to infer irrelevant structures.
+\par The authors have shown an application of Gibbs sampling in a problem of vision. In their experiment settings, it is assumed that a collection of images represents a corpus; an image represents a document; and a pixel of an image is a word. The experiment has shown that the model is able to infer the underlying basis (topics) from which the images could be constructed. The performance of the model was compared to the variational inference based LDA models. Note that the performance was assessed in terms of \textit{perplexity} -- the uncertainty in assigning a word assignment to a topic. It has also been shown that Gibbs sampling displays superior performance in the small data sets, whereas the performance in larger data sets tends to fall off. Furthermore, the authors have assessed the performance upon varying the number of topics. The results of this experiment indicate a trade-off in deriving high-level and low-level patterns. That is, the low number of topics might result in mashing significant patterns, whereas the high number of topics is likely to infer irrelevant patterns.
 
 % The main experiment
 % - PNAS
-\par The main experiment of the article is conducted on the PNAS data set containing abstracts of the articles published from 1991 to 2001. The authors have noticed that the topic distribution over the vocabulary terms change over time. However, the model had not yet been optimised to take this notion of time-series into account upon the inference. Nevertheless, the authors have emphasised the necessity to assess the dynamic topic modelling. 
+\par The main experiment of the research paper is conducted on the PNAS data set containing abstracts of the articles published from 1991 to 2001. The authors have noticed that the topic distribution over the vocabulary terms change over time. However, the model had not yet been optimised to take this notion of time-series into account upon the inference. Nevertheless, the authors have emphasised the necessity to assess the dynamic topic modelling. 
 
 % Conclusion
 \par The review has introduced an alternative method used in the process of inference of LDA-like models. We have familiarised with the intuition in the implementation requirements of the sampling-based inference method. Also, we have reviewed experiments suggesting an approach in tackling problems of vision. Further, we have introduced the relevance of dynamic topic modelling (topic modelling with the notion of time-series). 
@@ -334,12 +334,12 @@ This process of the topic assignment is executed for every word in the document 
 % Intro:
 % - Time series
 % - Qualitative and quantitative improvement
-\par At this point, we have set up the preliminaries to cover the article on utilising the notion of time-series in LDA-like models. We review the initial article on utilising time-series -- `Dynamic Topic Models' \cite{blei_2006}. Note that by a \textit{static} model we mean that the assumed generative process does not take the development/change of the vocabulary terms into account, whereas in \textit{dynamic} topic modelling we assume the notion of that the documents were generated in a sequential process. That is, in dynamic topic modelling, the topics evolve in terms of their distribution over the vocabulary terms. Upon reviewing the dynamic topic modelling article, we emphasise the following aspects: the fundamental dynamic topic modelling assumptions and their differences compared to the basic LDA model; the generative process; the suggested inference methods; and the results displayed by the experiments on the initial dynamic topic model.
+\par At this point, we have set up the preliminaries to cover the research paper on utilising the notion of time-series in LDA-like models. That is, we review the initial paper on utilising time-series in LDA-like models -- `Dynamic Topic Models' \cite{blei_2006}. Note that by a \textit{static} model we mean that the assumed generative process does not take the development/change of the vocabulary terms into account, whereas in \textit{dynamic} topic modelling we assume the notion that the documents were generated in a sequential process. That is, in dynamic topic modelling, the topics evolve in terms of their distribution over the vocabulary terms. By reviewing this research paper, we emphasise the following aspects: the fundamental dynamic topic modelling assumptions and their differences compared to the basic LDA model; the generative process; the suggested inference methods; and the results displayed by the experiments on the initial dynamic topic model.
 % To-do: qualitative and quantitative improvements
 
 % Assumptions
 % - Data is divided in time slices
-\par The assumptions set for the dynamic topic model emphasises its strengths over the basic LDA model. Most importantly, the dynamic topic model relaxes the assumption of the document exchangeability. Since the documents are generated over time, we assign them to specific time-slices. The combination of these time-slices would represent the corpus. Note that the documents in each time-slice are exchangeable. This treatment of time set ups a basis to tackle the problems which involve the sequential development of the data. On the other hand, note that another assumption of discrete data remains the same as in the basic LDA model. Even though we are inducing time series (which would suggest the use of \textit{continuous} variables), the authors use only \textit{categorical} (discrete) data. The distinction between continuous and categorical data is the following: continuous data is strictly numeric and infinite, whereas categorical data takes a fixed value from a finite set of values. 
+\par The assumptions set for the dynamic topic model emphasises its strengths over the basic LDA model. Most importantly, the dynamic topic model relaxes the assumption of the document exchangeability. Since the documents are generated over time, we assign them to specific time-slices. The combination of these time-slices would represent the corpus. Note that the documents in each time-slice are exchangeable. This treatment of time sets a basis to tackle the problems which involve the sequential development of the data. On the other hand, note that another assumption of discrete data remains the same as in the basic LDA model. Even though we are inducing time series (which would suggest the use of \textit{continuous} variables), the authors use only \textit{categorical} (discrete) data. The distinction between continuous and categorical data is the following: continuous data is strictly numeric and infinite, whereas categorical data takes a fixed value from a finite set of values. 
 
 % Generative Process
 % - Algorithm
@@ -368,7 +368,7 @@ Effectively, Figure \ref{fig:dtm} is a sequential combination of the basic LDA m
 \end{algorithmic}
 \end{algorithm}
 
-Algorithm 2 describe the generative process of the documents in time-slice $t$. The algorithm is initialised by drawing the parameters $\alpha_t$ and $\beta_t$ from the Gaussian distribution with the means given by the previous parameter values. Note that the parameters $\alpha_0$ and $\beta_0$ are the the special case. They can be initialised randomly, i.e. the mean of the Gaussian distribution is random. However, for the parameters $\alpha_0$ and $\beta_0$ we take larger variance values compared to $\alpha_t$ and $\beta_t$. The larger variance values  induce the initial time-slice with larger fluctuations in the topic and vocabulary term distributions; and the smaller variance values in the following time-slices induce the smoothness. Further, in lines 3--9, for every document in time-slice $t$ we execute the following procedure: for document $d$, we draw the topic distribution $\eta_d$ (the meaning of the parameter is equivalent to the previously introduced $\theta_d$); then, in lines 5--7, for every word in document $d$ we draw topic assignment $z_{d, n}$ and, finally, we draw word $w_{t, d, n}$. Note that the means for the Multinomial distributions are normalised by the use of \textit{parametrisation}. Parametrisation mapping $\pi$ is expressed as
+Algorithm 2 describe the generative process of the documents in time-slice $t$. The algorithm is initialised by drawing the parameters $\alpha_t$ and $\beta_t$ from the Gaussian distribution with the means given by the previous parameter values. Note that the parameters $\alpha_0$ and $\beta_0$ are the special case. That is, these parameters can be initialised randomly. However, for the parameters $\alpha_0$ and $\beta_0$ we take larger variance values compared to $\alpha_t$ and $\beta_t$. The larger variance values  induce the initial time-slice with larger fluctuations in the topic and vocabulary term distributions; and the smaller variance values in the upcoming time-slices induce the smoothness. Further, in lines 3--9, for every document in time-slice $t$ we execute the following procedure: for document $d$, we draw the topic distribution $\eta_d$ (the parameter is equivalent to the previously introduced $\theta_d$); then, in lines 5--7, for every word in document $d$ we draw topic assignment $z_{d, n}$ and, finally, we draw word $w_{t, d, n}$. Note that the means for the Multinomial distributions are normalised by the use of \textit{parametrisation}. To be more specific, the parametrisation mapping $\pi$ is expressed as
 \begin{equation}
 \pi(x)_n = \dfrac{\exp{(x_n)}}{\sum^N_{i=1}\exp{(x_i)}}.
 \end{equation}
@@ -376,14 +376,14 @@ Algorithm 2 describe the generative process of the documents in time-slice $t$. 
 % Inference
 % Variational methods are a deterministic alternavive for stochastic simulation
 % Two variations: Kalman filtering and wavelet regression
-\par The authors have used variational methods to approximate the inference of the posterior. It is claimed that stochastic simulation (sampling-based variance methods) would be unable to scale with larger data sets. Further, the authors discuss two methods used for the variational inference: Kalman Filtering and Wavelet Regression. The implementation details of these methods can be found in the `Dynamic Topic Modelling' article \cite{blei_2006}. Note that the implementation details are provided in a brief manner suggesting the use of additional literature, these are also provided in the article. 
+\par The authors have used variational methods to approximate the inference of the posterior. It is claimed that stochastic simulation (sampling-based variance methods) would be unable to scale with larger data sets. Further, the authors discuss two methods used for the variational inference: Kalman Filtering and Wavelet Regression. The implementation details of these methods can be found in the `Dynamic Topic Modelling' article \cite{blei_2006}. Note that the implementation details are provided in a brief manner suggesting the need of supplementary literature. 
 
 % Experiments
 % - Evolution of Science
-\par The dynamic topic model is evaluated by conducting an experiment on the journals of `Science'. The experiment is expected to infer the prevalent science fields and the prevalent vocabulary used in these fields. Note that the relevance of the science fields can be respectively obtained from the latent variables $\theta$ and $\phi$. That is, the authors would compare these variables throughout all time-slices in order to induce the reasoning over the prevalent science fields (by using $\theta$) and the prevalent vocabulary terms (by using $\phi$). The experiment has successfully established this notion of time-series. This is proved by comparing the inferred rises and falls of the scientific fields to the history of science. Note that the experiment has been performed both Kalman Filtering and Wavelet Regression methods. 
+\par The implemented dynamic topic model was evaluated by conducting an experiment on the journals of `Science'. The experiment is expected to infer the prevalent science fields and the prevalent vocabulary used in these fields. Note that the relevance of the science fields can be respectively obtained from the latent variables $\theta$ and $\phi$. That is, the authors would compare these variables throughout all time-slices in order to induce the reasoning over the prevalent science fields (by using $\theta$) and the prevalent vocabulary terms (by using $\phi$). The experiment has successfully established this notion of time-series. This can be proved by comparing the inferred rises and falls of the scientific fields to the actual history of science. Note that the experiment has been performed using both Kalman Filtering and Wavelet Regression methods. 
 
 % Conclusion
-\par By reviewing the original dynamic topic model, we have familiarised with the generative process which takes time-series into account. We have provided the visualisation of the model and introduced the algorithm for the generative process. Further, we have outlined the inference methods suggests be the authors. Finally, we have familiarised with the experiment settings which were used to infer time series in the articles of `Science'. 
+\par By reviewing the original dynamic topic model, we have familiarised with the generative process which takes time-series into account. We have provided the visualisation of the model and introduced the algorithm for the generative process. Further, we have outlined the inference methods suggested by the authors. Finally, we have familiarised with the experiment settings which were used to infer the time series in the articles of `Science'. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -394,7 +394,7 @@ Algorithm 2 describe the generative process of the documents in time-slice $t$. 
 % - Discussion over literature
 % - Design of the model
 % - Evaluation of the model
-\par In this section, we will set up the approach of the project's execution. To start with, we will go over the literature reviewed in Section 3 to derive the promising techniques in terms of applicability to MSI data sets. Then, we will go over the high-level design and implementation requirements. Finally, we will set the basis for the model's evaluation. 
+\par In this section, we will set up the approach of the project's execution. To start with, we will go over the literature reviewed in Section 3 to derive the promising techniques in terms of applicability to MSI data sets. Then, we will go over the high-level design and implementation requirements. Finally, we will set the basis for the model's evaluation and assess the potential risks. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -405,11 +405,11 @@ Algorithm 2 describe the generative process of the documents in time-slice $t$. 
 % Intro
 % - Literature review shows the mathematical underlying
 % - Extract the relevant bits
-\par Throughout the literature review, we have looked into the papers establishing the mathematical underlying of the LDA-like models. However, the approach in utilising those models in MSI like data sets have not been reviewed. Nevertheless, two sources of relevant research have been provided (the paper by Hooft et al. \cite{hooft} and the survey by Alonso et al. \cite{alonso-et-al}). Ultimately, this section is focused to emphasise the superior approaches of the previously reviewed papers; also, we will establish the appropriate techniques for the generative and inference processes.
+\par Throughout the literature review, we have looked into the papers establishing the mathematical underlying of the LDA-like models. However, the approach in utilising those models in MSI-like data sets have not been reviewed. Nevertheless, two sources of relevant research have been provided (the paper by Hooft et al. \cite{hooft} and the survey by Alonso et al. \cite{alonso-et-al}). Ultimately, this section is focused on emphasising the superior approaches of the previously reviewed papers; also, we will establish the appropriate techniques for the generative and inference processes.
 
 % Generative processess
 % - Comparison between static and dynamic data sets
-\par The reviewed generative processes describe how the initial data is expected to be formed. Recall that we have reviewed two generative processes: static and dynamic. The static generative process is given by the initial LDA paper -- `Latent Dirichlet Allocation', and the dynamic generative processes is given by the `Dynamic Topic Models' paper. The applications of these generative processes are expressed respectively in Figure \ref{fig:static} and Figure \ref{fig:dynamic} below. 
+\par The reviewed generative processes describe how the initial data is expected to be formed. Recall that we have reviewed two generative processes: static and dynamic. The static generative process is addressed in the initial LDA paper -- `Latent Dirichlet Allocation', and the dynamic generative process is addressed in the `Dynamic Topic Models' paper. The applications of these generative processes are expressed respectively in Figure \ref{fig:static} and Figure \ref{fig:dynamic} below. 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{static}
@@ -422,7 +422,7 @@ Algorithm 2 describe the generative process of the documents in time-slice $t$. 
   \caption{Dynamic generative process.}
   \label{fig:dynamic}
 \end{figure}
-In the previous plots, we have visualised the occurrences of a particular entity within a corpus. The static generative process suggests a random distribution of the entities, whereas the dynamic generative process induces a particular pattern. Since we expect the ions of same type be in clusters (rather than to be randomly distributed across the sample), the dynamic generative process is more appropriate to reflect the nature of the chemical entities patterns.  
+In the previous plots, we have visualised the occurrences of a particular entity within a corpus. The static generative process suggests a random distribution of the entities, whereas the dynamic generative process induces a particular pattern. Since we expect the ions of the same type to be gathered in clusters (rather than to be randomly distributed across the sample), the dynamic generative process is more appropriate to reflect the nature of the chemical entities patterns.  
 
 % Generative process
 % - Rather than sequential development, we induce a relationship between the documents
@@ -434,12 +434,12 @@ The initial dynamic topic modelling paper suggests to induce the time-series int
   \caption{2-dimensional generative process.}
   \label{fig:2-d_generative_process}
 \end{figure}
-In the boundary case shown on the left, time-slice $t_{0,0}$ is related to three surrounding time-slices, whereas, in the general case indicated on the right side, time-slice $t_{1,1}$ relates to eight surrounding time-slices. Ultimately, the notion of dynamic topic modelling can be  preserved even upon relaxing the assumption of time-series.
+In the boundary case shown on the left, time-slice $t_{1,1}$ is related to three surrounding time-slices, whereas, in the general case indicated on the right side, time-slice $t_{2,2}$ relates to eight surrounding time-slices. Ultimately, the notion of dynamic topic modelling can be  preserved even upon relaxing the assumption of time-series.
 
 % Inference
 % - Stochastic and optimisation based methods
 % - Evaluation
-\par The reviewed inference techniques have covered the mathematical underlying of two approaches: stochastic (sampling-based) and optimisation (variational). The variational methods are discussed in the `Latent Dirichlet Allocation' and `Dynamic Topic Models' papers, and the sampling-based method is discussed in the `Finding Scientific Topics' paper. Since both methods have been utilised in the state-of-the-art topic modelling applications, we will implement both of them in order to set up a discussion for the developed model's evaluation. However, since the authors of `Dynamic Topic Models' has utilised only the variational methods, we have to address the compatibility of the sampling-based methods in terms of applicability to the dynamic topic modelling.
+\par The reviewed inference techniques have covered the mathematical underlying of two approaches: stochastic (sampling-based) and optimisation (variational). The variational methods are discussed in the `Latent Dirichlet Allocation' and `Dynamic Topic Models' papers, and the sampling-based method is discussed in the `Finding Scientific Topics' paper. Since both methods have been utilised in the state-of-the-art topic modelling applications, we will implement both of them in order to set up a discussion for the developed model's evaluation. However, since the authors of `Dynamic Topic Models' have utilised only the variational methods, we have to address the compatibility of the sampling-based methods in terms of the applicability to the dynamic topic modelling.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -471,23 +471,23 @@ $\mathbf{w_1}$&0&0&0&0&300\\
 \hline
 &1&2&3&4&5\\
 \hline
-$\mathbf{w_0}$&0.1&200&500&$\O$&$\O$\\
-$\mathbf{w_1}$&$\O$&$\O$&$\O$&$\O$&300\\
+$\mathbf{w_0}$&0.1&200&500&\O&\O\\
+$\mathbf{w_1}$&\O&\O&\O&\O&300\\
 \hline
 \end{tabular}
 \end{center}
 \caption{Matrix and dictionary representation of the data set.}
 \label{tab:m_and_d}
 \end{table}
-Note that, in these settings, empty set symbol $\O$ represents a value which is not assigned to the memory; and the matrix and dictionary forms are respectively given on the left and right hand sides. It follows that the use of dictionary requires about as half as much memory. Another dimensionality reduction technique can be introduced by setting the minimum threshold value. That is, we can limit the data set by dismissing values which do not reach the sufficient significance criteria. If we set the threshold of intensity to be $1$, then the dictionary could be represented in Table \ref{tab:d_threshhold} below.
+Note that, in these settings, the empty set symbol $\O$ represents a value which is not assigned in the memory; and the matrix and dictionary forms are respectively given on the left and right hand sides. It follows that the use of dictionary requires about as half as much memory. Another dimensionality reduction technique can be introduced by setting the minimum threshold value. That is, we can limit the data set by dismissing values which do not reach the sufficient significance criteria. If we set the threshold of intensity to be $1$, then the dictionary could be represented in Table \ref{tab:d_threshhold} below.
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{|c||c|c|c|c|c|}
 \hline
 &1&2&3&4&5\\
 \hline
-$\mathbf{w_0}$&\O&200&500&$\O$&$\O$\\
-$\mathbf{w_1}$&$\O$&$\O$&$\O$&$\O$&300\\
+$\mathbf{w_0}$&\O&200&500&\O&\O\\
+$\mathbf{w_1}$&\O&\O&\O&\O&300\\
 \hline
 \end{tabular}
 \end{center}
@@ -496,26 +496,26 @@ $\mathbf{w_1}$&$\O$&$\O$&$\O$&$\O$&300\\
 \end{table}
 
 % Ion grouping
-\par As discussion in Section 1, the captured ions of same time are likely to have fluctuations in their masses. For this reason, we are applying another pre-processing step. By setting the threshold which indicated the maximum fluctuation between the masses of the ions, we would group the ions which are likely to represent the same type; also, we would reduce the dimensionality of the data set. By taking the example of the previous paragraph and setting the fluctuation tolerance to $1$, we obtain the data structure given in Table \ref{tab:d_f_threshhold} below.
+\par As discussed in Section 1, the captured ions of the same type are likely to have fluctuations in their masses. For this reason, we are applying another pre-processing step. By setting another threshold for the maximum fluctuation between the masses of the ions, we would group the ions which are likely to represent the same type; also, we would reduce the dimensionality of the data set. By taking the example of the previous paragraph and setting the fluctuation tolerance to $1$, we obtain the data structure given in Table \ref{tab:d_f_threshhold} below.
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{|c||c|c|}
 \hline
 &[2,3]&[5,5]\\
 \hline
-$\mathbf{w_0}$&700&$\O$\\
-$\mathbf{w_1}$&$\O$&300\\
+$\mathbf{w_0}$&700&\O\\
+$\mathbf{w_1}$&\O&300\\
 \hline
 \end{tabular}
 \end{center}
 \caption{The dictionary of the data set with the fluctuation threshold of 1.}
 \label{tab:d_f_threshhold}
 \end{table}
-Notice that the masses are now represented by intervals, and the intensities below the threshold are summed together. Ultimately, by utilising the latter dimensionality reduction and ion grouping techniques, we establish data structure which would scale better compared to the initial data capturing settings.
+Notice that the masses are now represented by intervals, and the intensities below the threshold are summed together. Ultimately, by utilising the latter dimensionality reduction and ion grouping techniques, we establish a data structure which would scale better compared to the naive data capturing settings.
 
 % Generative process
 % 3-D data sets
-\par The generative process of the MSI data set discussed in the discussion over the reviewed literature has utilised 2-dimensional data set. However, we are expecting to work on 3-dimensional data sets. Therefore, the established relationship between time-slices is illustrated by Figure \ref{fig:3-d_generative_process} below.
+\par The generative process of the MSI data set, which was discussed in the discussion over the reviewed literature, has utilised 2-dimensional data sets. However, we are expecting to work on 3-dimensional data sets. Therefore, the established relationship between time-slices is illustrated by Figure \ref{fig:3-d_generative_process} below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{3-d_generative_process}
@@ -539,19 +539,50 @@ The time-slice indicated by the green colour, which is one of the boundary cases
 % - Spatial Smoothing
 % - Two inference methods
 % - Risk management
-\par The developed technique addressing the spatial smoothing of the MSI data sets will evaluated by the model's performance. The performance will be assessed by investigating the inferred patterns of the captured ions. Also, we will utilise two different inference methods: sampling-based and variational. By having two model variations, we will be able to compare the time performance. Hence, we will be able to deduce which variation scales better with the size of the data sets. Finally, the section will be finished by investigating the possible risks. Also, we will provide a plan to mitigate these risks.  
+\par The developed technique addressing the spatial smoothing of the MSI data sets will evaluated by measuring the improvement in performance. That is, the performance will be assessed by investigating the quality of the inferred patterns. Also, we will utilise two different inference methods: sampling-based and variational. By having two model variations, we will be able to compare the time performance. Hence, we will be able to deduce which variation scales better with the size of the data sets. Finally, the section will be finished by investigating the possible risks; also, we will provide potential strategies mitigating the risks.  
 
-
-% Evaluation/Experiments
-\par
+% 
+% - Generating synthetic data sets
+% -- The improvement in the inference
+% 
+\par The implemented model will be evaluated using synthetic and real data sets. However, at the start, we will use the synthetic data sets. Note that the performance will be measured in the following way: (1) take two equivalent data sets; (2) apply the spatial smoothing on one of the data sets; (3) infer the underlying structure of the data; (4) check whether the applied smoothing has inferred the underlying structures better. By working with synthetic data sets, we had the control over inducing the underlying structure of the data. Hence, we will able to give a basis in measuring the performance of the applied spatial smoothing. 
 
 % Risks
-\par 
+% - Algorithm complexity (implementation difficulty)
+% - Size of the data sets -> slow computation 
+% - Obtaining real data
+% - Uncertainty whether the model produces an improvement
+\par Even though we have induced a strategy for the project's evaluation, the described process assumes that we can mitigate the potential risks. Note that, at the initial stage of the project, we have identified the following potential risks:
+\begin{itemize}
+  \item The implementation complexity of the inference algorithms;
+  \item The access to the real data.
+  \item The model's scalability in large data sets;
+  \item The inability to measure the performance of the applied spatial smoothing.
+\end{itemize}
+The first three risks would slow down the project execution thus raise a concern of finishing the project on time, whereas the fourth one would prevent the confirmation of denial of the initial project's hypothesis -- `the degeneracies of MSI data sets can be detected using LDA-like models'. 
 
-% To-do:
-% - Ask about experiments
-% - Ask about risks
-\par
+% Risk mitigation
+% - Algorithms
+% -- Familiarising with them before the research
+% -- Starting with the simpler one (Gibbs sampling)
+\par The risk of complex (in terms of development) algorithms has been already mitigated by familiarising with basic sampling-based and optimisation-based inference models. That is, we have implemented the models utilising Gibbs sampling and variational inference. Also, note that the main model will firstly be developed using Gibbs sampling, as this method is easier to implement compared to the variational one.   
+
+% - Scalability
+% -- Display the improvement on small data sets
+% -- Leave the optimisation for the future work, if the benefit exists
+\par Further, the risk of model's scalability can be mitigated by  working on the small data sets. In case the final model displays an improvement in the inference after the application of the spatial smoothing, this project would bring motivation for another research project on optimising the method for larger data sets. 
+
+% - Real data can be obtained from the Web
+\par The risk of the real data access might be partially resolved, as the University has a laboratory for the research in Metabolomics. However, in case this options is not possible, we can obtain the data sets from the Web. 
+
+% - Uncertainty in the ground truth
+% -- Generate data sets with underlying structure
+% -- Assess the inference by using spatial and non-spatial models
+\par Finally, the risk of the inability to measure the performance of the applied smoothing can impact the outcome of the project the most. That is, it would be difficult to reason about the improvement in the inference of the real data sets, because we do not possess the full knowledge of the data set underlying structure. We will mitigate this issue by establishing a performance metric from the synthetic data sets. 
+
+% Evaluation/Experiments
+% - Real data
+\par By having the defined boundaries of the expected improvement in performance, we can attempt to tackle the real data sets. That is, the expected performance improvement would serve as an indicator whether the inferred real data deviates in the expected limit. To be more specific, the data sets with applied spatial and the data sets without applied smoothing will display some differences in the inferred topics. Hence, we will check whether those differences meet the performance boundaries suggested by the inference of the synthetic data sets. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -591,7 +622,7 @@ The time-slice indicated by the green colour, which is one of the boundary cases
 \begin{ganttchart}[
 hgrid, 
 vgrid,
-y unit chart=.8cm
+y unit chart=.7cm
 ]{1}{15}
 
 \gantttitle{Weeks}{15} \\
@@ -616,7 +647,7 @@ y unit chart=.8cm
 \ganttbar{Presentation}{12}{14}
 
 \end{ganttchart}
-\caption{Gantt chart of the project's execution.}
+\caption{The Gantt chart estimating the project's execution.}
 \label{fig:gantt}
 \end{figure}
 
