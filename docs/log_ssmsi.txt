@@ -1,4 +1,5 @@
 13/01/2017
+- Literature review on Metropolis--Hastings
 - Recollected the progress
 - Organised the file structure
-- Cleaned unnecessary data
+-- Cleaned unnecessary data

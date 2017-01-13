@@ -1,5 +1,4 @@
 to-remember
-- msci research project (MSci): 14 pages.
 - 3d mxml file format is immxml
 
 Open source implementations
