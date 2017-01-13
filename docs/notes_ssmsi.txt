@@ -1,0 +1,23 @@
+to-remember
+- msci research project (MSci): 14 pages.
+- 3d mxml file format is immxml
+
+Open source implementations
+- online LDA 
+-- https://github.com/blei-lab/onlineldavb
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+WORK-FLOW
+__________________________________________
+A-TO-H
+
+- create_corpus.py
+-- there exists a notebook replica
+- create_vocab.py 
+-- reduces the corpus for Gibbs sampling
+
+__________________________________________
+GENERATIVE PROCESS
+
+- generate_corpus.ipynb
+- plot_corpus.ipynb

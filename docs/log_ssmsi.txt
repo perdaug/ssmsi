@@ -1,0 +1,4 @@
+13/01/2017
+- Recollected the progress
+- Organised the file structure
+- Cleaned unnecessary data
