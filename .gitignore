@@ -2,4 +2,4 @@ pickles/
 data/
 notebooks/.ipynb_checkpoints
 results/
-lib
+libs/
