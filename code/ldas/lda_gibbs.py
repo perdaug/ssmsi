@@ -3,6 +3,10 @@ import pandas as pd
 import numpy as np
 np.set_printoptions(edgeitems=5)
 
+'''
+References:
+- Griffiths and Stevyers (2004)
+'''
 
 class LDA_Gibbs(object):
 
@@ -59,9 +63,7 @@ class LDA_Gibbs(object):
 					self._zw_counts[z, w] -= 1
 					self._z_counts[z] -= 1
 
-					# The second denominator from eq. 5 (Griffiths and Stevyers
-					# 2004) is omitted because it is a constant and we normalise
-					# the vector p_topic anyway.
+					# Eq. 5, the second denominator is  a constant
 					p_topic = ((1.0 * self._zw_counts[:, w] + self.beta) / \
 						(1.0 * self._z_counts + self.W * self.beta)) * \
 						((self._dz_counts[d, :] + self.alpha))
@@ -87,10 +89,11 @@ class LDA_Gibbs(object):
 
 HOME_PATH = os.path.expanduser('~') + '/Projects/ssmsi/'
 DATA_PATH = HOME_PATH + 'pickles/corpora/a-to-h/'
-OUT_PATH = HOME_PATH + 'pickles/corpora/results/lda_gibbs/'
+OUT_PATH = HOME_PATH + 'pickles/results/lda_gibbs/'
 
 def main():
-	lda_gibbs = LDA_Gibbs(K=10, iter_count=10)
+	lda_gibbs = LDA_Gibbs(K=10, iter_count=50)
+	# To-do: Fix the main corpus (the number of col is arbitrary) 
 	corpus = pd.read_pickle(DATA_PATH + 'a-to-h_corpus_r.pickle')
 	lda_gibbs.fit(corpus)
 	lda_gibbs.dump_thetas(OUT_PATH + 'gibbs_thetas.pickle')
