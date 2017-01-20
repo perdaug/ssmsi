@@ -1,6 +1,6 @@
 pickles/
 data/
-notebooks/.ipynb_checkpoints
+notebooks/*/.ipynb_checkpoints
 results/
 libs/
 temp/
