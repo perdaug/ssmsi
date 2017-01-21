@@ -5,10 +5,10 @@ np.set_printoptions(edgeitems=5)
 
 '''
 References:
-- Griffiths and Stevyers (2004)
+- Blei and Lafferty (2006)
 '''
 
-class LDA_Gibbs(object):
+class DTM_alpha(object):
 
 	def __init__(self, K, iter_count):
 		self.iter_count = iter_count
@@ -92,8 +92,8 @@ DATA_PATH = HOME_PATH + 'pickles/corpora/a-to-h/'
 OUT_PATH = HOME_PATH + 'pickles/results/lda_gibbs/'
 
 def main():
-	lda_gibbs = LDA_Gibbs(K=10, iter_count=50)
-	# To-do: Fix the main corpus (the number of col is arbitrary) 
+	lda_gibbs = DTM_alpha(K=10, iter_count=50)
+	# To-do: Fix the main corpus (the number of col is arbitrary)
 	corpus = pd.read_pickle(DATA_PATH + 'a-to-h_corpus_r.pickle')
 	lda_gibbs.fit(corpus)
 	lda_gibbs.dump_thetas(OUT_PATH + 'gibbs_thetas.pickle')
