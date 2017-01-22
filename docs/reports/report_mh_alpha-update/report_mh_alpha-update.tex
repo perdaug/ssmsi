@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-.3in}
+\setlength{\textheight}{9in}
+\setlength{\parskip}{1em}
+
+% \pagestyle{empty}
+
+\begin{document}
+
+\begingroup  
+  \centering
+  \large Report: The implementation of the Metropolis--Hastings (MH) algorithm to update the alphas \par
+  \large Arijus Pleska \par
+\endgroup
+
+\par This report is structured in two sections: an introduction to the current model's state; and a follow-up with the faced difficulties and knowledge gaps. Note that I have prioritised to implement the MH algorithm in order to establish a complete work-flow of the model. Even though I am uncertain about some concepts, hopefully, by having a report, it will be easier to discuss the issues during the project meetings.
+
+\subsection*{Current Stage}
+
+% - Data and model settings
+% -- Synthetic data set
+% -- Parameters initialisation
+% --- Number of topics
+% --- Initial alphas and betas
+% ---- Variance
+
+\par During the experiment, I have used the following settings:
+\begin{itemize}
+\item The synthetic data has been created by the previously implemented dynamic topic modelling (DNT) generative process:
+\begin{itemize}
+\item The number of documents: $|\mbox{D}|\approx6000$;
+\item The size of the vocabulary: $|\mbox{V}|\approx2000$;
+\item The number of words per document: $\mbox{N}_d\approx20$,\quad$\forall d \in \mbox{D}$;
+\item Instead of intensity values, it is assumed that the document dictionaries contain word counts. For example, $d_{111}=\{v_{20}:15, v_{40}:5\}$. 
+\end{itemize}
+\item The number of topics: $K=10$;
+\item The number of time-slices: $T=50$;
+\item The alpha at $t=0$: $\alpha_0 \sim \mathcal{N}(\mu_0, \sigma^2_0I),\quad \mu_0 = 0.1,\quad\sigma_0^2 = 0.2$;
+\item The alphas at $t>0$: $\alpha_t \sim \mathcal{N}(\alpha_{t-1}, \sigma^2I), \quad\sigma^2 = 0.1$;
+\item The candidate alphas: $\alpha'_t \sim \mathcal{N}(\alpha_{t}, \delta^2I), \quad\delta^2 = 2$; 
+\item The acceptance rate: $r_t=\min(1,p(\alpha'_t)/p(\alpha_t))$;
+\item The probability of the state: $p(\alpha_t)=p(\alpha_{t} | \alpha_{t-1})\cdot p(\alpha_{t+1} | \alpha_{t})\cdot \pi(\alpha_t)$, where $\pi$ is a mapping to the mean parameterisation;
+\end{itemize}
+
+The rationale of the implementation follows the following principle: $\alpha_t$ is set to $\alpha'_t$ on the successful `toss' based on $r_t$. Also, the variances are tuned to obtain $r_t\approx30\%$.
+
+\subsection*{Issues}
+\par My uncertainties with the proposed solution are the following:
+\begin{itemize}
+\item The estimation of $p(\alpha_t)$:
+\begin{itemize}
+\item The third term of the expression, $\pi(\alpha_t)$, represents the topic distribution in documents in time-slice $t$;
+\item The current model treats the vocabulary term distributions over the topics, $\beta$, to have same values; therefore, this term was omitted -- it cancels out upon the estimation of $r_t$;
+\item The first (and second) term $p(\alpha_{t} | \alpha_{t-1})$ is drawn from $\mathcal{N}(\alpha_{t-1}, \sigma^2I)$.
+\end{itemize}
+\item Since $\alpha_t$ is a vector, the initial $r_t$ is a vector as well.
+\end{itemize}
+
+
+%\bibliography{report_mh_alpha-update}{}
+%\bibliographystyle{plain}
+\end{document}
