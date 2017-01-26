@@ -37,8 +37,8 @@ class DTM_alpha(object):
 				self._sample_topics(corpus_p)
 				self._store_theta()
 			self._dynamic_step()
-		print self.r_rates
-		print sum(self.r_rates)/5
+		print(self.r_rates)
+		print(sum(self.r_rates)/5)
 
 
 	def _initialise(self, corpus_p, idx_p):
@@ -91,9 +91,26 @@ class DTM_alpha(object):
 					self._zw_counts[z_new, w] += 1
 					self._z_counts[z_new] += 1
 
+	def _eval_normal_multivariate(self, x, mean, cov):
+		term_first = 1./((2*np.pi)**(self.K/2)*np.linalg.det(cov)**(.1/2))
+		term_second = np.exp(-1./2*np.dot( \
+								  np.dot(np.transpose(x-mean),np.linalg.inv(cov)),(x-mean)))
+		print term_first
+		return term_first*term_second
+
 	def _dynamic_step(self):
 		a_new = np.random.normal(self.alpha, self.deviation_a_basic, self.K)
 		a_star_new = np.random.normal(a_new, self.deviation_a_guess, self.K)
+		
+		diag_dev_basic = np.full((1, self.K), self.deviation_a_basic)
+		dev_basic_matrix = np.diagflat(diag_dev_basic)
+
+		p = np.random.multivariate_normal(a_new, dev_basic_matrix)
+		c = self._eval_normal_multivariate(a_new, self.alpha, dev_basic_matrix)
+		print c
+		print self._eval_normal_multivariate(np.array([0, 0]), np.array([0, 0]), np.array([[0.00000000001,0],[0,0.00000000001]]))
+		exit()
+
 		theta = mean_parameter(self.alpha)
 		theta_star = mean_parameter(self.alpha_stars[-1])
 		p = self.alpha * a_new * theta
@@ -114,7 +131,7 @@ class DTM_alpha(object):
 		self.alpha = a_new
 		self.alpha_stars.append(a_star_new)
 		array = np.array(draws, dtype=int)
-		print array
+		print(array)
 		r_rate = array.sum()/10.
 		self.r_rates.append(r_rate)
 
