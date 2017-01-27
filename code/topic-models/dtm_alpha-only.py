@@ -17,8 +17,8 @@ class DTM_alpha(object):
 		self.thetas = []
 		self.alpha_stars = []
 		self.alphas = []
-		self.deviation_a_basic = 0.1
-		self.deviation_a_guess = 3
+		self.var_basic = 0.2
+		self.var_prop = 0.5
 		self.r_rates = []
 
 	def fit(self, corpus):
@@ -49,7 +49,7 @@ class DTM_alpha(object):
 			a_init = np.random.normal(mean_a_init, deviation_a_init, self.K)
 			self.alpha = a_init
 			self.alphas.append(a_init)
-			a_star_init = np.random.normal(a_init, self.deviation_a_guess,
+			a_star_init = np.random.normal(a_init, self.var_prop,
 																		 self.K)
 			self.alpha_stars.append(a_star_init)
 			self.beta = np.full((self.K, self.W), 1./self.W)
@@ -83,7 +83,7 @@ class DTM_alpha(object):
 					p_topic = ((1.0 * self._zw_counts[:, w] + self.beta[:, w]) / \
 						(1.0 * self._z_counts + self.W * self.beta[:, w])) * \
 						((self._dz_counts[d, :] + self.alpha))
-					p_topic = mean_parameter(p_topic)
+					p_topic = _map_mp(p_topic)
 					z_new = np.random.choice(self.K, p=p_topic)
 
 					self._z_history[d][w][it] = z_new
@@ -91,33 +91,71 @@ class DTM_alpha(object):
 					self._zw_counts[z_new, w] += 1
 					self._z_counts[z_new] += 1
 
-	def _eval_normal_multivariate(self, x, mean, cov):
-		term_first = 1./((2*np.pi)**(self.K/2)*np.linalg.det(cov)**(.1/2))
+	def _eval_n_dis(self, x, mean, var):
+		var_diag = np.full((1, self.K), var)
+		var_matrix = np.diagflat(var_diag)
+		term_first = 1./((2*np.pi)**(self.K/2) \
+							   *np.linalg.det(var_matrix)**(.1/2))
 		term_second = np.exp(-1./2*np.dot( \
-								  np.dot(np.transpose(x-mean),np.linalg.inv(cov)),(x-mean)))
-		print term_first
+								  np.dot(np.transpose(x-mean), np.linalg.inv(var_matrix)), (x-mean)))
 		return term_first*term_second
 
-	def _dynamic_step(self):
-		a_new = np.random.normal(self.alpha, self.deviation_a_basic, self.K)
-		a_star_new = np.random.normal(a_new, self.deviation_a_guess, self.K)
-		
-		diag_dev_basic = np.full((1, self.K), self.deviation_a_basic)
-		dev_basic_matrix = np.diagflat(diag_dev_basic)
+	def _eval_m_dis(self, x, p):
+		# NOTE: The constant is removed (special case)
+		# print p**1000
+		# print x
+		# exit()
+		# print p, x
+		p_sep = p**x
+		p_prod = np.prod(p_sep)
+		return p_prod
 
-		p = np.random.multivariate_normal(a_new, dev_basic_matrix)
-		c = self._eval_normal_multivariate(a_new, self.alpha, dev_basic_matrix)
-		print c
-		print self._eval_normal_multivariate(np.array([0, 0]), np.array([0, 0]), np.array([[0.00000000001,0],[0,0.00000000001]]))
+	'''
+	- a stands for alpha
+	- t stands for theta
+	- p stands for probability
+	'''
+	def _dynamic_step(self):
+		a_t = np.random.normal(self.alpha, self.var_basic, self.K)
+		a_tplus = np.random.normal(a_t, self.var_basic, self.K)
+		p_a_t = self._eval_n_dis(a_t, self.alpha, self.var_basic)
+		p_a_tplus = self._eval_n_dis(a_tplus, a_t, self.var_basic)
+		
+		a_p_t = np.random.normal(self.alpha, self.var_prop, self.K)
+		a_p_tplus = np.random.normal(a_p_t, self.var_prop, self.K)
+		p_a_p_t = self._eval_n_dis(a_p_t, self.alpha, self.var_basic)
+		p_a_p_tplus = self._eval_n_dis(a_p_tplus, a_p_t, self.var_basic)
+
+		t_t = _map_mp(a_t)
+		p_t_t = self._eval_m_dis(x=self._z_counts, p=t_t)
+
+		t_p_t = _map_mp(a_p_t)
+		p_t_p_t = self._eval_m_dis(x=self._z_counts, p=t_p_t)
+
+		pa = p_a_t * p_a_tplus * p_t_t
+		pa_t = p_a_p_t * p_a_p_tplus * p_t_p_t
+
+		num_stabl = np.exp(np.log(pa) - np.log(pa_t))
+		r = np.minimum(1, num_stabl)
+		print(r)
+
+
+
+		a_star_new = np.random.normal(a_t, self.var_prop, self.K)
+		
+
+		return
+		# p = np.random.multivariate_normal(a_t, dev_basic_matrix)
+		# c = self._eval_normal_multivariate(a_t, self.alpha, dev_basic_matrix)
 		exit()
 
-		theta = mean_parameter(self.alpha)
-		theta_star = mean_parameter(self.alpha_stars[-1])
-		p = self.alpha * a_new * theta
+		theta = _map_mp(self.alpha)
+		theta_star = _map_mp(self.alpha_stars[-1])
+		p = self.alpha * a_t * theta
 		p_star = self.alpha_stars[-1] * a_star_new * theta_star
 
-		p_star_u = mean_parameter(p_star)
-		p_u = mean_parameter(p)
+		p_star_u = _map_mp(p_star)
+		p_u = _map_mp(p)
 		r = p_star_u / p_u
 		p_acceptance = np.minimum(r, 1)
 		draws = np.zeros(shape=10)
@@ -125,10 +163,10 @@ class DTM_alpha(object):
 			choice = np.random.choice(2, p=[1 - prob, prob])
 			draws[idx] = int(choice)
 			if choice == 1:
-				a_new[idx] = a_star_new[idx]
+				a_t[idx] = a_star_new[idx]
 
-		self.alphas.append(a_new)
-		self.alpha = a_new
+		self.alphas.append(a_t)
+		self.alpha = a_t
 		self.alpha_stars.append(a_star_new)
 		array = np.array(draws, dtype=int)
 		print(array)
@@ -170,7 +208,7 @@ OUT_PATH = HOME_PATH + 'pickles/topics/dtm_alpha/'
 OUTPUT_FILE_NAME = 'g_thetas_' + opts.source + '_' + opts.corpus \
 									 + '.pickle'
 
-def mean_parameter(arr):
+def _map_mp(arr):
     return np.exp(arr) / np.sum(np.exp(arr))
 
 

@@ -40,8 +40,17 @@ INPUT_FILE_NAME = opts.source + '_corpus_' + opts.corpus + '.pickle'
 OUT_PATH = DATA_PATH
 OUTPUT_FILE_NAME = opts.source + '_corpus_' + opts.corpus + '_pp.pickle'
 
+
+import pickle	
 def main():
+	# print(dir(pd))
+
+	# with open(DATA_PATH + INPUT_FILE_NAME, 'rb') as f:
+	# 	corpus_series = pickle.load(f)
+	# print(dir(corpus_series))
+	# exit()
 	corpus_series = pd.read_pickle(DATA_PATH + INPUT_FILE_NAME)
+
 	corpus = corpus_series.to_dict()
 	vocab_pickle = pd.read_pickle(AUX_DATA_PATH + 'a-to-h_vocab.pickle')
 	vocab = vocab_pickle.tolist()
