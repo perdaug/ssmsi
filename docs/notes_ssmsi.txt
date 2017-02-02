@@ -7,7 +7,7 @@ WORK-FLOW
 
 - generate_corpus.ipynb
 - pre-process_corpus.py
-- plot_corpus.ipynb
+- plot_corpus_2d.ipynb
 
 _____________________________________________________________________
 IMPLEMENTATIONS

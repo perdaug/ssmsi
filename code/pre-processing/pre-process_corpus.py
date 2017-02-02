@@ -44,7 +44,7 @@ def main():
 	vocab_pickle = pd.read_pickle(AUX_DATA_PATH + 'a-to-h_vocab.pkl')
 	vocab = vocab_pickle.tolist()
 
-	pp_corpus = preprocess_corpus(corpus, vocab, factor=0.01)
+	pp_corpus = preprocess_corpus(corpus, vocab, factor=0.1)
 	pp_corpus.dump(OUT_PATH + OUTPUT_FILE_NAME)
 	print('Number of words in documents: ')
 	print(np.sum(pp_corpus, axis=1))
