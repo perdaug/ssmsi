@@ -1,3 +1,6 @@
+02/02/2017
+- Plotting of a raw or processed synthetic corpus
+- Customised the Python2 env for the notebooks and machine use 
 22/01/2017
 - Wrote a report on the issues with the MH algorithm implementation
 - Implemented the skeleton of the MH algorithm

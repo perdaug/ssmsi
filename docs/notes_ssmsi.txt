@@ -1,28 +1,29 @@
-to-remember
+_____________________________________________________________________
+TO-REMEMBER
 - 3d mxml file format is immxml
 
-Open source implementations
+_____________________________________________________________________
+WORK-FLOW
+
+- generate_corpus.ipynb
+- pre-process_corpus.py
+- plot_corpus.ipynb
+
+_____________________________________________________________________
+IMPLEMENTATIONS
+
 - online LDA 
 -- https://github.com/blei-lab/onlineldavb
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-WORK-FLOW
-
-__________________________________________
+_____________________________________________________________________
 METROPOLIS--HASTINGS
 
 - Fast-LDA
 
-__________________________________________
+_____________________________________________________________________
 A-TO-H
 
 - create_corpus.py
--- there exists a notebook replica
+-- Note: there exists a notebook replica
 - create_vocab.py 
--- reduces the corpus for Gibbs sampling
-
-__________________________________________
-GENERATIVE PROCESS
-
-- generate_corpus.ipynb
-- plot_corpus.ipynb
+-- creates the 'a-to-h' vocabulary
