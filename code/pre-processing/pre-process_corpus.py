@@ -23,7 +23,7 @@ OUTPUT_FILE_NAME = 'pp_' + INPUT_FILE_NAME
 
 # Smaller corpus for Gibbs sampling
 def preprocess_corpus(corpus, vocab, factor):
-	# pp_corpus = np.zeros((len(corpus), len(vocab)), dtype=np.int64)
+	
 	pp_corpus = np.zeros((len(corpus), len(vocab)), dtype=np.float)
 	for doc in corpus:
 		# Finding the maximum intensity.
@@ -37,6 +37,7 @@ def preprocess_corpus(corpus, vocab, factor):
 				normalised_intensity = float(corpus[doc][word] / \
 					(max_intensity * factor))
 				pp_corpus[doc][w] = normalised_intensity
+	print np.sum(pp_corpus, axis=1)
 	return pp_corpus
 
 def main():
@@ -44,11 +45,10 @@ def main():
 	vocab_pickle = pd.read_pickle(AUX_DATA_PATH + 'a-to-h_vocab.pkl')
 	vocab = vocab_pickle.tolist()
 
-	pp_corpus = preprocess_corpus(corpus, vocab, factor=0.1)
+	pp_corpus = preprocess_corpus(corpus, vocab, factor=0.4)
 	pp_corpus.dump(OUT_PATH + OUTPUT_FILE_NAME)
 	print('Number of words in documents: ')
 	print(np.sum(pp_corpus, axis=1))
-	print pp_corpus
 
 if __name__ == '__main__':
 	main()

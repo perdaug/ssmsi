@@ -38,6 +38,9 @@ class DTM_alpha(object):
 			self._update_alphas()
 			# 3) Sampling
 			self._sample_topics(corpus)
+			print self.changed
+			# print self._z_counts
+			# exit()
 			# TODO: Stores thetas
 			# self._store_theta()
 
@@ -48,8 +51,8 @@ class DTM_alpha(object):
 		self.alphas = np.zeros(shape=(self.T, self.K))
 		self.mean_alpha_init = 0
 		self.var_alpha_init = 0.2
-		self.var_alpha_prop = 0.5
-		self.var_alpha = 0.1
+		self.var_alpha_prop = 0.05
+		self.var_alpha = 0.01
 
 		self.alphas[0] = np.random.normal(self.mean_alpha_init, 
 																			self.var_alpha_init, 
@@ -64,7 +67,6 @@ class DTM_alpha(object):
 		self._z_history = []
 
 		for d, doc in enumerate(corpus):
-			print doc.sum()
 			self._z_history.append([])
 			for w, word in enumerate(doc):
 				self._z_history[d].append([])
@@ -94,89 +96,100 @@ class DTM_alpha(object):
 
 	def _eval_m_dis(self, x, p):
 		# NOTE: The constant is removed (special case)
-		# print p**1000
-		# print x
-		# exit()
-		# print p, x
 		p_sep = p**x
-		print p**100 	
-
-		exit()
 		p_prod = np.prod(p_sep)
+		return p_sep
 		return p_prod
 
 	def _update_alphas(self):
 		# INITIALISE PROPOSED ALPHAS
 		alphas_prop = np.zeros(shape=self.alphas.shape)
-		alphas_prop[0] = np.random.normal(self.alphas[0], self.var_alpha_prop)
-		for t in xrange(1, self.T):
-			alphas_prop[t] = np.random.normal(alphas_prop[t-1], 
-																				self.var_alpha)
-		
+		# alphas_prop[0] = np.random.normal(self.alphas[0], self.var_alpha_prop)
+		for t in xrange(0, self.T):
+			alphas_prop[t] = np.random.normal(self.alphas[t-1], 
+																				self.var_alpha_prop)
 		# UPDATE THE ALPHAS
-		## 0 step
-
-		## t-2 steps
-		for t in xrange(1, self.T-1):
-			# Current alphas
-			p_alpha_cond = self._eval_n_dis(self.alphas[t], 
-																			self.alphas[t-1], 
-																			self.var_alpha)
-			p_alpha_cond_nxt = self._eval_n_dis(self.alphas[t+1], 
-																					 self.alphas[t], 
-																					 self.var_alpha)
+		self.changed = 0
+		for t in xrange(0, self.T):
+			if t != 0:
+				p_alpha_cond = self._eval_n_dis(self.alphas[t], 
+																				self.alphas[t-1], 
+																				self.var_alpha)
+				p_alpha_cond_prop = self._eval_n_dis(alphas_prop[t], 
+																					 	 alphas_prop[t-1], 
+																					 	 self.var_alpha)
+			else:
+				p_alpha_cond = self._eval_n_dis(self.alphas[t], 
+																				self.alphas[t], 
+																				self.var_alpha)
+				p_alpha_cond_prop = self._eval_n_dis(alphas_prop[t], 
+																					 	 alphas_prop[t], 
+																					 	 self.var_alpha)
+			if t != self.T-1:
+				p_alpha_cond_nxt = self._eval_n_dis(self.alphas[t+1], 
+																						 self.alphas[t], 
+																						 self.var_alpha)
+				p_alpha_cond_prop_nxt = self._eval_n_dis(alphas_prop[t+1],
+																								 alphas_prop[t], 
+																							 	 self.var_alpha)
+			else:
+				p_alpha_cond_nxt = self._eval_n_dis(self.alphas[t], 
+																						 self.alphas[t], 
+																						 self.var_alpha)
+				p_alpha_cond_prop_nxt = self._eval_n_dis(alphas_prop[t],
+																								 alphas_prop[t], 
+																							 	 self.var_alpha)
+			# Current
 			theta_t = _map_mp(self.alphas[t])
 			p_theta_t = self._eval_m_dis(x=self._z_counts, 
 																   p=theta_t)
-			p_alpha_t = p_alpha_cond * p_alpha_cond_nxt * p_theta_t
-
-			# Proposed alphas
-			p_alpha_cond_prop = self._eval_n_dis(alphas_prop[t], 
-																					 alphas_prop[t-1], 
-																					 self.var_alpha)
-			p_alpha_cond_prop_nxt = self._eval_n_dis(alphas_prop[t+1],
-																							 alphas_prop[t], 
-																							 self.var_alpha)
+			p_alpha_t = p_alpha_cond * p_alpha_cond_nxt
+			# Proposed
 			theta_prop_t = _map_mp(alphas_prop[t])
 			p_theta_prop_t = self._eval_m_dis(x=self._z_counts, 
 																			  p=theta_prop_t)
-			p_alpha_prop_t = p_alpha_cond_prop * p_alpha_cond_prop_nxt \
-										 * p_theta_prop_t
+			p_alpha_prop_t = p_alpha_cond_prop * p_alpha_cond_prop_nxt
 
-			print theta_t
-			exit()
-		## t step
+			term_third = np.prod(p_theta_t / p_theta_prop_t)
+			# Metropolis--Hastings step
+			# print p_alpha_cond, p_alpha_cond_nxt
+			# print p_alpha_cond_prop, p_alpha_cond_prop_nxt
+			r_acc_log = np.exp(np.log(term_third) + np.log(p_alpha_t) \
+				          - np.log(p_alpha_prop_t))
+			r_acc_norm = np.minimum(1, r_acc_log)
+			accept_alpha_prop = np.random.binomial(1, r_acc_norm)
+			if accept_alpha_prop:
+				self.alphas[t] = alphas_prop[t]
+				self.changed += 1
+		# exit()
 
-
-		# print(alphas_prop)
-
-		exit()
-		a_t = np.random.normal(self.alpha, self.var_basic, self.K)
-		a_tplus = np.random.normal(a_t, self.var_basic, self.K)
-		p_a_t = self._eval_n_dis(a_t, self.alpha, self.var_basic)
-		p_a_tplus = self._eval_n_dis(a_tplus, a_t, self.var_basic)
+		# exit()
+		# a_t = np.random.normal(self.alpha, self.var_basic, self.K)
+		# a_tplus = np.random.normal(a_t, self.var_basic, self.K)
+		# p_a_t = self._eval_n_dis(a_t, self.alpha, self.var_basic)
+		# p_a_tplus = self._eval_n_dis(a_tplus, a_t, self.var_basic)
 		
-		a_p_t = np.random.normal(self.alpha, self.var_prop, self.K)
-		a_p_tplus = np.random.normal(a_p_t, self.var_prop, self.K)
-		p_a_p_t = self._eval_n_dis(a_p_t, self.alpha, self.var_basic)
-		p_a_p_tplus = self._eval_n_dis(a_p_tplus, a_p_t, self.var_basic)
+		# a_p_t = np.random.normal(self.alpha, self.var_prop, self.K)
+		# a_p_tplus = np.random.normal(a_p_t, self.var_prop, self.K)
+		# p_a_p_t = self._eval_n_dis(a_p_t, self.alpha, self.var_basic)
+		# p_a_p_tplus = self._eval_n_dis(a_p_tplus, a_p_t, self.var_basic)
 
-		t_t = _map_mp(a_t)
-		p_t_t = self._eval_m_dis(x=self._z_counts, p=t_t)
+		# t_t = _map_mp(a_t)
+		# p_t_t = self._eval_m_dis(x=self._z_counts, p=t_t)
 
-		t_p_t = _map_mp(a_p_t)
-		p_t_p_t = self._eval_m_dis(x=self._z_counts, p=t_p_t)
+		# t_p_t = _map_mp(a_p_t)
+		# p_t_p_t = self._eval_m_dis(x=self._z_counts, p=t_p_t)
 
-		pa = p_a_t * p_a_tplus * p_t_t
-		pa_t = p_a_p_t * p_a_p_tplus * p_t_p_t
+		# pa = p_a_t * p_a_tplus * p_t_t
+		# pa_t = p_a_p_t * p_a_p_tplus * p_t_p_t
 
-		num_stabl = np.exp(np.log(pa) - np.log(pa_t))
-		r = np.minimum(1, num_stabl)
-		print(r)
+		# num_stabl = np.exp(np.log(pa) - np.log(pa_t))
+		# r = np.minimum(1, num_stabl)
+		# print(r)
 
 
 
-		a_star_new = np.random.normal(a_t, self.var_prop, self.K)
+		# a_star_new = np.random.normal(a_t, self.var_prop, self.K)
 
 
 	def _sample_topics(self, corpus):
@@ -189,8 +202,8 @@ class DTM_alpha(object):
 
 					# Eq. 5, the second denominator is  a constant
 					p_topic = ((1.0 * self._zw_counts[:, w] + self.beta[:, w]) / \
-						(1.0 * self._z_counts + self.W * self.beta[:, w])) * \
-						((self._dz_counts[d, :] + self.alpha))
+						(1.0 * self._z_counts + self.V * self.beta[:, w])) * \
+						((self._dz_counts[d, :] + self.alphas[d]))
 					p_topic = _map_mp(p_topic)
 					z_new = np.random.choice(self.K, p=p_topic)
 
@@ -206,63 +219,63 @@ class DTM_alpha(object):
 	- t stands for theta
 	- p stands for probability
 	'''
-	def _dynamic_step(self):
-		a_t = np.random.normal(self.alpha, self.var_basic, self.K)
-		a_tplus = np.random.normal(a_t, self.var_basic, self.K)
-		p_a_t = self._eval_n_dis(a_t, self.alpha, self.var_basic)
-		p_a_tplus = self._eval_n_dis(a_tplus, a_t, self.var_basic)
+	# def _dynamic_step(self):
+	# 	a_t = np.random.normal(self.alpha, self.var_basic, self.K)
+	# 	a_tplus = np.random.normal(a_t, self.var_basic, self.K)
+	# 	p_a_t = self._eval_n_dis(a_t, self.alpha, self.var_basic)
+	# 	p_a_tplus = self._eval_n_dis(a_tplus, a_t, self.var_basic)
 		
-		a_p_t = np.random.normal(self.alpha, self.var_prop, self.K)
-		a_p_tplus = np.random.normal(a_p_t, self.var_prop, self.K)
-		p_a_p_t = self._eval_n_dis(a_p_t, self.alpha, self.var_basic)
-		p_a_p_tplus = self._eval_n_dis(a_p_tplus, a_p_t, self.var_basic)
+	# 	a_p_t = np.random.normal(self.alpha, self.var_prop, self.K)
+	# 	a_p_tplus = np.random.normal(a_p_t, self.var_prop, self.K)
+	# 	p_a_p_t = self._eval_n_dis(a_p_t, self.alpha, self.var_basic)
+	# 	p_a_p_tplus = self._eval_n_dis(a_p_tplus, a_p_t, self.var_basic)
 
-		t_t = _map_mp(a_t)
-		p_t_t = self._eval_m_dis(x=self._z_counts, p=t_t)
+	# 	t_t = _map_mp(a_t)
+	# 	p_t_t = self._eval_m_dis(x=self._z_counts, p=t_t)
 
-		t_p_t = _map_mp(a_p_t)
-		p_t_p_t = self._eval_m_dis(x=self._z_counts, p=t_p_t)
+	# 	t_p_t = _map_mp(a_p_t)
+	# 	p_t_p_t = self._eval_m_dis(x=self._z_counts, p=t_p_t)
 
-		pa = p_a_t * p_a_tplus * p_t_t
-		pa_t = p_a_p_t * p_a_p_tplus * p_t_p_t
+	# 	pa = p_a_t * p_a_tplus * p_t_t
+	# 	pa_t = p_a_p_t * p_a_p_tplus * p_t_p_t
 
-		num_stabl = np.exp(np.log(pa) - np.log(pa_t))
-		r = np.minimum(1, num_stabl)
-		print(r)
+	# 	num_stabl = np.exp(np.log(pa) - np.log(pa_t))
+	# 	r = np.minimum(1, num_stabl)
+	# 	print(r)
 
 
 
-		a_star_new = np.random.normal(a_t, self.var_prop, self.K)
+	# 	a_star_new = np.random.normal(a_t, self.var_prop, self.K)
 		
 
-		return
-		# p = np.random.multivariate_normal(a_t, dev_basic_matrix)
-		# c = self._eval_normal_multivariate(a_t, self.alpha, dev_basic_matrix)
-		exit()
+	# 	return
+	# 	# p = np.random.multivariate_normal(a_t, dev_basic_matrix)
+	# 	# c = self._eval_normal_multivariate(a_t, self.alpha, dev_basic_matrix)
+	# 	exit()
 
-		theta = _map_mp(self.alpha)
-		theta_star = _map_mp(self.alpha_stars[-1])
-		p = self.alpha * a_t * theta
-		p_star = self.alpha_stars[-1] * a_star_new * theta_star
+	# 	theta = _map_mp(self.alpha)
+	# 	theta_star = _map_mp(self.alpha_stars[-1])
+	# 	p = self.alpha * a_t * theta
+	# 	p_star = self.alpha_stars[-1] * a_star_new * theta_star
 
-		p_star_u = _map_mp(p_star)
-		p_u = _map_mp(p)
-		r = p_star_u / p_u
-		p_acceptance = np.minimum(r, 1)
-		draws = np.zeros(shape=10)
-		for idx, prob in enumerate(p_acceptance):
-			choice = np.random.choice(2, p=[1 - prob, prob])
-			draws[idx] = int(choice)
-			if choice == 1:
-				a_t[idx] = a_star_new[idx]
+	# 	p_star_u = _map_mp(p_star)
+	# 	p_u = _map_mp(p)
+	# 	r = p_star_u / p_u
+	# 	p_acceptance = np.minimum(r, 1)
+	# 	draws = np.zeros(shape=10)
+	# 	for idx, prob in enumerate(p_acceptance):
+	# 		choice = np.random.choice(2, p=[1 - prob, prob])
+	# 		draws[idx] = int(choice)
+	# 		if choice == 1:
+	# 			a_t[idx] = a_star_new[idx]
 
-		self.alphas.append(a_t)
-		self.alpha = a_t
-		self.alpha_stars.append(a_star_new)
-		array = np.array(draws, dtype=int)
-		print(array)
-		r_rate = array.sum()/10.
-		self.r_rates.append(r_rate)
+	# 	self.alphas.append(a_t)
+	# 	self.alpha = a_t
+	# 	self.alpha_stars.append(a_star_new)
+	# 	array = np.array(draws, dtype=int)
+	# 	print(array)
+	# 	r_rate = array.sum()/10.
+	# 	self.r_rates.append(r_rate)
 
 	def _store_theta(self):
 		thetas_prev = (self._dz_counts + self.alpha)
