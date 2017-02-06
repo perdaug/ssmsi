@@ -8,14 +8,12 @@ References:
 - Blei and Lafferty (2006)
 '''
 
-def _map_mp(arr):
-		return np.exp(arr) / np.sum(np.exp(arr))
-
 class DTM_alpha(object):
 
 	def __init__(self, K, iter_count):
 		self.iter_count = iter_count
 		self.K = K
+		self.history_alphas = []
 		# self.thetas = []
 		# self.alpha_stars = []
 		# self.alphas = []
@@ -35,12 +33,12 @@ class DTM_alpha(object):
 		for it in range(self.iter_count):
 			print 'Iteration: %s.' % it
 			# 2) Alpha Update
+			import copy
+			self.history_alphas.append(copy.deepcopy(self.alphas))
 			self._update_alphas()
+			print self.changed
 			# 3) Sampling
 			self._sample_topics(corpus)
-			print self.changed
-			# print self._z_counts
-			# exit()
 			# TODO: Stores thetas
 			# self._store_theta()
 
@@ -85,112 +83,91 @@ class DTM_alpha(object):
 		# 															 self.K)
 		# self.alpha_stars.append(a_star_init)
 
-	def _eval_n_dis(self, x, mean, var):
-		var_diag = np.full((1, self.K), var)
-		var_matrix = np.diagflat(var_diag)
-		term_first = 1./((2*np.pi)**(self.K/2) \
-								 *np.linalg.det(var_matrix)**(.1/2))
-		term_second = np.exp(-1./2*np.dot( \
-									np.dot(np.transpose(x-mean), np.linalg.inv(var_matrix)), (x-mean)))
-		return term_first*term_second
+	# def _eval_n_dis(self, x, mean, var):
+	# 	var_diag = np.full((1, self.K), var)
+	# 	var_matrix = np.diagflat(var_diag)
+	# 	term_first = 1./((2*np.pi)**(self.K/2) \
+	# 							 *np.linalg.det(var_matrix)**(.1/2))
+	# 	term_second = np.exp(-1./2*np.dot( \
+	# 								np.dot(np.transpose(x-mean), np.linalg.inv(var_matrix)), (x-mean)))
+	# 	return term_first*term_second
 
-	def _eval_m_dis(self, x, p):
-		# NOTE: The constant is removed (special case)
-		p_sep = p**x
-		p_prod = np.prod(p_sep)
-		return p_sep
-		return p_prod
+	def eval_n_dis_log(self, x, mean, var):
+		product = np.dot(np.transpose(x-mean), (x-mean))
+		return -1/2 * product / var
+
+	# def _eval_m_dis(self, x, p):
+	# 	# NOTE: The constant is removed (special case)
+	# 	p_sep = p**x
+	# 	p_prod = np.prod(p_sep)
+	# 	return p_sep
+	# 	return p_prod
+
+	# def eval_m_dis_log(self, x, p):
+	# 	# NOTE: The constant is removed (special case)
+	# 	p_sep = p**x
+	# 	p_prod = np.prod(p_sep)
+	# 	return p_sep
+	# 	return p_prod
+
+	def _map_mp(self, arr):
+		return np.exp(arr) / np.sum(np.exp(arr))
+
+	def map_mp(self, arr, i):
+		return np.exp(arr[i]) / np.sum(np.exp(arr))
 
 	def _update_alphas(self):
 		# INITIALISE PROPOSED ALPHAS
 		alphas_prop = np.zeros(shape=self.alphas.shape)
-		# alphas_prop[0] = np.random.normal(self.alphas[0], self.var_alpha_prop)
 		for t in xrange(0, self.T):
 			alphas_prop[t] = np.random.normal(self.alphas[t-1], 
-																				self.var_alpha_prop)
+					self.var_alpha_prop)
 		# UPDATE THE ALPHAS
 		self.changed = 0
 		for t in xrange(0, self.T):
 			if t != 0:
-				p_alpha_cond = self._eval_n_dis(self.alphas[t], 
-																				self.alphas[t-1], 
-																				self.var_alpha)
-				p_alpha_cond_prop = self._eval_n_dis(alphas_prop[t], 
-																					 	 alphas_prop[t-1], 
-																					 	 self.var_alpha)
+				p_alpha_cond = self.eval_n_dis_log(self.alphas[t], 
+						self.alphas[t-1], self.var_alpha)
+				p_alpha_cond_prop = self.eval_n_dis_log(alphas_prop[t], 
+				 	  alphas_prop[t-1], self.var_alpha)
 			else:
-				p_alpha_cond = self._eval_n_dis(self.alphas[t], 
-																				self.alphas[t], 
-																				self.var_alpha)
-				p_alpha_cond_prop = self._eval_n_dis(alphas_prop[t], 
-																					 	 alphas_prop[t], 
-																					 	 self.var_alpha)
-			if t != self.T-1:
-				p_alpha_cond_nxt = self._eval_n_dis(self.alphas[t+1], 
-																						 self.alphas[t], 
-																						 self.var_alpha)
-				p_alpha_cond_prop_nxt = self._eval_n_dis(alphas_prop[t+1],
-																								 alphas_prop[t], 
-																							 	 self.var_alpha)
+				p_alpha_cond = self.eval_n_dis_log(self.alphas[t], 
+						self.alphas[t], self.var_alpha)
+				p_alpha_cond_prop = self.eval_n_dis_log(alphas_prop[t], 
+						alphas_prop[t], self.var_alpha)
+			if t != self.T - 1:
+				p_alpha_cond_nxt = self.eval_n_dis_log(self.alphas[t+1], 
+						self.alphas[t], self.var_alpha)
+				p_alpha_cond_prop_nxt = self.eval_n_dis_log(alphas_prop[t+1],
+						alphas_prop[t], self.var_alpha)
 			else:
-				p_alpha_cond_nxt = self._eval_n_dis(self.alphas[t], 
-																						 self.alphas[t], 
-																						 self.var_alpha)
-				p_alpha_cond_prop_nxt = self._eval_n_dis(alphas_prop[t],
-																								 alphas_prop[t], 
-																							 	 self.var_alpha)
-			# Current
-			theta_t = _map_mp(self.alphas[t])
-			p_theta_t = self._eval_m_dis(x=self._z_counts, 
-																   p=theta_t)
-			p_alpha_t = p_alpha_cond * p_alpha_cond_nxt
-			# Proposed
-			theta_prop_t = _map_mp(alphas_prop[t])
-			p_theta_prop_t = self._eval_m_dis(x=self._z_counts, 
-																			  p=theta_prop_t)
-			p_alpha_prop_t = p_alpha_cond_prop * p_alpha_cond_prop_nxt
+				p_alpha_cond_nxt = self.eval_n_dis_log(self.alphas[t], 
+						self.alphas[t], self.var_alpha)
+				p_alpha_cond_prop_nxt = self.eval_n_dis_log(alphas_prop[t],
+						alphas_prop[t], self.var_alpha)
 
-			term_third = np.prod(p_theta_t / p_theta_prop_t)
-			# Metropolis--Hastings step
-			# print p_alpha_cond, p_alpha_cond_nxt
-			# print p_alpha_cond_prop, p_alpha_cond_prop_nxt
-			r_acc_log = np.exp(np.log(term_third) + np.log(p_alpha_t) \
-				          - np.log(p_alpha_prop_t))
-			r_acc_norm = np.minimum(1, r_acc_log)
-			accept_alpha_prop = np.random.binomial(1, r_acc_norm)
-			if accept_alpha_prop:
+			theta_t = np.zeros(shape=self.alphas[t].shape)
+			theta_prop_t = np.zeros(shape=alphas_prop[t].shape)
+			for k in range(0, self.K):
+				theta_t[k] = self.map_mp(self.alphas[t], k)
+				theta_prop_t[k] = self.map_mp(alphas_prop[t], k)
+			p_theta_t = np.sum(np.log(theta_t**self._dz_counts[t]))
+			p_theta_prop_t = np.sum(np.log(
+					theta_prop_t**self._dz_counts[t]))
+			p_alpha_t = p_alpha_cond + p_alpha_cond_nxt + p_theta_t
+			p_alpha_prop_t = p_alpha_cond_prop + p_alpha_cond_prop_nxt \
+					+ p_theta_prop_t
+			r_raw = np.exp(p_alpha_prop_t - p_alpha_t)
+			r = np.minimum(1, r_raw)
+			accept_alpha = np.random.binomial(1, r)
+			# self.t = 0
+			if accept_alpha:
+				# self.t = t
+				# print self.alphas[t] == alphas_prop[t]
 				self.alphas[t] = alphas_prop[t]
+				# print self.alphas[t] == alphas_prop[t]
+
 				self.changed += 1
-		# exit()
-
-		# exit()
-		# a_t = np.random.normal(self.alpha, self.var_basic, self.K)
-		# a_tplus = np.random.normal(a_t, self.var_basic, self.K)
-		# p_a_t = self._eval_n_dis(a_t, self.alpha, self.var_basic)
-		# p_a_tplus = self._eval_n_dis(a_tplus, a_t, self.var_basic)
-		
-		# a_p_t = np.random.normal(self.alpha, self.var_prop, self.K)
-		# a_p_tplus = np.random.normal(a_p_t, self.var_prop, self.K)
-		# p_a_p_t = self._eval_n_dis(a_p_t, self.alpha, self.var_basic)
-		# p_a_p_tplus = self._eval_n_dis(a_p_tplus, a_p_t, self.var_basic)
-
-		# t_t = _map_mp(a_t)
-		# p_t_t = self._eval_m_dis(x=self._z_counts, p=t_t)
-
-		# t_p_t = _map_mp(a_p_t)
-		# p_t_p_t = self._eval_m_dis(x=self._z_counts, p=t_p_t)
-
-		# pa = p_a_t * p_a_tplus * p_t_t
-		# pa_t = p_a_p_t * p_a_p_tplus * p_t_p_t
-
-		# num_stabl = np.exp(np.log(pa) - np.log(pa_t))
-		# r = np.minimum(1, num_stabl)
-		# print(r)
-
-
-
-		# a_star_new = np.random.normal(a_t, self.var_prop, self.K)
-
 
 	def _sample_topics(self, corpus):
 		for d, doc in enumerate(corpus):
@@ -204,7 +181,7 @@ class DTM_alpha(object):
 					p_topic = ((1.0 * self._zw_counts[:, w] + self.beta[:, w]) / \
 						(1.0 * self._z_counts + self.V * self.beta[:, w])) * \
 						((self._dz_counts[d, :] + self.alphas[d]))
-					p_topic = _map_mp(p_topic)
+					p_topic = self._map_mp(p_topic)
 					z_new = np.random.choice(self.K, p=p_topic)
 
 					self._z_history[d][w][it] = z_new
@@ -313,7 +290,10 @@ def main():
 	dtm_alpha = DTM_alpha(K=10, iter_count=opts.iter)
 	corpus = pd.read_pickle(DATA_PATH + INPUT_FILE_NAME)
 	dtm_alpha.fit(corpus)
-
+	print len(dtm_alpha.history_alphas)
+	history_alphas = dtm_alpha.history_alphas
+	pickle = np.array(history_alphas)
+	pickle.dump(OUT_PATH + 'history_alphas.pkl')
 	# TODO: DUMP THETAS
 	# dtm_alpha.dump_thetas(OUT_PATH + 'gibbs_thetas.pickle')
 

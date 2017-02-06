@@ -1,3 +1,6 @@
+06/02/2017
+- Created a skeleton for the 3-D alpha plotting
+- Applied the log space to the autoregressive model
 03/02/2017
 - Metropolis--Hastings implementation
 -- Issues with overflowing
