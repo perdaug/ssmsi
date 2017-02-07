@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import numpy as np
+import copy
+
 np.set_printoptions(threshold=np.nan)
 
 '''
@@ -14,33 +16,6 @@ class DTM_alpha(object):
 		self.iter_count = iter_count
 		self.K = K
 		self.history_alphas = []
-		# self.thetas = []
-		# self.alpha_stars = []
-		# self.alphas = []
-		# self.var_basic = 0.2
-		# self.r_rates = []
-
-	def fit(self, corpus):
-		self._fit(corpus)
-
-	def dump_thetas(self, path):
-		pickle = np.array(self.thetas)
-		pickle.dump(path)
-
-	def _fit(self, corpus):
-		# 1) INITIALISATION
-		self._initialise(corpus)
-		for it in range(self.iter_count):
-			print 'Iteration: %s.' % it
-			# 2) Alpha Update
-			import copy
-			self.history_alphas.append(copy.deepcopy(self.alphas))
-			self._update_alphas()
-			print self.changed
-			# 3) Sampling
-			self._sample_topics(corpus)
-			# TODO: Stores thetas
-			# self._store_theta()
 
 	def _initialise(self, corpus):
 		self.T, self.V = corpus.shape
@@ -75,40 +50,22 @@ class DTM_alpha(object):
 					self._dz_counts[d, z] += 1
 					self._zw_counts[z, w] += 1
 					self._z_counts[z] += 1
-		# TODO: METROPOLIS HASTINGS
-		# a_init = np.random.normal(mean_a_init, deviation_a_init, self.K)
-		# self.alpha = a_init
-		# self.alphas.append(a_init)
-		# a_star_init = np.random.normal(a_init, self.var_alpha_prop,
-		# 															 self.K)
-		# self.alpha_stars.append(a_star_init)
 
-	# def _eval_n_dis(self, x, mean, var):
-	# 	var_diag = np.full((1, self.K), var)
-	# 	var_matrix = np.diagflat(var_diag)
-	# 	term_first = 1./((2*np.pi)**(self.K/2) \
-	# 							 *np.linalg.det(var_matrix)**(.1/2))
-	# 	term_second = np.exp(-1./2*np.dot( \
-	# 								np.dot(np.transpose(x-mean), np.linalg.inv(var_matrix)), (x-mean)))
-	# 	return term_first*term_second
+	def fit(self, corpus):
+		# 1) INITIALISATION
+		self._initialise(corpus)
+		for it in range(self.iter_count):
+			print 'Iteration: %s.' % it
+			# 2) Alpha Update
+			self.history_alphas.append(copy.deepcopy(self.alphas))
+			self._update_alphas()
+			print self.changed
+			# 3) Sampling
+			self._sample_topics(corpus)
 
 	def eval_n_dis_log(self, x, mean, var):
 		product = np.dot(np.transpose(x-mean), (x-mean))
 		return -1/2 * product / var
-
-	# def _eval_m_dis(self, x, p):
-	# 	# NOTE: The constant is removed (special case)
-	# 	p_sep = p**x
-	# 	p_prod = np.prod(p_sep)
-	# 	return p_sep
-	# 	return p_prod
-
-	# def eval_m_dis_log(self, x, p):
-	# 	# NOTE: The constant is removed (special case)
-	# 	p_sep = p**x
-	# 	p_prod = np.prod(p_sep)
-	# 	return p_sep
-	# 	return p_prod
 
 	def _map_mp(self, arr):
 		return np.exp(arr) / np.sum(np.exp(arr))
@@ -126,22 +83,22 @@ class DTM_alpha(object):
 		self.changed = 0
 		for t in xrange(0, self.T):
 			if t != 0:
-				p_alpha_cond = self.eval_n_dis_log(self.alphas[t], 
+				p_alpha_cond = self.eval_n_dis_log(self.alphas[t],
 						self.alphas[t-1], self.var_alpha)
-				p_alpha_cond_prop = self.eval_n_dis_log(alphas_prop[t], 
+				p_alpha_cond_prop = self.eval_n_dis_log(alphas_prop[t],
 				 	  alphas_prop[t-1], self.var_alpha)
 			else:
-				p_alpha_cond = self.eval_n_dis_log(self.alphas[t], 
+				p_alpha_cond = self.eval_n_dis_log(self.alphas[t],
 						self.alphas[t], self.var_alpha)
-				p_alpha_cond_prop = self.eval_n_dis_log(alphas_prop[t], 
+				p_alpha_cond_prop = self.eval_n_dis_log(alphas_prop[t],
 						alphas_prop[t], self.var_alpha)
 			if t != self.T - 1:
-				p_alpha_cond_nxt = self.eval_n_dis_log(self.alphas[t+1], 
+				p_alpha_cond_nxt = self.eval_n_dis_log(self.alphas[t+1],
 						self.alphas[t], self.var_alpha)
 				p_alpha_cond_prop_nxt = self.eval_n_dis_log(alphas_prop[t+1],
 						alphas_prop[t], self.var_alpha)
 			else:
-				p_alpha_cond_nxt = self.eval_n_dis_log(self.alphas[t], 
+				p_alpha_cond_nxt = self.eval_n_dis_log(self.alphas[t],
 						self.alphas[t], self.var_alpha)
 				p_alpha_cond_prop_nxt = self.eval_n_dis_log(alphas_prop[t],
 						alphas_prop[t], self.var_alpha)
@@ -151,22 +108,17 @@ class DTM_alpha(object):
 			for k in range(0, self.K):
 				theta_t[k] = self.map_mp(self.alphas[t], k)
 				theta_prop_t[k] = self.map_mp(alphas_prop[t], k)
-			p_theta_t = np.sum(np.log(theta_t**self._dz_counts[t]))
-			p_theta_prop_t = np.sum(np.log(
-					theta_prop_t**self._dz_counts[t]))
+			p_theta_t = np.sum(self._dz_counts[t] * np.log(theta_t))
+			p_theta_prop_t = np.sum(self._dz_counts[t] * np.log(
+					theta_prop_t))
 			p_alpha_t = p_alpha_cond + p_alpha_cond_nxt + p_theta_t
 			p_alpha_prop_t = p_alpha_cond_prop + p_alpha_cond_prop_nxt \
 					+ p_theta_prop_t
 			r_raw = np.exp(p_alpha_prop_t - p_alpha_t)
 			r = np.minimum(1, r_raw)
 			accept_alpha = np.random.binomial(1, r)
-			# self.t = 0
 			if accept_alpha:
-				# self.t = t
-				# print self.alphas[t] == alphas_prop[t]
 				self.alphas[t] = alphas_prop[t]
-				# print self.alphas[t] == alphas_prop[t]
-
 				self.changed += 1
 
 	def _sample_topics(self, corpus):
@@ -183,88 +135,10 @@ class DTM_alpha(object):
 						((self._dz_counts[d, :] + self.alphas[d]))
 					p_topic = self._map_mp(p_topic)
 					z_new = np.random.choice(self.K, p=p_topic)
-
 					self._z_history[d][w][it] = z_new
 					self._dz_counts[d, z_new] += 1
 					self._zw_counts[z_new, w] += 1
 					self._z_counts[z_new] += 1
-
-
-
-	'''
-	- a stands for alpha
-	- t stands for theta
-	- p stands for probability
-	'''
-	# def _dynamic_step(self):
-	# 	a_t = np.random.normal(self.alpha, self.var_basic, self.K)
-	# 	a_tplus = np.random.normal(a_t, self.var_basic, self.K)
-	# 	p_a_t = self._eval_n_dis(a_t, self.alpha, self.var_basic)
-	# 	p_a_tplus = self._eval_n_dis(a_tplus, a_t, self.var_basic)
-		
-	# 	a_p_t = np.random.normal(self.alpha, self.var_prop, self.K)
-	# 	a_p_tplus = np.random.normal(a_p_t, self.var_prop, self.K)
-	# 	p_a_p_t = self._eval_n_dis(a_p_t, self.alpha, self.var_basic)
-	# 	p_a_p_tplus = self._eval_n_dis(a_p_tplus, a_p_t, self.var_basic)
-
-	# 	t_t = _map_mp(a_t)
-	# 	p_t_t = self._eval_m_dis(x=self._z_counts, p=t_t)
-
-	# 	t_p_t = _map_mp(a_p_t)
-	# 	p_t_p_t = self._eval_m_dis(x=self._z_counts, p=t_p_t)
-
-	# 	pa = p_a_t * p_a_tplus * p_t_t
-	# 	pa_t = p_a_p_t * p_a_p_tplus * p_t_p_t
-
-	# 	num_stabl = np.exp(np.log(pa) - np.log(pa_t))
-	# 	r = np.minimum(1, num_stabl)
-	# 	print(r)
-
-
-
-	# 	a_star_new = np.random.normal(a_t, self.var_prop, self.K)
-		
-
-	# 	return
-	# 	# p = np.random.multivariate_normal(a_t, dev_basic_matrix)
-	# 	# c = self._eval_normal_multivariate(a_t, self.alpha, dev_basic_matrix)
-	# 	exit()
-
-	# 	theta = _map_mp(self.alpha)
-	# 	theta_star = _map_mp(self.alpha_stars[-1])
-	# 	p = self.alpha * a_t * theta
-	# 	p_star = self.alpha_stars[-1] * a_star_new * theta_star
-
-	# 	p_star_u = _map_mp(p_star)
-	# 	p_u = _map_mp(p)
-	# 	r = p_star_u / p_u
-	# 	p_acceptance = np.minimum(r, 1)
-	# 	draws = np.zeros(shape=10)
-	# 	for idx, prob in enumerate(p_acceptance):
-	# 		choice = np.random.choice(2, p=[1 - prob, prob])
-	# 		draws[idx] = int(choice)
-	# 		if choice == 1:
-	# 			a_t[idx] = a_star_new[idx]
-
-	# 	self.alphas.append(a_t)
-	# 	self.alpha = a_t
-	# 	self.alpha_stars.append(a_star_new)
-	# 	array = np.array(draws, dtype=int)
-	# 	print(array)
-	# 	r_rate = array.sum()/10.
-	# 	self.r_rates.append(r_rate)
-
-	def _store_theta(self):
-		thetas_prev = (self._dz_counts + self.alpha)
-		thetas_p_norm = thetas_prev \
-										/ np.sum(thetas_prev, axis=1)[:, np.newaxis]
-
-		thetas_current = np.zeros(shape=thetas_prev.shape)
-		for doc_idx, theta_p_n in enumerate(thetas_p_norm):
-			theta_current = np.random.dirichlet(theta_p_n)
-			thetas_current[doc_idx, :] = theta_current
-		self.thetas.append(np.array(thetas_current))
-
 
 from optparse import OptionParser
 op = OptionParser()
@@ -277,6 +151,9 @@ op.add_option("--corpus",
 op.add_option("--iter",
 							action="store", type=int,
 							help="The iteration count.")
+op.add_option("-K",
+							action="store", type=int,
+							help="The iteration count.")
 (opts, args) = op.parse_args()
 
 HOME_PATH = os.path.expanduser('~') + '/Projects/ssmsi/'
@@ -287,15 +164,13 @@ OUTPUT_FILE_NAME = 'g_thetas_' + opts.source + '_' + opts.corpus \
 									 + '.pickle'
 
 def main():
-	dtm_alpha = DTM_alpha(K=10, iter_count=opts.iter)
+	dtm_alpha = DTM_alpha(K=opts.K, iter_count=opts.iter)
 	corpus = pd.read_pickle(DATA_PATH + INPUT_FILE_NAME)
 	dtm_alpha.fit(corpus)
-	print len(dtm_alpha.history_alphas)
 	history_alphas = dtm_alpha.history_alphas
 	pickle = np.array(history_alphas)
-	pickle.dump(OUT_PATH + 'history_alphas.pkl')
-	# TODO: DUMP THETAS
-	# dtm_alpha.dump_thetas(OUT_PATH + 'gibbs_thetas.pickle')
+	pickle.dump(OUT_PATH + 'alpha-history_' + str(opts.iter) 
+			+ '_' + opts.corpus + '.pkl')
 
 if __name__ == '__main__':
 	main()
