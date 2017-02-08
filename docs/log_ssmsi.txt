@@ -1,3 +1,7 @@
+08/02/2017
+- Dedicated a directory for the project presentations
+- Implemented the plotting of initial and updated alphas
+- Displaying alpha update rates
 07/02/2017
 - Adjusted the 3D alpha plotting
 - Created a 2D comparison of the used and updated thetas
