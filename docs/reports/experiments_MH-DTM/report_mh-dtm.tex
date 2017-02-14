@@ -3,7 +3,8 @@
 \usepackage[english]{babel}
 \usepackage{graphicx}
 \usepackage{float}
-
+\usepackage{caption}
+\usepackage{subcaption}
 
 \setlength{\oddsidemargin}{0in}
 \setlength{\evensidemargin}{0in}
@@ -57,7 +58,34 @@ Note that the latter $\beta$ values were applied to the autoregressive topic mod
 
 \section*{The experiment results}
 
-\par
+\par The first experiment is focused on discovering the choice of the variances. To be more specific, the alpha update is based on three different variances were used: the `initial' variance $\sigma_0^2I$ to induce $\alpha_t$ at $t=0$, the `basic' variance $\sigma^2I$ to induce $\alpha_t$ at $t>0$, and the `proposed' variance $\delta^2I$ to induce $\alpha'_t$ at $t=0$; also, note that $\alpha'_t$ at $t>0$ were induced using the `basic' variance.
+
+\par The experiment involved $500$ autoregressive iterations and $\sigma^2$ were set to $0.1$. The idea was to tune the model with different values of $\sigma_0$ and $\delta^2$; the choice of different values is illustrated in Figures 3, 4, 5 below.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{var-init-10_var-prop-5_iter-500}
+  \caption{The values of $\beta$ used in the generative process.}
+  \label{fig:a}
+\end{figure}
+\begin{figure}[H]
+        \begin{subfigure}[b]{0.33\textwidth}
+                \includegraphics[width=\linewidth]{var-init-10_var-prop-5_iter-500}
+                \caption{A gull}
+                \label{fig:gull}
+        \end{subfigure}%
+        \begin{subfigure}[b]{0.33\textwidth}
+                \includegraphics[width=\linewidth]{var-init-10_var-prop-5_iter-500}
+                \caption{A gull2}
+                \label{fig:gull2}
+        \end{subfigure}%
+        \begin{subfigure}[b]{0.33\textwidth}
+                \includegraphics[width=\linewidth]{var-init-10_var-prop-5_iter-500}
+                \caption{A tiger}
+                \label{fig:tiger}
+        \end{subfigure}
+        \caption{Pictures of animals}\label{fig:animals}
+\end{figure}
 
 % ___________________________________________________________________
 \subsection*{Current Stage}
