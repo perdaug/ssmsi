@@ -1,4 +1,5 @@
 14/02/2017
+- Defined the experiment settings of the experiments
 - Implemented the barebones for the experiment setup
 08/02/2017
 - Dedicated a directory for the project presentations
