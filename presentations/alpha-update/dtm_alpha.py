@@ -14,10 +14,12 @@ class DTM_alpha(object):
 		self.var_alpha_prop = var_prop
 		self.assignments_alpha = 0
 		self.alpha_updates_potential = 0
+		self.beta = None
 
 	def _initialise(self, corpus):
 		self.T, self.V = corpus.shape
-		self.beta = np.full((self.K, self.V), 1./self.V)
+		if self.beta != None:
+			self.beta = np.full((self.K, self.V), 1./self.V)
 		# INIT ALPHAS
 		self.history_alpha = np.zeros(
 				shape=(self.iter_count, self.T, self.K))
