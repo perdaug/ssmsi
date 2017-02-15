@@ -15,6 +15,8 @@ class DTM_alpha(object):
 		self.assignments_alpha = 0
 		self.alpha_updates_potential = 0
 		self.beta = None
+		self.thetas = []
+
 
 	def _initialise(self, corpus):
 		self.T, self.V = corpus.shape
@@ -60,6 +62,7 @@ class DTM_alpha(object):
 			self._update_alphas()
 			# 3) Sampling
 			self._sample_topics(corpus)
+			self._store_theta()
 
 	def eval_n_dis_log(self, x, mean, var):
 		product = np.dot(np.transpose(x-mean), (x-mean))
@@ -138,3 +141,25 @@ class DTM_alpha(object):
 					self._zw_counts[z_new, w] += 1
 					self._z_counts[z_new] += 1
 
+	def _store_theta(self):
+		thetas_prev = (self._dz_counts + self.alphas)
+		thetas_p_norm = thetas_prev \
+										/ np.sum(thetas_prev, axis=1)[:, np.newaxis]
+
+		thetas_current = np.zeros(shape=thetas_prev.shape)
+		# for doc_idx, theta_p_n in enumerate(thetas_p_norm):
+		# 	theta_current = np.random.dirichlet(theta_p_n)
+		# 	thetas_current[doc_idx, :] = theta_current
+		self.thetas.append(np.array(thetas_current))
+
+
+corpus = pd.read_pickle('corpus_test.pkl')
+iter_count = 100
+var_init = 1
+var_basic = 0.1
+var_prop = 0.15
+K = 2
+dtm_alpha = DTM_alpha(K=K, iter_count=iter_count, var_init=var_init, var_basic=var_basic, var_prop=var_prop)
+beta = np.array([[0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0], [0, 0, 0.2, 0, 0, 0, 0, 0.3, 0.3, 0.2]])
+dtm_alpha.beta = beta
+dtm_alpha.fit(corpus)

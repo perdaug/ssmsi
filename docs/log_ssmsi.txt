@@ -1,3 +1,6 @@
+15/02/2017
+- Wrote the skeleton of the remaining sections for the report
+- Created the main function in the DTM to avoid notebook reloading
 14/02/2017
 - Defined the experiment settings of the experiments
 - Implemented the barebones for the experiment setup

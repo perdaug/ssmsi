@@ -39,7 +39,7 @@ To start with, I have generated a synthetic corpus; the parameters used in the c
 	\item The size of vocabulary: V = 10;
 	\item The number of words per document t: $N_t \sim \mbox{Pois}(\lambda),\quad \lambda = 1000$.
 \end{itemize}
-Further, to consider the initial settings of $\alpha_k$ development over documents, $\alpha_0$ is a sine curve and $\alpha_1$ is a cosine curve; the corresponding \textit{softmax} expressions of the curves are illustrated in Figure 1 below.
+Further, to consider the initial settings of $\alpha_k$ development over documents, $\alpha_0$ is a sine curve and $\alpha_1$ is a cosine curve; the corresponding softmax expressions of the curves, i.e $\mu = \mbox{softmax}(\alpha)$, are illustrated in Figure 1 below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{alpha_initial}
@@ -60,7 +60,7 @@ Note that the latter $\beta$ values were applied to the autoregressive topic mod
 
 \par The first experiment is focused on discovering the choice of the variances. To be more specific, the alpha update is based on three different variances were used: the `initial' variance $\sigma_0^2I$ to induce $\alpha_t$ at $t=0$, the `basic' variance $\sigma^2I$ to induce $\alpha_t$ at $t>0$, and the `proposed' variance $\delta^2I$ to induce $\alpha'_t$ at $t=0$; also, note that $\alpha'_t$ at $t>0$ were induced using the `basic' variance.
 
-\par The experiment involved $500$ autoregressive iterations and $\sigma^2$ were set to $0.1$. The idea was to tune the model with different values of $\sigma_0$ and $\delta^2$; the choice of different values is illustrated in Figures 3, 4, 5 below.
+\par For both experiments, the number of autoregressive iterations was set to $500$ and $\sigma^2$ was set to $0.1$. The resulting plots of $\mu$ with different values of $\sigma_0$ and $\delta^2$ are illustrated in Figures 3, 4, 5 below.
 
 \begin{figure}[H]
   \centering
@@ -86,6 +86,16 @@ Note that the latter $\beta$ values were applied to the autoregressive topic mod
         \end{subfigure}
         \caption{Pictures of animals}\label{fig:animals}
 \end{figure}
+
+\par The second experiment was carried to determine the impact of the $\alpha$ update in recovering the original topic fluctuations in the synthetic corpus. For this reason, the autoregressive part of the dynamic topic was disabled. The topic assignments to the documents of the last iteration are visualised in Figure 6 below.
+% ___________________________________________________________________
+
+\section*{Observations}
+
+\par For the last section of this report, I have set some questions to be addressed during next meeting; these are listed below:
+\begin{itemize}
+	\item In some cases, the larger number of iterations reduced the performance in reproducing the initial $\alpha$;
+\end{itemize}
 
 % ___________________________________________________________________
 \subsection*{Current Stage}
