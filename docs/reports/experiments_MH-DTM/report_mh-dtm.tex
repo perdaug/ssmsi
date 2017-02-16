@@ -26,7 +26,7 @@
 \endgroup
 % ___________________________________________________________________
 
-\par This report assesses some experiments performed on reproducing $\alpha$ parameters used in a generative data process. Note that the report is structures in the following sections: 1) defining the experiment settings; 2) assessing the experiment results; 3) settings some questions to be discussed during next meeting.
+\par This report assesses some experiments performed on reproducing $\alpha$ parameters used in generating synthetic data. Note that the report is structured in the following order: 1) defining the experiment settings; 2) assessing the experiment results.
 % ___________________________________________________________________
 
 \section*{The Experiment Settings}
@@ -34,16 +34,16 @@
 \par The intention of the carried experiments is to identify the optimal settings for the Metropolis--Hastings algorithm application. 
 To start with, I have generated a synthetic corpus; the parameters used in the corpus generation will allow to assess the performance achieved in the experiments. The corpus generation parameters are set as follows:
 \begin{itemize}
-	\item The number of topics: K = 2;
-	\item The number of documents (time-slices): T = 20;
-	\item The size of vocabulary: V = 10;
-	\item The number of words per document t: $N_t \sim \mbox{Pois}(\lambda),\quad \lambda = 1000$.
+  \item The number of topics: K = 2;
+  \item The number of documents (time-slices): T = 20;
+  \item The size of vocabulary: V = 10;
+  \item The number of words per document t: $N_t \sim \mbox{Pois}(\lambda),\quad \lambda = 1000$.
 \end{itemize}
 Further, to consider the initial settings of $\alpha_k$ development over documents, $\alpha_0$ is a sine curve and $\alpha_1$ is a cosine curve; the corresponding softmax expressions of the curves, i.e $\mu = \mbox{softmax}(\alpha)$, are illustrated in Figure 1 below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{alpha_initial}
-  \caption{The values of $\mu$ used in the generative process.}
+  \caption{The values of $\mbox{softmax}(\alpha)$ used in the generative process.}
   \label{fig:mu}
 \end{figure}
 Speaking of $\beta$, it was initially predefined and kept constant throughout the dynamic generative process; $\beta$ is illustrated in Figure 2 below.
@@ -58,86 +58,84 @@ Note that the latter $\beta$ values were applied to the autoregressive topic mod
 
 \section*{The experiment results}
 
-\par The first experiment is focused on discovering the choice of the variances. To be more specific, the alpha update is based on three different variances were used: the `initial' variance $\sigma_0^2I$ to induce $\alpha_t$ at $t=0$, the `basic' variance $\sigma^2I$ to induce $\alpha_t$ at $t>0$, and the `proposed' variance $\delta^2I$ to induce $\alpha'_t$ at $t=0$; also, note that $\alpha'_t$ at $t>0$ were induced using the `basic' variance.
+\par The first experiment is focused on discovering the choice of the variances. To be more specific, the alpha update is based on three different variances were used: the `initial' variance $\sigma^2_0I$ to induce $\alpha_t$ at $t=0$, the `basic' variance $\sigma^2I$ to induce $\alpha_t$ at $t>0$, and the `proposed' variance $\delta^2I$ to induce $\alpha'_t$ at $t=0$; also, note that $\alpha'_t$ at $t>0$ were induced using the `basic' variance.
 
-\par For both experiments, the number of autoregressive iterations was set to $500$ and $\sigma^2$ was set to $0.1$. The resulting plots of $\mu$ with different values of $\sigma_0$ and $\delta^2$ are illustrated in Figures 3, 4, 5 below.
+\par For both experiments, the number of autoregressive iterations was set to $500$ and $\sigma^2$ was set to $0.01$. The resulting plots of $\mu$ with different values of $\sigma^2_0$ and $\delta^2$ are illustrated in Figures 3, 4, 5 below.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.5\textwidth]{var-init-10_var-prop-5_iter-500}
-  \caption{The values of $\beta$ used in the generative process.}
-  \label{fig:a}
-\end{figure}
 \begin{figure}[H]
         \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{var-init-10_var-prop-5_iter-500}
-                \caption{A gull}
+                \includegraphics[width=\linewidth]{init-1_prop-05}
+                \caption{$\sigma^2_0=1,\quad \delta^2=0.5$}
                 \label{fig:gull}
         \end{subfigure}%
         \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{var-init-10_var-prop-5_iter-500}
-                \caption{A gull2}
+                \includegraphics[width=\linewidth]{init-1_prop-2}
+                \caption{$\sigma^2_0=1,\quad \delta^2=2$}
                 \label{fig:gull2}
         \end{subfigure}%
         \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{var-init-10_var-prop-5_iter-500}
-                \caption{A tiger}
+                \includegraphics[width=\linewidth]{init-1_prop-5}
+                \caption{$\sigma^2_0=1,\quad \delta^2=5$}
                 \label{fig:tiger}
         \end{subfigure}
-        \caption{Pictures of animals}\label{fig:animals}
+        \caption{$\mbox{softmax}(\alpha)$ with the lowest value of the initial variance.}\label{fig:animals}
+\end{figure}
+\begin{figure}[H]
+        \begin{subfigure}[b]{0.33\textwidth}
+                \includegraphics[width=\linewidth]{init-5_prop-05}
+                \caption{$\sigma^2_0=5,\quad \delta^2=0.5$}
+                \label{fig:gull}
+        \end{subfigure}%
+        \begin{subfigure}[b]{0.33\textwidth}
+                \includegraphics[width=\linewidth]{init-5_prop-2}
+                \caption{$\sigma^2_0=5,\quad \delta^2=2$}
+                \label{fig:gull2}
+        \end{subfigure}%
+        \begin{subfigure}[b]{0.33\textwidth}
+                \includegraphics[width=\linewidth]{init-5_prop-5}
+                \caption{$\sigma^2_0=5,\quad \delta^2=5$}
+                \label{fig:tiger}
+        \end{subfigure}
+        \caption{$\mbox{softmax}(\alpha)$ with the average value of the initial variance.}\label{fig:animals}
+\end{figure}
+\begin{figure}[H]
+        \begin{subfigure}[b]{0.33\textwidth}
+                \includegraphics[width=\linewidth]{init-10_prop-05}
+                \caption{$\sigma^2_0=10,\quad \delta^2=0.5$}
+                \label{fig:gull}
+        \end{subfigure}%
+        \begin{subfigure}[b]{0.33\textwidth}
+                \includegraphics[width=\linewidth]{init-10_prop-2}
+                \caption{$\sigma^2_0=10,\quad \delta^2=2$}
+                \label{fig:gull2}
+        \end{subfigure}%
+        \begin{subfigure}[b]{0.33\textwidth}
+                \includegraphics[width=\linewidth]{init-10_prop-5}
+                \caption{$\sigma^2_0=10,\quad \delta^2=5$}
+                \label{fig:tiger}
+        \end{subfigure}
+        \caption{$\mbox{softmax}(\alpha)$ with the highest value of the initial variance.}\label{fig:animals}
 \end{figure}
 
+
 \par The second experiment was carried to determine the impact of the $\alpha$ update in recovering the original topic fluctuations in the synthetic corpus. For this reason, the autoregressive part of the dynamic topic was disabled. The topic assignments to the documents of the last iteration are visualised in Figure 6 below.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{thetas}
+  \caption{The topic assignments to the documents.}
+  \label{fig:mu}
+\end{figure}
+
 % ___________________________________________________________________
 
-\section*{Observations}
+% \section*{Observations}
 
-\par For the last section of this report, I have set some questions to be addressed during next meeting; these are listed below:
-\begin{itemize}
-	\item In some cases, the larger number of iterations reduced the performance in reproducing the initial $\alpha$;
-\end{itemize}
-
+% \par For the last section of this report, I have set some questions to be addressed during next meeting; these are listed below:
+% \begin{itemize}
+%   \item In some cases, the larger number of iterations reduced the performance in reproducing the initial $\alpha$;
+% \end{itemize}
 % ___________________________________________________________________
-\subsection*{Current Stage}
-
-% - Data and model settings
-% -- Synthetic data set
-% -- Parameters initialisation
-% --- Number of topics
-% --- Initial alphas and betas
-% ---- Variance
-
-\par During the experiment, I have used the following settings:
-\begin{itemize}
-\item The synthetic data has been created by inducing the previously implemented dynamic topic modelling (DNT) generative process:
-\begin{itemize}
-\item The number of documents: $|\mbox{D}|\approx6000$;
-\item The size of the vocabulary: $|\mbox{V}|\approx2000$;
-\item The number of words per document: $\mbox{N}_d\approx20$,\quad$\forall d \in \mbox{D}$;
-\item Instead of intensity values, it is assumed that the document dictionaries contain word counts. For example, $d_{111}=\{v_{20}:15, v_{40}:5\}$. 
-\end{itemize}
-\item The number of topics: $K=10$;
-\item The number of time-slices: $T=50$;
-\item The alpha at $t=0$: $\alpha_0 \sim \mathcal{N}(\mu_0, \sigma^2_0I),\quad \mu_0 = 0.1,\quad\sigma_0^2 = 0.2$;
-\item The alphas at $t>0$: $\alpha_t \sim \mathcal{N}(\alpha_{t-1}, \sigma^2I), \quad\sigma^2 = 0.1$;
-\item The candidate alphas: $\alpha'_t \sim \mathcal{N}(\alpha_{t}, \delta^2I), \quad\delta^2 = 2$; 
-\item The acceptance rate: $r_t=\min(1,p(\alpha'_t)/p(\alpha_t))$;
-\item The probability of the state: $p(\alpha_t)=p(\alpha_{t} | \alpha_{t-1})\cdot p(\alpha_{t+1} | \alpha_{t})\cdot \pi(\alpha_t)$, where $\pi$ is a mapping to the mean parameterisation;
-\end{itemize}
-
-The rationale of the implementation follows the following principle: $\alpha_t$ is set to $\alpha'_t$ on the successful `toss' based on $r_t$. Also, the variances are tuned to obtain $r_t\approx30\%$.
-
-\subsection*{Issues}
-\par My uncertainties with the proposed solution are the following:
-\begin{itemize}
-\item The estimation of $p(\alpha_t)$:
-\begin{itemize}
-\item The third term of the expression, $\pi(\alpha_t)$, represents the topic distribution in documents in time-slice $t$;
-\item The current model treats the vocabulary term distributions over the topics, $\beta$, to have same values; therefore, this term was omitted -- it cancels out upon the estimation of $r_t$;
-\item The first (and second) term $p(\alpha_{t} | \alpha_{t-1})$ is drawn from $\mathcal{N}(\alpha_{t-1}, \sigma^2I)$.
-\end{itemize}
-\item Since $\alpha_t$ is a vector, the initial $r_t$ is a vector as well.
-\end{itemize}
 
 
 %\bibliography{report_mh_alpha-update}{}

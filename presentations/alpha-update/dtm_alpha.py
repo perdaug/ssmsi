@@ -54,12 +54,12 @@ class DTM_alpha(object):
 		for it in range(self.iter_count):
 			if it != 0 and it % 10 == 0:
 				print 'Iteration: %s' % it
-				print 'Total alpha changes: %s' % self.assignments_alpha
-				print 'Alpha update rate: %.4f' % (1.0 \
-						* self.assignments_alpha / self.alpha_updates_potential)
+				# print 'Total alpha changes: %s' % self.assignments_alpha
+				# print 'Alpha update rate: %.4f' % (1.0 \
+				# 		* self.assignments_alpha / self.alpha_updates_potential)
 			# 2) Alpha Update
 			self.history_alpha[it] = copy.deepcopy(self.alphas)
-			self._update_alphas()
+			# self._update_alphas()
 			# 3) Sampling
 			self._sample_topics(corpus)
 			self._store_theta()
@@ -147,19 +147,21 @@ class DTM_alpha(object):
 										/ np.sum(thetas_prev, axis=1)[:, np.newaxis]
 
 		thetas_current = np.zeros(shape=thetas_prev.shape)
-		# for doc_idx, theta_p_n in enumerate(thetas_p_norm):
-		# 	theta_current = np.random.dirichlet(theta_p_n)
-		# 	thetas_current[doc_idx, :] = theta_current
+		for doc_idx, theta_p_n in enumerate(thetas_p_norm):
+			theta_current = np.random.dirichlet(theta_p_n)
+			thetas_current[doc_idx, :] = theta_current
 		self.thetas.append(np.array(thetas_current))
 
 
 corpus = pd.read_pickle('corpus_test.pkl')
-iter_count = 100
+iter_count = 500
 var_init = 1
-var_basic = 0.1
-var_prop = 0.15
+var_basic = 0.01
+var_prop = 0.5
 K = 2
 dtm_alpha = DTM_alpha(K=K, iter_count=iter_count, var_init=var_init, var_basic=var_basic, var_prop=var_prop)
 beta = np.array([[0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0], [0, 0, 0.2, 0, 0, 0, 0, 0.3, 0.3, 0.2]])
 dtm_alpha.beta = beta
 dtm_alpha.fit(corpus)
+thetas = np.array(dtm_alpha.thetas)
+thetas.dump('thetas.pkl')
