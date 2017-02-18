@@ -1,4 +1,7 @@
 18/02/2017
+- Implemented the non auto-regressive version
+- Implemented the snapshots
+- Adjust the plotting
 - Implemented the auto-regressive version
 - Fixed the M--H algorithm
 15/02/2017

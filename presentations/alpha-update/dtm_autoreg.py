@@ -15,8 +15,8 @@ class DTM_Alpha(object):
 	- sigma_sq is the variance for alpha[t]
 	- delta_sq is the variance for alpha'[t]
 	'''
-	def __init__(self, K, sigma_0_sq, sigma_sq, delta_sq, 
-							 autoreg=False, snapshot=False):
+	def __init__(self, K=None, sigma_0_sq=None, sigma_sq=None,
+	 						 delta_sq=None, autoreg=False, snapshot=False):
 		# Input
 		self.K = K
 		self.sigma_0_sq = sigma_0_sq
@@ -45,7 +45,6 @@ class DTM_Alpha(object):
 	def fit(self, n_it, corpus=None):
 		if not self.snapshot:
 			self._initialise(corpus)
-		print self.n_it_sampl_last
 		for it in range(self.n_it_sampl_last,
 									  self.n_it_sampl_last + n_it):
 			if it != 0 and it % 10 == 0:
@@ -63,7 +62,7 @@ class DTM_Alpha(object):
 				% (1.0 * self.n_upd_alpha / self.n_it_alpha)
 # __________________________________________________________________
 
-	def load_fit(self, path_file, n_it):
+	def load_fit(self, path_file, n_it=0):
 		vars_loaded = pd.read_pickle(path_file)
 		for var in vars(self):
 			if var is 'snapshot':
@@ -71,6 +70,7 @@ class DTM_Alpha(object):
 			else:
 				setattr(self, var, vars_loaded[var])
 		self.fit(n_it=n_it)
+
 # __________________________________________________________________
 
 	def _initialise(self, corpus):
@@ -220,23 +220,21 @@ def main():
 	dtm_alpha = DTM_Alpha(K=K, sigma_0_sq=sigma_0_sq,
 												sigma_sq=sigma_sq, delta_sq=delta_sq,
 												autoreg=False)
-	dtm_alpha.load_fit('model.pkl', n_it=n_it)
-	print vars(dtm_alpha).keys()
-	vars_dtm = vars(dtm_alpha)
-	with open('model.pkl', 'wb') as f:
-		pkl.dump(vars_dtm, f)
-	return
-	beta = np.array([[0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0],
-									[0, 0, 0.2, 0, 0, 0, 0, 0.3, 0.3, 0.2]])
-	dtm_alpha.beta = beta
-	dtm_alpha.fit(n_it=n_it, corpus=corpus)
+	# beta = np.array([[0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0],
+	# 								[0, 0, 0.2, 0, 0, 0, 0, 0.3, 0.3, 0.2]])
+	# dtm_alpha.beta = beta
+	# dtm_alpha.fit(n_it=n_it, corpus=corpus)
+	# vars_dtm = vars(dtm_alpha)
+	# with open('model.pkl', 'wb') as f:
+	# 	pkl.dump(vars_dtm, f)
 	
-	print vars(dtm_alpha).keys()
+	dtm_alpha.load_fit('model.pkl', n_it=n_it)
+	
 	vars_dtm = vars(dtm_alpha)
 	with open('model.pkl', 'wb') as f:
 		pkl.dump(vars_dtm, f)
-	hist_theta = np.array(dtm_alpha.hist_theta)
-	hist_theta.dump('thetas.pkl')
+	# hist_theta = np.array(dtm_alpha.hist_theta)
+	# hist_theta.dump('thetas.pkl')
 
 if __name__ == "__main__":
 		main()

@@ -2,147 +2,204 @@ import os
 import pandas as pd
 import numpy as np
 import copy
+from scipy.stats import norm
+import pickle as pkl
+
 np.set_printoptions(threshold=np.nan)
 
-class DTM_alpha(object):
+class DTM_Alpha(object):
 
-	def __init__(self, K, iter_count, var_init, var_basic, var_prop):
-		self.iter_count = iter_count
+	'''
+	Parameters:
+	- sigma_0_sq is the initial variance for alpha[0];
+	- sigma_sq is the variance for alpha[t]
+	- delta_sq is the variance for alpha'[t]
+	'''
+	def __init__(self, K=None, sigma_0_sq=None, sigma_sq=None,
+	 						 delta_sq=None, autoreg=False, snapshot=False):
+		# Input
 		self.K = K
-		self.var_alpha_init = var_init
-		self.var_alpha = var_basic
-		self.var_alpha_prop = var_prop
-		self.assignments_alpha = 0
-		self.alpha_updates_potential = 0
+		self.sigma_0_sq = sigma_0_sq
+		self.sigma_sq = sigma_sq
+		self.delta_sq = delta_sq
+		self.autoreg = autoreg
+		# Counters and array initialisation
+		self.n_it_sampl_last = 0
+		self.n_upd_alpha = 0
+		self.n_it_alpha = 0
+		self.hist_theta = []
+		self.hist_alpha = []
+		self.hist_z = []
+		# Parameters initialised later in the work-flow
+		self.snapshot = snapshot
 		self.beta = None
-		self.thetas = []
+		self.T = None
+		self.V = None
+		self.alpha = None
+		self.n_zw = None
+		self.n_dz = None
+		self.n_z = None
+		self.corpus = None
+# __________________________________________________________________
 
+	def fit(self, n_it, corpus=None):
+		if not self.snapshot:
+			self._initialise(corpus)
+		for it in range(self.n_it_sampl_last,
+									  self.n_it_sampl_last + n_it):
+			if it != 0 and it % 10 == 0:
+				self._print_update(it)
+			self.hist_alpha.append(copy.deepcopy(self.alpha))
+			self._update_alpha()
+			self._sample_topics()
+			self._store_theta()
+		self.n_it_sampl_last += n_it
+
+	def _print_update(self, it):
+		print 'Iteration: %s' % it
+		print 'Total alpha changes: %s' % self.n_upd_alpha
+		print 'Alpha update rate: %.4f' \
+				% (1.0 * self.n_upd_alpha / self.n_it_alpha)
+# __________________________________________________________________
+
+	def load_fit(self, path_file, n_it=0):
+		vars_loaded = pd.read_pickle(path_file)
+		for var in vars(self):
+			if var is 'snapshot':
+				setattr(self, 'snapshot', True)
+			else:
+				setattr(self, var, vars_loaded[var])
+		self.fit(n_it=n_it)
+
+# __________________________________________________________________
 
 	def _initialise(self, corpus):
+		# Initialise the parameters
+		# self.n_it = n_it
+		self.corpus = corpus
 		self.T, self.V = corpus.shape
-		# if self.beta != None:
-		# 	self.beta = np.full((self.K, self.V), 1./self.V)
-		# INIT ALPHAS
-		self.history_alpha = np.zeros(
-				shape=(self.iter_count, self.T, self.K))
-		self.alphas = np.zeros(shape=(self.T, self.K))
-		self.alphas[0] = np.random.normal(0, self.var_alpha_init, self.K)
+		self.alpha = np.zeros(shape=(self.T,self.K))
+		self.alpha[0] = np.random.normal(0,self.sigma_0_sq,self.K)
 		for t in xrange(1, self.T):
-			self.alphas[t] = np.random.normal(self.alphas[t-1], 
-					self.var_alpha)
-		# INIT TOPIC ASSIGNMENTS
-		self._zw_counts = np.zeros((self.K, self.V), dtype=np.int)
-		self._dz_counts = np.zeros((self.T, self.K), dtype=np.int)
-		self._z_counts = np.zeros(self.K, dtype=np.int)
-		self._z_history = []
+			self.alpha[t] = np.random.normal(self.alpha[t-1], \
+					self.sigma_sq)
+		self.n_zw = np.zeros((self.K,self.V), dtype=np.int)
+		self.n_dz = np.zeros((self.T,self.K), dtype=np.int)
+		self.n_z = np.zeros(self.K, dtype=np.int)
 
+		# Run the initial assignments
 		for d, doc in enumerate(corpus):
-			self._z_history.append([])
+			self.hist_z.append([])
 			for w, word in enumerate(doc):
-				self._z_history[d].append([])
-				word_frequency = int(word)
-				for _ in range(word_frequency):
+				self.hist_z[d].append([])
+				n_word = int(word)
+				for _ in range(n_word):
 					z = np.random.randint(self.K)
-					self._z_history[d][w].append(z)
-					self._dz_counts[d, z] += 1
-					self._zw_counts[z, w] += 1
-					self._z_counts[z] += 1
+					self.hist_z[d][w].append(z)
+					self.n_dz[d, z] += 1
+					self.n_zw[z, w] += 1
+					self.n_z[z] += 1
+# __________________________________________________________________
 
-	def fit(self, corpus):
-		# 1) INITIALISATION
-		self._initialise(corpus)
-		for it in range(self.iter_count):
-			if it != 0 and it % 10 == 0:
-				print 'Iteration: %s' % it
-				print 'Total alpha changes: %s' % self.assignments_alpha
-				print 'Alpha update rate: %.4f' % (1.0 \
-						* self.assignments_alpha / self.alpha_updates_potential)
-			# 2) Alpha Update
-			self.history_alpha[it] = copy.deepcopy(self.alphas)
-			self._update_alphas()
-			# 3) Sampling
-			self._sample_topics(corpus)
-			self._store_theta()
+	'''
+	Syntax:
+	- p: Probability
+	- t: Term
+	- ar: Autoregressive
+	- r: Acceptance rate
 
-	def eval_n_dis_log(self, x, mean, var):
+	Formulae:
+	- p(z_k,a_k|x)=p(x|z_k,a_k)*p(z_k|a_k)*p(a_k):
+	-- t1: Mult(softmax(a)_k)
+	-- t2: softmax(a)_k
+	-- t3: p(a_{k,t}|a_{k,t-1})*p(a_{k,t+1}|a_{k,t})
+	--- t31: p(a_{k,t}|a_{k,t-1})
+	--- t32: p(a_{k,t+1}|a_{k,t})
+	'''	
+	def _update_alpha(self):
+		for t in xrange(0, self.T):
+			alpha_prop = np.random.normal(self.alpha[t], self.delta_sq)
+			alpha_updated = copy.deepcopy(self.alpha[t])
+			for k in xrange(0, self.K):
+				# Calculating p(z_k,a_k,a'_k|x)
+				theta_prop = self._softmax_log(alpha_prop, k)
+				t1_prop = self.n_dz[t][k] * theta_prop
+				t2_prop = theta_prop
+				if self.autoreg:
+					t3_prop = self._eval_prior_ar(alpha_prop, t, k)
+				else:
+					t3_prop = self._eval_norm(alpha_prop[k], 0,
+																		self.sigma_0_sq)
+				p_alpha_prop = t1_prop + t2_prop + t3_prop
+				# Calculating p(z_k,a_k|x)
+				theta = self._softmax_log(self.alpha[t], k)
+				t1 = self.n_dz[t][k] * theta
+				t2 = theta
+				if self.autoreg:
+					t3 = self._eval_prior_ar(self.alpha[t], t, k)
+				else:
+					t3 = self._eval_norm(self.alpha[t][k], 0, self.sigma_0_sq)
+				p_alpha = t1 + t2 + t3
+				# Calculating the acceptance rate
+				r = np.exp(p_alpha_prop - p_alpha)
+				r_norm = np.minimum(1, r)
+				accept_alpha = np.random.binomial(1, r_norm)
+				if accept_alpha:
+					alpha_updated[k] = alpha_prop[k]
+					self.n_upd_alpha += 1
+				self.n_it_alpha += 1
+			self.alpha[t] = alpha_updated
+
+	'''
+	- The constant is taken away;
+	- Executed in the log space.
+	'''
+	def _eval_norm(self, x, mean, dev_sq):
 		product = np.dot(np.transpose(x-mean), (x-mean))
-		return -1/2 * product / var
+		return -1./2 * product / dev_sq
+	def _softmax_log(self, arr, i):
+		softmax_linear = np.exp(arr[i]) / np.sum(np.exp(arr))
+		return np.log(softmax_linear)
+	def _eval_prior_ar(self, alpha_prop, t, k):
+		if t == 0:
+			t31 = self._eval_norm(alpha_prop[k], 0, self.sigma_0_sq)
+		else:
+			t31 = self._eval_norm(alpha_prop[k], self.alpha[t-1][k], 
+														self.sigma_sq)
+		if t == self.T - 1:
+			t3 = t31
+		else:
+			t32 = self._eval_norm(self.alpha[t+1][k], alpha_prop[k], 
+														self.sigma_sq)
+			t3 = t31 + t32
+		return t3	
+# __________________________________________________________________
 
-	def _map_mp(self, arr):
-		return np.exp(arr) / np.sum(np.exp(arr))
-
-	def map_mp(self, arr, i):
-		return np.exp(arr[i]) / np.sum(np.exp(arr))
-
-	def _update_alphas(self):
-		# INITIALISE PROPOSED ALPHAS
-		alphas_prop = np.zeros(shape=self.alphas.shape)
-		for t in xrange(0, self.T):
-			alphas_prop[t] = np.random.normal(self.alphas[t-1], 
-					self.var_alpha_prop)
-		# UPDATE THE ALPHAS
-		for t in xrange(0, self.T):
-			if t != 0:
-				p_alpha_cond = self.eval_n_dis_log(self.alphas[t],
-						self.alphas[t-1], self.var_alpha)
-				p_alpha_cond_prop = self.eval_n_dis_log(alphas_prop[t],
-				 	  alphas_prop[t-1], self.var_alpha)
-			else:
-				p_alpha_cond = self.eval_n_dis_log(self.alphas[t],
-						self.alphas[t], self.var_alpha)
-				p_alpha_cond_prop = self.eval_n_dis_log(alphas_prop[t],
-						alphas_prop[t], self.var_alpha)
-			if t != self.T - 1:
-				p_alpha_cond_nxt = self.eval_n_dis_log(self.alphas[t+1],
-						self.alphas[t], self.var_alpha)
-				p_alpha_cond_prop_nxt = self.eval_n_dis_log(alphas_prop[t+1],
-						alphas_prop[t], self.var_alpha)
-			else:
-				p_alpha_cond_nxt = self.eval_n_dis_log(self.alphas[t],
-						self.alphas[t], self.var_alpha)
-				p_alpha_cond_prop_nxt = self.eval_n_dis_log(alphas_prop[t],
-						alphas_prop[t], self.var_alpha)
-
-			theta_t = np.zeros(shape=self.alphas[t].shape)
-			theta_prop_t = np.zeros(shape=alphas_prop[t].shape)
-			for k in range(0, self.K):
-				theta_t[k] = self.map_mp(self.alphas[t], k)
-				theta_prop_t[k] = self.map_mp(alphas_prop[t], k)
-			p_theta_t = np.sum(self._dz_counts[t] * np.log(theta_t))
-			p_theta_prop_t = np.sum(self._dz_counts[t] * np.log(
-					theta_prop_t))
-			p_alpha_t = p_alpha_cond + p_alpha_cond_nxt + p_theta_t
-			p_alpha_prop_t = p_alpha_cond_prop + p_alpha_cond_prop_nxt \
-					+ p_theta_prop_t
-			r_raw = np.exp(p_alpha_prop_t - p_alpha_t)
-			r = np.minimum(1, r_raw)
-			accept_alpha = np.random.binomial(1, r)
-			if accept_alpha:
-				self.alphas[t] = alphas_prop[t]
-				self.assignments_alpha += 1
-			self.alpha_updates_potential += 1
-
-	def _sample_topics(self, corpus):
-		for d, doc in enumerate(corpus):
+	def _sample_topics(self):
+		for d, doc in enumerate(self.corpus):
 			for w, _ in enumerate(doc):
-				for it, z in enumerate(self._z_history[d][w]):
-					self._dz_counts[d, z] -= 1
-					self._zw_counts[z, w] -= 1
-					self._z_counts[z] -= 1
+				for it, z in enumerate(self.hist_z[d][w]):
+					self.n_dz[d, z] -= 1
+					self.n_zw[z, w] -= 1
+					self.n_z[z] -= 1
 
 					# Eq. 5, the second denominator is  a constant
-					p_topic = ((1.0 * self._zw_counts[:, w] + self.beta[:, w]) / \
-						(1.0 * self._z_counts + self.V * self.beta[:, w])) * \
-						((self._dz_counts[d, :] + self.alphas[d]))
-					p_topic = self._map_mp(p_topic)
+					p_topic = ((1.0 * self.n_zw[:, w] + self.beta[:, w]) / \
+						(1.0 * self.n_z + self.V * self.beta[:, w])) * \
+						((self.n_dz[d, :] + self.alpha[d]))
+					p_topic = self._softmax_vector(p_topic)
 					z_new = np.random.choice(self.K, p=p_topic)
-					self._z_history[d][w][it] = z_new
-					self._dz_counts[d, z_new] += 1
-					self._zw_counts[z_new, w] += 1
-					self._z_counts[z_new] += 1
+					self.hist_z[d][w][it] = z_new
+					self.n_dz[d, z_new] += 1
+					self.n_zw[z_new, w] += 1
+					self.n_z[z_new] += 1
+
+	def _softmax_vector(self, arr):
+		return np.exp(arr) / np.sum(np.exp(arr))
+# __________________________________________________________________
 
 	def _store_theta(self):
-		thetas_prev = (self._dz_counts + self.alphas)
+		thetas_prev = (self.n_dz + self.alpha)
 		thetas_p_norm = thetas_prev \
 										/ np.sum(thetas_prev, axis=1)[:, np.newaxis]
 
@@ -150,18 +207,34 @@ class DTM_alpha(object):
 		for doc_idx, theta_p_n in enumerate(thetas_p_norm):
 			theta_current = np.random.dirichlet(theta_p_n)
 			thetas_current[doc_idx, :] = theta_current
-		self.thetas.append(np.array(thetas_current))
+		self.hist_theta.append(np.array(thetas_current))
+# __________________________________________________________________
 
+def main():
+	corpus = pd.read_pickle('corpus_test.pkl')
+	n_it = 2
+	sigma_0_sq = 1
+	sigma_sq = 0.01
+	delta_sq = 0.5
+	K = 2
+	dtm_alpha = DTM_Alpha(K=K, sigma_0_sq=sigma_0_sq,
+												sigma_sq=sigma_sq, delta_sq=delta_sq,
+												autoreg=False)
+	# beta = np.array([[0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0],
+	# 								[0, 0, 0.2, 0, 0, 0, 0, 0.3, 0.3, 0.2]])
+	# dtm_alpha.beta = beta
+	# dtm_alpha.fit(n_it=n_it, corpus=corpus)
+	# vars_dtm = vars(dtm_alpha)
+	# with open('model.pkl', 'wb') as f:
+	# 	pkl.dump(vars_dtm, f)
+	
+	dtm_alpha.load_fit('model.pkl', n_it=n_it)
+	
+	vars_dtm = vars(dtm_alpha)
+	with open('model.pkl', 'wb') as f:
+		pkl.dump(vars_dtm, f)
+	# hist_theta = np.array(dtm_alpha.hist_theta)
+	# hist_theta.dump('thetas.pkl')
 
-corpus = pd.read_pickle('corpus_test.pkl')
-iter_count = 500
-var_init = 1
-var_basic = 0.01
-var_prop = 0.5
-K = 2
-dtm_alpha = DTM_alpha(K=K, iter_count=iter_count, var_init=var_init, var_basic=var_basic, var_prop=var_prop)
-beta = np.array([[0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0], [0, 0, 0.2, 0, 0, 0, 0, 0.3, 0.3, 0.2]])
-dtm_alpha.beta = beta
-dtm_alpha.fit(corpus)
-thetas = np.array(dtm_alpha.thetas)
-thetas.dump('thetas.pkl')
+if __name__ == "__main__":
+		main()

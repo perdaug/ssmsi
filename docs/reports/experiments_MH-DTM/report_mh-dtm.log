@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.2.16)  17 FEB 2017 00:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.2.16)  18 FEB 2017 20:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -547,106 +547,106 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 29.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 29.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 37.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 41.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 37.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 41.
 
 <images/alpha_initial.png, id=1, 376.5267pt x 257.2812pt>
 File: images/alpha_initial.png Graphic file (type png)
 
 <use images/alpha_initial.png>
-Package pdftex.def Info: images/alpha_initial.png used on input line 45.
+Package pdftex.def Info: images/alpha_initial.png used on input line 49.
 (pdftex.def)             Requested size: 234.87749pt x 160.49414pt.
+ [1
 
-<images/beta_initial.png, id=3, 372.9132pt x 257.2812pt>
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<images/beta_initial.png, id=14, 372.9132pt x 257.2812pt>
 File: images/beta_initial.png Graphic file (type png)
 
 <use images/beta_initial.png>
-Package pdftex.def Info: images/beta_initial.png used on input line 52.
+Package pdftex.def Info: images/beta_initial.png used on input line 56.
 (pdftex.def)             Requested size: 234.87749pt x 162.04875pt.
- [1
-
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./image
-s/alpha_initial.png>]
-<images/init-1_prop-05.png, id=16, 433.62pt x 289.08pt>
+ [2 <./images/alpha_initial.png> <./images/beta_initial.png>] <images/init-1_pr
+op-05.png, id=21, 433.62pt x 289.08pt>
 File: images/init-1_prop-05.png Graphic file (type png)
 
 <use images/init-1_prop-05.png>
-Package pdftex.def Info: images/init-1_prop-05.png used on input line 67.
+Package pdftex.def Info: images/init-1_prop-05.png used on input line 71.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 68.
+(Font)              <10.95> on input line 72.
 
-<images/init-1_prop-2.png, id=17, 433.62pt x 289.08pt>
+<images/init-1_prop-2.png, id=22, 433.62pt x 289.08pt>
 File: images/init-1_prop-2.png Graphic file (type png)
 
 <use images/init-1_prop-2.png>
-Package pdftex.def Info: images/init-1_prop-2.png used on input line 72.
+Package pdftex.def Info: images/init-1_prop-2.png used on input line 76.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init-1_prop-5.png, id=18, 433.62pt x 289.08pt>
+<images/init-1_prop-5.png, id=23, 433.62pt x 289.08pt>
 File: images/init-1_prop-5.png Graphic file (type png)
 
 <use images/init-1_prop-5.png>
-Package pdftex.def Info: images/init-1_prop-5.png used on input line 77.
+Package pdftex.def Info: images/init-1_prop-5.png used on input line 81.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init-5_prop-05.png, id=19, 433.62pt x 289.08pt>
+<images/init-5_prop-05.png, id=24, 433.62pt x 289.08pt>
 File: images/init-5_prop-05.png Graphic file (type png)
 
 <use images/init-5_prop-05.png>
-Package pdftex.def Info: images/init-5_prop-05.png used on input line 85.
+Package pdftex.def Info: images/init-5_prop-05.png used on input line 89.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init-5_prop-2.png, id=20, 433.62pt x 289.08pt>
+<images/init-5_prop-2.png, id=25, 433.62pt x 289.08pt>
 File: images/init-5_prop-2.png Graphic file (type png)
 
 <use images/init-5_prop-2.png>
-Package pdftex.def Info: images/init-5_prop-2.png used on input line 90.
+Package pdftex.def Info: images/init-5_prop-2.png used on input line 94.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init-5_prop-5.png, id=21, 433.62pt x 289.08pt>
+<images/init-5_prop-5.png, id=26, 433.62pt x 289.08pt>
 File: images/init-5_prop-5.png Graphic file (type png)
 
 <use images/init-5_prop-5.png>
-Package pdftex.def Info: images/init-5_prop-5.png used on input line 95.
+Package pdftex.def Info: images/init-5_prop-5.png used on input line 99.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init-10_prop-05.png, id=22, 433.62pt x 289.08pt>
+<images/init-10_prop-05.png, id=27, 433.62pt x 289.08pt>
 File: images/init-10_prop-05.png Graphic file (type png)
 
 <use images/init-10_prop-05.png>
-Package pdftex.def Info: images/init-10_prop-05.png used on input line 103.
+Package pdftex.def Info: images/init-10_prop-05.png used on input line 107.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init-10_prop-2.png, id=23, 433.62pt x 289.08pt>
+<images/init-10_prop-2.png, id=28, 433.62pt x 289.08pt>
 File: images/init-10_prop-2.png Graphic file (type png)
 
 <use images/init-10_prop-2.png>
-Package pdftex.def Info: images/init-10_prop-2.png used on input line 108.
+Package pdftex.def Info: images/init-10_prop-2.png used on input line 112.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init-10_prop-5.png, id=24, 433.62pt x 289.08pt>
+<images/init-10_prop-5.png, id=29, 433.62pt x 289.08pt>
 File: images/init-10_prop-5.png Graphic file (type png)
 
 <use images/init-10_prop-5.png>
-Package pdftex.def Info: images/init-10_prop-5.png used on input line 113.
+Package pdftex.def Info: images/init-10_prop-5.png used on input line 117.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
- [2 <./images/beta_initial.png> <./images/init-1_prop-05.png> <./images/init-1_
-prop-2.png> <./images/init-1_prop-5.png>]
-<images/thetas.png, id=35, 433.62pt x 289.08pt>
+
+<images/thetas.png, id=30, 433.62pt x 289.08pt>
 File: images/thetas.png Graphic file (type png)
  <use images/thetas.png>
-Package pdftex.def Info: images/thetas.png used on input line 125.
+Package pdftex.def Info: images/thetas.png used on input line 129.
 (pdftex.def)             Requested size: 234.87749pt x 156.58607pt.
 
-[3 <./images/init-5_prop-05.png> <./images/init-5_prop-2.png> <./images/init-5_
-prop-5.png> <./images/init-10_prop-05.png> <./images/init-10_prop-2.png> <./ima
-ges/init-10_prop-5.png> <./images/thetas.png>] (./report_mh-dtm.aux)
+[3 <./images/init-1_prop-05.png> <./images/init-1_prop-2.png> <./images/init-1_
+prop-5.png> <./images/init-5_prop-05.png> <./images/init-5_prop-2.png> <./image
+s/init-5_prop-5.png> <./images/init-10_prop-05.png> <./images/init-10_prop-2.pn
+g> <./images/init-10_prop-5.png>] [4 <./images/thetas.png>]
+(./report_mh-dtm.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -654,7 +654,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  3456 strings out of 493014
  52113 string characters out of 6133351
- 120013 words of memory out of 5000000
+ 119013 words of memory out of 5000000
  6954 multiletter control sequences out of 15000+600000
  8811 words of font info for 31 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -668,10 +668,10 @@ sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
 ocal/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/loca
 l/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
 /texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on report_mh-dtm.pdf (3 pages, 412997 bytes).
+Output written on report_mh-dtm.pdf (4 pages, 413830 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
- 36 compressed objects within 1 object stream
+ 78 PDF objects out of 1000 (max. 8388607)
+ 38 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
