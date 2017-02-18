@@ -20,8 +20,8 @@ class DTM_alpha(object):
 
 	def _initialise(self, corpus):
 		self.T, self.V = corpus.shape
-		if self.beta != None:
-			self.beta = np.full((self.K, self.V), 1./self.V)
+		# if self.beta != None:
+		# 	self.beta = np.full((self.K, self.V), 1./self.V)
 		# INIT ALPHAS
 		self.history_alpha = np.zeros(
 				shape=(self.iter_count, self.T, self.K))
@@ -54,12 +54,12 @@ class DTM_alpha(object):
 		for it in range(self.iter_count):
 			if it != 0 and it % 10 == 0:
 				print 'Iteration: %s' % it
-				# print 'Total alpha changes: %s' % self.assignments_alpha
-				# print 'Alpha update rate: %.4f' % (1.0 \
-				# 		* self.assignments_alpha / self.alpha_updates_potential)
+				print 'Total alpha changes: %s' % self.assignments_alpha
+				print 'Alpha update rate: %.4f' % (1.0 \
+						* self.assignments_alpha / self.alpha_updates_potential)
 			# 2) Alpha Update
 			self.history_alpha[it] = copy.deepcopy(self.alphas)
-			# self._update_alphas()
+			self._update_alphas()
 			# 3) Sampling
 			self._sample_topics(corpus)
 			self._store_theta()
