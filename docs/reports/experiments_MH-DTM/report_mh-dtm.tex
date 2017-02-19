@@ -5,6 +5,7 @@
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{amsmath}
 
 \setlength{\oddsidemargin}{0in}
 \setlength{\evensidemargin}{0in}
@@ -26,107 +27,128 @@
 \endgroup
 % ___________________________________________________________________
 
-\par This report assesses experiments on reproducing $\alpha$ parameters used in the synthetic data generation process. Note that the report is structured in the following order: at the start, the rationale of the used Bayesian methods are covered; then, the experiment settings are defined; in the following stage, we assess the experiment results; finally, the identified issues are outlined to be discussed during the following meeting.
+\par The purpose of this report is to assesses whether an auto-regressive topic model is capable to recover the $\alpha$ parameter used in the synthetic data generation process. This report is structured in the following order: at the start, the rationale of the used Bayesian methods are covered; then, the experiment settings are defined; in the next stage, we assess the experiment results; finally, the identified issues are outlined to be discussed during the following meeting.
 % ___________________________________________________________________
 
 \section*{Preliminaries}
 
-\par In order to understand the experiment experiment settings, it is necessary to be familiar with the auto-regressive and non auto-regressive $\alpha$ priors as well as the Metropolis--Hastings (M--H) algorithm.
+\par In order to understand the experiment settings, it is necessary to be familiar with the auto-regressive and non auto-regressive $\alpha$ priors as well as the Metropolis--Hastings (M--H) algorithm; the expressions of the latter concepts are listed below:
+\begin{enumerate}
+  \item The auto-regressive $\alpha$ prior:
+    \begin{align*}
+    p(\alpha_0,\ldots,\alpha_T)=p(\alpha_0)\prod_{t=1}^{T}{p(\alpha_t|\alpha_{t-1})}; \qquad &p(\alpha_t)=f(\alpha_0; 0, \sigma_0^2I), \quad t=0;\\
+    & p(\alpha_t)=f(\alpha_t; \alpha_{t-1}, \sigma^2I), \quad t>0.
+    \end{align*}
+  \item The non auto-regressive $\alpha$ prior:
+    \begin{align*}
+    p(\alpha_0,\ldots,\alpha_T)=\prod_{t=0}^{T}{p(\alpha_t}); \qquad &p(\alpha_t)=f(\alpha_0; 0, \sigma_0^2I), \quad t \geq 0.
+\end{align*}
+  \item The rationale of the utilised M--H algorithm variation:\\\\
+    For the start, familiarise with the following expressions:
+    \begin{align*}
+      \dfrac{A(x'|x)}{A(x|x')} = \dfrac{p(x'|x)}{p(x|x')}\cdot \dfrac{q(x'|x)}{q(x|x')} = \dfrac{p(x',x)}{p(x)}\cdot \dfrac{p(x')}{p(x,x')} = \dfrac{p(x')}{p(x)}; \qquad &x' \sim q(x,\delta^2I);\\
+      & q = \mathcal{N} \Rightarrow q(x'|x) = q(x|x');
+    \end{align*}
+    where $x$ is the current state, $x'$ is the proposed state, $A$ is the acceptance distribution, and $q$ is the proposal distribution. Taking the previous results into account, the acceptance rate $r$ is expressed as follows:
+    \begin{align*}
+      r = \min{\bigg(1, \dfrac{p(x')}{p(x)}\bigg)}.
+    \end{align*}
+  \item The application of the M--H algorithm to update $\alpha$:\\\\
+    Note that the $\alpha$ values are updated independently; that is, the expression for the acceptance rate below is for a single $\alpha$ entry.
+    \begin{align*}
+      \dfrac{p(z,\alpha^{-tk},\alpha_{t, k}'|X)}{p(z,\alpha|X)} &= \dfrac{p(X|z,\alpha^{-tk},\alpha_{t, k}')\cdot p(z|\alpha^{-tk},\alpha_{t, k}')\cdot p(\alpha^{-tk},\alpha_{t, k}')}{p(X)}\cdot \dfrac{p(X)}{p(X|z,\alpha)\cdot p(z|\alpha)\cdot p(\alpha)}\\
+      &= \dfrac{\pi(\alpha_{t}')_k^{z_{t,k}}\cdot \pi(\alpha_{t}')_k\cdot p(\alpha_t'|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t')}{\pi(\alpha_t)_k^{z_{t,k}}\cdot \pi(\alpha_{t})_k\cdot p(\alpha_t|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t)}; \qquad t > 0, \quad t \neq T;
+    \end{align*}
+    where $\pi$ is the softmax function, $\alpha_{t,k}' \sim \mathcal{N}(\alpha_{t, k}, \delta^2)$, and $\alpha^{-tk}$ denotes $\alpha$ without $\alpha_{t,k}'$. It follows that,
+    \begin{align*}
+      r_{t,k} = \min{\bigg(1, \dfrac{\pi(\alpha_{t}')_k^{z_{t,k}}\cdot \pi(\alpha_{t}')_k\cdot p(\alpha_t'|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t')}{\pi(\alpha_t)_k^{z_{t,k}}\cdot \pi(\alpha_{t})_k\cdot p(\alpha_t|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t)}\bigg)}; \qquad t > 0, \quad t \neq T.
+    \end{align*}
+    For the boundary cases $t=0$ and $t=T$, the $p(\alpha)$ term is proportional to $p(\alpha_{0})\cdot p(\alpha_{1}|\alpha_{0})$ and $p(\alpha_{T}|\alpha_{T-1})$ respectively.
 
-\par The previously introduced priors can be expressed as follows:
+    % \begin{align*}
+    %   \dfrac{p(\alpha_{t,k}'|\alpha_{t,k})}{p(\alpha_{t,k}|\alpha_{t,k}')}\cdot \dfrac{q(\alpha_{t,k}'|\alpha_{t,k})}{q(\alpha_{t,k}|\alpha_{t,k}')} = \dfrac{p(\alpha_{t,k}',\alpha_{t,k})}{p(\alpha_{t,k})}\cdot \dfrac{p(\alpha_{t,k}')}{p(\alpha_{t,k},\alpha_{t,k}')}, \qquad &\alpha_{t,k}' \sim \mathcal{N}(\alpha_{t,k},\delta^2),\\ 
+    %   &q(\alpha_{t,k}'|\alpha_{t,k}) = q(\alpha_{t,k}|\alpha_{t,k})'.
+    % \end{align*}
+    %   \Rightarrow \dfrac{p(\alpha_{t,k}')}{p(\alpha_{t,k})}
+
+\end{enumerate}
+
 
 % ___________________________________________________________________
 
 \section*{The Experiment Settings}
 
 \par The intention of the carried experiments is to identify the optimal settings for the Metropolis--Hastings algorithm application. 
-To start with, I have generated a synthetic corpus; the parameters used in the corpus generation will allow to assess the performance achieved in the experiments. The corpus generation parameters are set as follows:
+The rationale of the carried experiments is based on generating a corpus with pre-defined $\alpha$ changes. Based on the experiments, we will determine which techniques display higher performance in reproducing the pre-defined $\alpha$ changes. To expand on the corpus generation settings, the parameters used are listed below:
 \begin{itemize}
   \item The number of topics: K = 2;
-  \item The number of documents (time-slices): T = 20;
+  \item The number of documents (time slices): T = 20;
   \item The size of vocabulary: V = 10;
   \item The number of words per document t: $N_t \sim \mbox{Pois}(\lambda),\quad \lambda = 1000$.
 \end{itemize}
-Further, to consider the initial settings of $\alpha_k$ development over documents, $\alpha_0$ is a sine curve and $\alpha_1$ is a cosine curve; the corresponding softmax expressions of the curves, i.e $\mu = \mbox{softmax}(\alpha)$, are illustrated in Figure 1 below.
+Speaking of $\alpha_k$ development over time (documents), $\alpha_0$ is a sine curve and $\alpha_1$ is a cosine curve; the corresponding softmax expressions of the curves (i.e, $\theta = \mbox{softmax}(\alpha)$) are illustrated in Figure 1 below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{alpha_initial}
   \caption{The values of $\mbox{softmax}(\alpha)$ used in the generative process.}
   \label{fig:mu}
 \end{figure}
-Speaking of $\beta$, it was initially predefined and kept constant throughout the dynamic generative process; $\beta$ is illustrated in Figure 2 below.
+Speaking of $\beta$, it was initially pre-defined and kept constant throughout the dynamic generative process; $\beta$ is illustrated in Figure 2 below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{beta_initial}
   \caption{The values of $\beta$ used in the generative process.}
   \label{fig:beta}
 \end{figure}
-Note that the latter $\beta$ values were applied to the autoregressive topic model for the $\alpha$ update experiments.
 % ___________________________________________________________________
 
 \section*{The experiment results}
 
-\par The first experiment is focused on discovering the choice of the variances. To be more specific, the alpha update is based on three different variances were used: the `initial' variance $\sigma^2_0I$ to induce $\alpha_t$ at $t=0$, the `basic' variance $\sigma^2I$ to induce $\alpha_t$ at $t>0$, and the `proposed' variance $\delta^2I$ to induce $\alpha'_t$ at $t=0$; also, note that $\alpha'_t$ at $t>0$ were induced using the `basic' variance.
+\par The first experiment is focused on discovering an optimal choice of the variances. Note that the first experiment is carried using the auto-regressive model; therefore, three different types of variances were considered: the `basic' variance $\sigma^2_0$, the `auto-regressive' variance $\sigma^2$, and the `proposed' variance $\delta^2$. 
 
-\par For both experiments, the number of autoregressive iterations was set to $500$ and $\sigma^2$ was set to $0.01$. The resulting plots of $\mu$ with different values of $\sigma^2_0$ and $\delta^2$ are illustrated in Figures 3, 4, 5 below.
+\par For the first experiment, $\delta^2$ was kept constant and set to $1$. Effectively, low $\delta^2$ values suggest that the convergence of $\alpha$ is slow and stable, whereas for high values of $\delta^2$ the convergence is faster and less stable. In both cases, with a high number of iterations, a low-error $\alpha$ value will be found. Therefore, we are focusing to tune only the $\sigma^2_0$ and $\sigma^2$ variances
+
+% \par For both experiments, the number of autoregressive iterations was set to $500$ and $\sigma^2$ was set to $0.01$. The resulting plots of $\mu$ with different values of $\sigma^2_0$ and $\delta^2$ are illustrated in Figures 3, 4, 5 below.
 
 \begin{figure}[H]
-        \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{init-1_prop-05}
-                \caption{$\sigma^2_0=1,\quad \delta^2=0.5$}
-                \label{fig:gull}
-        \end{subfigure}%
-        \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{init-1_prop-2}
-                \caption{$\sigma^2_0=1,\quad \delta^2=2$}
-                \label{fig:gull2}
-        \end{subfigure}%
-        \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{init-1_prop-5}
-                \caption{$\sigma^2_0=1,\quad \delta^2=5$}
-                \label{fig:tiger}
-        \end{subfigure}
-        \caption{$\mbox{softmax}(\alpha)$ with the lowest value of the initial variance.}\label{fig:animals}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \includegraphics[width=\linewidth]{init_1E-01|basic_1E-02|prop_1E+00|it_500}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.33\textwidth}
+    \includegraphics[width=\linewidth]{init_1E+00|basic_1E-02|prop_1E+00|it_500}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.33\textwidth}
+    \includegraphics[width=\linewidth]{init_5E+00|basic_1E-02|prop_1E+00|it_500}
+  \end{subfigure}
+  \caption{$\mbox{softmax}(\alpha)$ with the lowest value of the initial variance.}\label{fig:animals}
 \end{figure}
 \begin{figure}[H]
-        \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{init-5_prop-05}
-                \caption{$\sigma^2_0=5,\quad \delta^2=0.5$}
-                \label{fig:gull}
-        \end{subfigure}%
-        \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{init-5_prop-2}
-                \caption{$\sigma^2_0=5,\quad \delta^2=2$}
-                \label{fig:gull2}
-        \end{subfigure}%
-        \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{init-5_prop-5}
-                \caption{$\sigma^2_0=5,\quad \delta^2=5$}
-                \label{fig:tiger}
-        \end{subfigure}
-        \caption{$\mbox{softmax}(\alpha)$ with the average value of the initial variance.}\label{fig:animals}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \includegraphics[width=\linewidth]{init_1E-01|basic_1E-03|prop_1E+00|it_500}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.33\textwidth}
+    \includegraphics[width=\linewidth]{init_1E+00|basic_1E-03|prop_1E+00|it_500}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.33\textwidth}
+    \includegraphics[width=\linewidth]{init_5E+00|basic_1E-03|prop_1E+00|it_500}
+  \end{subfigure}
+  \caption{$\mbox{softmax}(\alpha)$ with the lowest value of the initial variance.}\label{fig:animals}
 \end{figure}
 \begin{figure}[H]
-        \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{init-10_prop-05}
-                \caption{$\sigma^2_0=10,\quad \delta^2=0.5$}
-                \label{fig:gull}
-        \end{subfigure}%
-        \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{init-10_prop-2}
-                \caption{$\sigma^2_0=10,\quad \delta^2=2$}
-                \label{fig:gull2}
-        \end{subfigure}%
-        \begin{subfigure}[b]{0.33\textwidth}
-                \includegraphics[width=\linewidth]{init-10_prop-5}
-                \caption{$\sigma^2_0=10,\quad \delta^2=5$}
-                \label{fig:tiger}
-        \end{subfigure}
-        \caption{$\mbox{softmax}(\alpha)$ with the highest value of the initial variance.}\label{fig:animals}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \includegraphics[width=\linewidth]{init_1E-01|basic_1E-04|prop_1E+00|it_500}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.33\textwidth}
+    \includegraphics[width=\linewidth]{init_1E+00|basic_1E-04|prop_1E+00|it_500}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.33\textwidth}
+    \includegraphics[width=\linewidth]{init_5E+00|basic_1E-04|prop_1E+00|it_500}
+  \end{subfigure}
+  \caption{$\mbox{softmax}(\alpha)$ with the lowest value of the initial variance.}\label{fig:animals}
 \end{figure}
 
 
-\par The second experiment was carried to determine the impact of the $\alpha$ update in recovering the original topic fluctuations in the synthetic corpus. For this reason, the autoregressive part of the dynamic topic was disabled. The topic assignments to the documents of the last iteration are visualised in Figure 6 below.
+\par The second experiment assesses the impact of the auto-regressive $\alpha$ update. For this reason, the $\alpha$ prior was switched to the non auto-regressive one. The resulting $\theta$ values are illustrated in Figure X below.
 
 \begin{figure}[H]
   \centering

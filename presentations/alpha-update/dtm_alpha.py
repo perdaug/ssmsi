@@ -81,8 +81,11 @@ class DTM_Alpha(object):
 		self.alpha = np.zeros(shape=(self.T,self.K))
 		self.alpha[0] = np.random.normal(0,self.sigma_0_sq,self.K)
 		for t in xrange(1, self.T):
-			self.alpha[t] = np.random.normal(self.alpha[t-1], \
-					self.sigma_sq)
+			if self.autoreg:
+				self.alpha[t] = np.random.normal(self.alpha[t-1], \
+																				 self.sigma_sq)
+			else:
+				self.alpha[t] = np.random.normal(0, self.sigma_0_sq)
 		self.n_zw = np.zeros((self.K,self.V), dtype=np.int)
 		self.n_dz = np.zeros((self.T,self.K), dtype=np.int)
 		self.n_z = np.zeros(self.K, dtype=np.int)
