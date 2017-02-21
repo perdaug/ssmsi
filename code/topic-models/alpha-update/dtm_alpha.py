@@ -224,6 +224,7 @@ class DTM_Alpha(object):
 
 
 def main():
+    print 'gittest'
     corpus = pd.read_pickle('corpus_test.pkl')
     n_it = 250
     sigma_0_sq = 1
