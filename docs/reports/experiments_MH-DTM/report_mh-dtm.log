@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.2.16)  20 FEB 2017 13:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.2.16)  23 FEB 2017 12:11
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -532,57 +532,57 @@ Overfull \hbox (1.69919pt too wide) in paragraph at lines 61--61
 [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 84.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 90.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 84.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 90.
 <images/theta_initial.png, id=14, 433.62pt x 289.08pt>
 File: images/theta_initial.png Graphic file (type png)
 <use images/theta_initial.png>
-Package pdftex.def Info: images/theta_initial.png used on input line 92.
+Package pdftex.def Info: images/theta_initial.png used on input line 98.
 (pdftex.def)             Requested size: 234.87749pt x 156.58607pt.
 [2] <images/beta_initial.png, id=20, 433.62pt x 289.08pt>
 File: images/beta_initial.png Graphic file (type png)
 <use images/beta_initial.png>
-Package pdftex.def Info: images/beta_initial.png used on input line 98.
+Package pdftex.def Info: images/beta_initial.png used on input line 104.
 (pdftex.def)             Requested size: 234.87749pt x 156.58607pt.
-
-<images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png, id=21, 433.
+[3 <./images/theta_initial.png> <./images/beta_initial.png>]
+<images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png, id=26, 433.
 62pt x 289.08pt>
 File: images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png Graphic
  file (type png)
 <use images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png>
 Package pdftex.def Info: images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autor
-eg_True.png used on input line 111.
+eg_True.png used on input line 117.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png, id=22, 433.
+<images/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png, id=27, 433.
 62pt x 289.08pt>
 File: images/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png Graphic
  file (type png)
 <use images/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png>
 Package pdftex.def Info: images/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autor
-eg_True.png used on input line 114.
+eg_True.png used on input line 120.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init_5E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png, id=23, 433.
+<images/init_5E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png, id=28, 433.
 62pt x 289.08pt>
 File: images/init_5E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png Graphic
  file (type png)
 <use images/init_5E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png>
 Package pdftex.def Info: images/init_5E+00|basic_1E-02|prop_1E+00|it_2000|autor
-eg_True.png used on input line 117.
+eg_True.png used on input line 123.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
-[3 <./images/theta_initial.png> <./images/beta_initial.png>]
+
 <images/init_1E-01|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png, id=29, 433.
 62pt x 289.08pt>
 File: images/init_1E-01|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png Graphic
  file (type png)
 <use images/init_1E-01|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png>
 Package pdftex.def Info: images/init_1E-01|basic_1E-03|prop_1E+00|it_2000|autor
-eg_True.png used on input line 123.
+eg_True.png used on input line 129.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
 <images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png, id=30, 433.
@@ -591,7 +591,7 @@ File: images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png Graphic
  file (type png)
 <use images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png>
 Package pdftex.def Info: images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autor
-eg_True.png used on input line 126.
+eg_True.png used on input line 132.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
 <images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png, id=31, 433.
@@ -600,7 +600,7 @@ File: images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png Graphic
  file (type png)
 <use images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png>
 Package pdftex.def Info: images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autor
-eg_True.png used on input line 129.
+eg_True.png used on input line 135.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
 <images/init_1E-01|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png, id=32, 433.
@@ -609,13 +609,13 @@ File: images/init_1E-01|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png Graphic
  file (type png)
 <use images/init_1E-01|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png>
 Package pdftex.def Info: images/init_1E-01|basic_1E-04|prop_1E+00|it_2000|autor
-eg_True.png used on input line 135.
+eg_True.png used on input line 141.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 File: images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png Graphic
  file (type png)
 <use images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png>
 Package pdftex.def Info: images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autor
-eg_True.png used on input line 138.
+eg_True.png used on input line 144.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
 <images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png, id=33, 433.
@@ -624,7 +624,7 @@ File: images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png Graphic
  file (type png)
 <use images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png>
 Package pdftex.def Info: images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autor
-eg_True.png used on input line 141.
+eg_True.png used on input line 147.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
 <images/init_1E-01|basic_1E-02|prop_1E+00|it_200|autoreg_False.png, id=34, 433.
@@ -633,7 +633,7 @@ File: images/init_1E-01|basic_1E-02|prop_1E+00|it_200|autoreg_False.png Graphic
  file (type png)
 <use images/init_1E-01|basic_1E-02|prop_1E+00|it_200|autoreg_False.png>
 Package pdftex.def Info: images/init_1E-01|basic_1E-02|prop_1E+00|it_200|autore
-g_False.png used on input line 150.
+g_False.png used on input line 156.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
 <images/init_1E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png, id=35, 433.
@@ -642,7 +642,7 @@ File: images/init_1E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png Graphic
  file (type png)
 <use images/init_1E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png>
 Package pdftex.def Info: images/init_1E+00|basic_1E-02|prop_1E+00|it_200|autore
-g_False.png used on input line 153.
+g_False.png used on input line 159.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
 <images/init_5E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png, id=36, 433.
@@ -651,7 +651,7 @@ File: images/init_5E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png Graphic
  file (type png)
 <use images/init_5E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png>
 Package pdftex.def Info: images/init_5E+00|basic_1E-02|prop_1E+00|it_200|autore
-g_False.png used on input line 156.
+g_False.png used on input line 162.
 (pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 [4 <./images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png> <./ima
 ges/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png> <./images/init_
@@ -667,11 +667,11 @@ mages/init_5E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png>] (./report_mh
 Here is how much of TeX's memory you used:
  4048 strings out of 493014
  61159 string characters out of 6133351
- 132441 words of memory out of 5000000
+ 134441 words of memory out of 5000000
  7527 multiletter control sequences out of 15000+600000
  9020 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,13n,39p,575b,371s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,14n,39p,575b,371s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 ex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
@@ -681,7 +681,7 @@ pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pf
 b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><
 /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></
 usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on report_mh-dtm.pdf (5 pages, 1626482 bytes).
+Output written on report_mh-dtm.pdf (5 pages, 1628503 bytes).
 PDF statistics:
  83 PDF objects out of 1000 (max. 8388607)
  40 compressed objects within 1 object stream

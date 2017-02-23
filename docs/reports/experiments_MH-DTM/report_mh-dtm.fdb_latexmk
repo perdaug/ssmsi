@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1487598468 "report_mh-dtm.tex" "report_mh-dtm.pdf" "report_mh-dtm" 1487598472
+["pdflatex"] 1487851892 "report_mh-dtm.tex" "report_mh-dtm.pdf" "report_mh-dtm" 1487851896
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -80,9 +80,9 @@
   "images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png" 1487549684 141655 ad081db600da786c9be649a2087ca208 ""
   "images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png" 1487545620 76735 7f65a9ea01c10be549d72358dcb63e5d ""
   "images/theta_initial.png" 1487519205 25160 d15ac83abb1442258f68d0889abc07d7 ""
-  "report_mh-dtm.aux" 1487598472 926 640802e999e014d7fd614dfb7aaf2c5a ""
-  "report_mh-dtm.tex" 1487598467 11121 20eed1a3de23d51b9e04be349b52dbc6 ""
+  "report_mh-dtm.aux" 1487851896 926 640802e999e014d7fd614dfb7aaf2c5a ""
+  "report_mh-dtm.tex" 1487851891 11806 fe8fb02b93454f18744beae6c2ae6fff ""
   (generated)
-  "report_mh-dtm.aux"
   "report_mh-dtm.pdf"
   "report_mh-dtm.log"
+  "report_mh-dtm.aux"
