@@ -1,3 +1,5 @@
+23/02/2017
+- Summing alpha_k for the acceptance rate
 20/02/2017
 - Sending the M--H report
 19/02/2017
