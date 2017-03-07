@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.2.16)  23 FEB 2017 12:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=latex 2017.2.16)  28 FEB 2017 11:56
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -22,16 +22,19 @@ File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/base/inputenc.sty
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/t1enc.dfu
 File: t1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
@@ -268,6 +271,7 @@ File: t1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
 )
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ot1enc.dfu
 File: ot1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
    defining Unicode char U+00A0 (decimal 160)
@@ -308,6 +312,7 @@ File: ot1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
 )
 Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omsenc.dfu
 File: omsenc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
@@ -331,10 +336,13 @@ Now handling font encoding U ...
    defining Unicode char U+2026 (decimal 8230)
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
-)) (/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.sty
+))
+(/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2016/04/23 3.9r The Babel package
+
 (/usr/local/texlive/2016/texmf-dist/tex/generic/babel-english/english.ldf
 Language: english 2012/08/20 v3.3p English support from the babel system
+
 (/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2016/04/23 3.9r Babel common definitions
 \babel@savecnt=\count87
@@ -343,39 +351,42 @@ File: babel.def 2016/04/23 3.9r Babel common definitions
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
 \l@newzealand = a dialect from \language\l@british 
-)) (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphicx.sty
+))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphics.sty
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2016/05/09 v1.0r Standard LaTeX Graphics (DPC,SPQR)
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/01/02 v1.10 sample graphics configuration
 )
-Package graphics Info: Driver file: pdftex.def on input line 96.
-(/usr/local/texlive/2016/texmf-dist/tex/latex/pdftex-def/pdftex.def
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
-(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/infwarerr.sty
-Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
-) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
-Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
-)
-\Gread@gobject=\count88
+Package graphics Info: Driver file: dvips.def on input line 96.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/dvips.def
+File: dvips.def 2015/12/30 v3.0k Driver-dependent file (DPC,SPQR)
 ))
 \Gin@req@height=\dimen104
 \Gin@req@width=\dimen105
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/float/float.sty
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count89
+\c@float@type=\count88
 \float@exts=\toks17
 \float@box=\box26
 \@float@everytoks=\toks18
 \@floatcapt=\box27
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/caption/caption.sty
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2016/02/04 v1.7-139 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 67.
@@ -387,35 +398,41 @@ Package caption3 Info: TeX engine: e-TeX on input line 67.
 \caption@parindent=\dimen111
 \caption@hangindent=\dimen112
 )
-\c@ContinuedFloat=\count90
+\c@ContinuedFloat=\count89
 Package caption Info: float package is loaded.
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/caption/subcaption.sty
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2016/02/20 v1.1-142 Sub-captions (AR)
-\c@subfigure=\count91
-\c@subtable=\count92
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsmath.sty
+\c@subfigure=\count90
+\c@subtable=\count91
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2016/03/10 v2.15b AMS math features
 \@mathmargin=\skip43
+
 For additional information on amsmath, use the `?' option.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01 AMS text
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks19
 \ex@=\dimen113
-)) (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsbsy.sty
+))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen114
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsopn.sty
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count93
+\inf@bad=\count92
 LaTeX Info: Redefining \frac on input line 199.
-\uproot@=\count94
-\leftroot@=\count95
+\uproot@=\count93
+\leftroot@=\count94
 LaTeX Info: Redefining \overline on input line 297.
-\classnum@=\count96
-\DOTSCASE@=\count97
+\classnum@=\count95
+\DOTSCASE@=\count96
 LaTeX Info: Redefining \ldots on input line 394.
 LaTeX Info: Redefining \dots on input line 397.
 LaTeX Info: Redefining \cdots on input line 518.
@@ -424,15 +441,15 @@ LaTeX Info: Redefining \cdots on input line 518.
 \big@size=\dimen115
 LaTeX Font Info:    Redeclaring font encoding OML on input line 634.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 635.
-\macc@depth=\count98
-\c@MaxMatrixCols=\count99
+\macc@depth=\count97
+\c@MaxMatrixCols=\count98
 \dotsspace@=\muskip10
-\c@parentequation=\count100
-\dspbrk@lvl=\count101
+\c@parentequation=\count99
+\dspbrk@lvl=\count100
 \tag@help=\toks20
-\row@=\count102
-\column@=\count103
-\maxfields@=\count104
+\row@=\count101
+\column@=\count102
+\maxfields@=\count103
 \andhelp@=\toks21
 \eqnshift@=\dimen116
 \alignsep@=\dimen117
@@ -446,7 +463,8 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 635.
 \mathdisplay@stack=\toks23
 LaTeX Info: Redefining \[ on input line 2739.
 LaTeX Info: Redefining \] on input line 2740.
-) (./report_mh-dtm.aux)
+)
+(./report_mh-dtm.aux)
 \openout1 = `report_mh-dtm.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -461,230 +479,251 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
-(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count105
-\scratchdimen=\dimen122
-\scratchbox=\box30
-\nofMPsegments=\count106
-\nofMParguments=\count107
-\everyMPshowfont=\toks24
-\MPscratchCnt=\count108
-\MPscratchDim=\dimen123
-\MPnumerator=\count109
-\makeMPintoPDFobject=\count110
-\everyMPtoPDFconversion=\toks25
-) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-Package: pdftexcmds 2016/05/10 v0.21 Utility functions of pdfTeX for LuaTeX (HO
-)
-(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ifluatex.sty
-Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX not detected.
-) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2016/05/14 v3.1 Provides the ifpdf switch
-)
-Package pdftexcmds Info: LuaTeX not detected.
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
-(/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
-(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
-Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
-)) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
-(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
-(/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/etexcmds.sty
-Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
-Package etexcmds Info: Could not find \expanded.
-(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
-(etexcmds)             that some package has redefined \expanded.
-(etexcmds)             In the latter case, load this package earlier.
-)))
-Package grfext Info: Graphics extension search list:
-(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 456.
-(/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
-Underfull \hbox (badness 10000) in paragraph at lines 46--48
+Underfull \hbox (badness 10000) in paragraph at lines 47--49
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--58
+Underfull \hbox (badness 10000) in paragraph at lines 57--59
 
  []
 
 
-Overfull \hbox (1.69919pt too wide) in paragraph at lines 61--61
+Overfull \hbox (1.69919pt too wide) in paragraph at lines 62--62
 [] 
  []
 
 [1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 90.
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
+]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 91.
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 90.
-<images/theta_initial.png, id=14, 433.62pt x 289.08pt>
-File: images/theta_initial.png Graphic file (type png)
-<use images/theta_initial.png>
-Package pdftex.def Info: images/theta_initial.png used on input line 98.
-(pdftex.def)             Requested size: 234.87749pt x 156.58607pt.
-[2] <images/beta_initial.png, id=20, 433.62pt x 289.08pt>
-File: images/beta_initial.png Graphic file (type png)
-<use images/beta_initial.png>
-Package pdftex.def Info: images/beta_initial.png used on input line 104.
-(pdftex.def)             Requested size: 234.87749pt x 156.58607pt.
-[3 <./images/theta_initial.png> <./images/beta_initial.png>]
-<images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png, id=26, 433.
-62pt x 289.08pt>
-File: images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png Graphic
- file (type png)
-<use images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png>
-Package pdftex.def Info: images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autor
-eg_True.png used on input line 117.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 91.
 
-<images/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png, id=27, 433.
-62pt x 289.08pt>
-File: images/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png Graphic
- file (type png)
-<use images/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png>
-Package pdftex.def Info: images/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autor
-eg_True.png used on input line 120.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init_5E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png, id=28, 433.
-62pt x 289.08pt>
-File: images/init_5E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png Graphic
- file (type png)
-<use images/init_5E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png>
-Package pdftex.def Info: images/init_5E+00|basic_1E-02|prop_1E+00|it_2000|autor
-eg_True.png used on input line 123.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
+! LaTeX Error: Cannot determine size of graphic in images/theta_initial.png (no
+ BoundingBox).
 
-<images/init_1E-01|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png, id=29, 433.
-62pt x 289.08pt>
-File: images/init_1E-01|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png Graphic
- file (type png)
-<use images/init_1E-01|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png>
-Package pdftex.def Info: images/init_1E-01|basic_1E-03|prop_1E+00|it_2000|autor
-eg_True.png used on input line 129.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.99 ...cs[width=0.5\textwidth]{theta_initial.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
-<images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png, id=30, 433.
-62pt x 289.08pt>
-File: images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png Graphic
- file (type png)
-<use images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png>
-Package pdftex.def Info: images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autor
-eg_True.png used on input line 132.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
+File: images/theta_initial.png Graphic file (type eps)
+<images/theta_initial.png> [2]
 
-<images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png, id=31, 433.
-62pt x 289.08pt>
-File: images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png Graphic
- file (type png)
-<use images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png>
-Package pdftex.def Info: images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autor
-eg_True.png used on input line 135.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
+! LaTeX Error: File `beta_initial' not found.
 
-<images/init_1E-01|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png, id=32, 433.
-62pt x 289.08pt>
-File: images/init_1E-01|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png Graphic
- file (type png)
-<use images/init_1E-01|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png>
-Package pdftex.def Info: images/init_1E-01|basic_1E-04|prop_1E+00|it_2000|autor
-eg_True.png used on input line 141.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
-File: images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png Graphic
- file (type png)
-<use images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png>
-Package pdftex.def Info: images/init_1E+00|basic_1E-03|prop_1E+00|it_2000|autor
-eg_True.png used on input line 144.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.105 ...aphics[width=0.5\textwidth]{beta_initial}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
-<images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png, id=33, 433.
-62pt x 289.08pt>
-File: images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png Graphic
- file (type png)
-<use images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png>
-Package pdftex.def Info: images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autor
-eg_True.png used on input line 147.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
 
-<images/init_1E-01|basic_1E-02|prop_1E+00|it_200|autoreg_False.png, id=34, 433.
-62pt x 289.08pt>
-File: images/init_1E-01|basic_1E-02|prop_1E+00|it_200|autoreg_False.png Graphic
- file (type png)
-<use images/init_1E-01|basic_1E-02|prop_1E+00|it_200|autoreg_False.png>
-Package pdftex.def Info: images/init_1E-01|basic_1E-02|prop_1E+00|it_200|autore
-g_False.png used on input line 156.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
+! LaTeX Error: File `init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True' no
+t found.
 
-<images/init_1E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png, id=35, 433.
-62pt x 289.08pt>
-File: images/init_1E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png Graphic
- file (type png)
-<use images/init_1E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png>
-Package pdftex.def Info: images/init_1E+00|basic_1E-02|prop_1E+00|it_200|autore
-g_False.png used on input line 159.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.118 ...ic_1E-02|prop_1E+00|it_2000|autoreg_True}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
-<images/init_5E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png, id=36, 433.
-62pt x 289.08pt>
-File: images/init_5E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png Graphic
- file (type png)
-<use images/init_5E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png>
-Package pdftex.def Info: images/init_5E+00|basic_1E-02|prop_1E+00|it_200|autore
-g_False.png used on input line 162.
-(pdftex.def)             Requested size: 155.02pt x 103.3453pt.
-[4 <./images/init_1E-01|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png> <./ima
-ges/init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png> <./images/init_
-5E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True.png> <./images/init_1E-01|bas
-ic_1E-03|prop_1E+00|it_2000|autoreg_True.png> <./images/init_1E+00|basic_1E-03|
-prop_1E+00|it_2000|autoreg_True.png> <./images/init_5E+00|basic_1E-03|prop_1E+0
-0|it_2000|autoreg_True.png> <./images/init_1E-01|basic_1E-04|prop_1E+00|it_2000
-|autoreg_True.png> <./images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_
-True.png>] [5 <./images/init_1E-01|basic_1E-02|prop_1E+00|it_200|autoreg_False.
-png> <./images/init_1E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png> <./i
-mages/init_5E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False.png>] (./report_mh
--dtm.aux) ) 
+
+! LaTeX Error: File `init_1E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.121 ...ic_1E-02|prop_1E+00|it_2000|autoreg_True}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `init_5E+00|basic_1E-02|prop_1E+00|it_2000|autoreg_True' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.124 ...ic_1E-02|prop_1E+00|it_2000|autoreg_True}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[3]
+
+! LaTeX Error: File `init_1E-01|basic_1E-03|prop_1E+00|it_2000|autoreg_True' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.130 ...ic_1E-03|prop_1E+00|it_2000|autoreg_True}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.133 ...ic_1E-03|prop_1E+00|it_2000|autoreg_True}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `init_5E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.136 ...ic_1E-03|prop_1E+00|it_2000|autoreg_True}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `init_1E-01|basic_1E-04|prop_1E+00|it_2000|autoreg_True' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.142 ...ic_1E-04|prop_1E+00|it_2000|autoreg_True}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `init_1E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.145 ...ic_1E-03|prop_1E+00|it_2000|autoreg_True}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_True' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.148 ...ic_1E-04|prop_1E+00|it_2000|autoreg_True}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `init_1E-01|basic_1E-02|prop_1E+00|it_200|autoreg_False' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.157 ...ic_1E-02|prop_1E+00|it_200|autoreg_False}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `init_1E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.160 ...ic_1E-02|prop_1E+00|it_200|autoreg_False}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `init_5E+00|basic_1E-02|prop_1E+00|it_200|autoreg_False' no
+t found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.163 ...ic_1E-02|prop_1E+00|it_200|autoreg_False}
+                                                  
+I could not locate the file with any of these extensions:
+.eps,.ps,.eps.gz,.ps.gz,.eps.Z,.mps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[4] (./report_mh-dtm.aux) ) 
 Here is how much of TeX's memory you used:
- 4048 strings out of 493014
- 61159 string characters out of 6133351
- 134441 words of memory out of 5000000
- 7527 multiletter control sequences out of 15000+600000
+ 3097 strings out of 493015
+ 44444 string characters out of 6133377
+ 113840 words of memory out of 5000000
+ 6593 multiletter control sequences out of 15000+600000
  9020 words of font info for 33 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,14n,39p,575b,371s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-ex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
-i12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
-6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.
-pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pf
-b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><
-/usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on report_mh-dtm.pdf (5 pages, 1628503 bytes).
-PDF statistics:
- 83 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
- 0 named destinations out of 1000 (max. 500000)
- 66 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36i,14n,39p,799b,297s stack positions out of 5000i,500n,10000p,200000b,80000s
 
+Output written on report_mh-dtm.dvi (4 pages, 13268 bytes).
