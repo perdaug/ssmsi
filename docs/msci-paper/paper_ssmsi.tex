@@ -1,0 +1,79 @@
+%% example.tex
+%% Jeremy Singer
+%% 16 Oct 12
+
+\documentclass{mpaper}
+
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{images/}}
+
+\begin{document}
+
+\title{Spatial Smoothing in Mass Spectrometry Imaging}
+\author{Arijus Pleska}
+\matricnum{2019828P}
+
+\maketitle
+
+% ___________________________________________________________________________
+\begin{abstract}
+\lipsum[1]
+\end{abstract}
+
+% ___________________________________________________________________________
+\section{Introduction}
+
+\lipsum[1-3]
+
+% ___________________________________________________________________________
+\section{Background}
+\lipsum[1]
+\subsection{Preliminaries}
+\lipsum[1-3]
+% Summary of the used terminology
+\subsection{Terminology}
+\subsection{The analysed data sets}
+\lipsum[1]
+
+% ___________________________________________________________________________
+\section{Statement of Problem}
+
+\par To start with, we set the hypothesis of this research project to \textit{`The noisiness of MSI pixels could be reduced by applying a topic model tuned for spatial smoothing'.} By spatial smoothing, it is meant that the topic model would have an auto-regressive treatment among the pixels. As an example, we assume that adjacent pixels would have similar latent topic distributions. This assumption corresponds to the nature of our data sets -- a metabolite construction (i.e., a topic) would be distributed among nearby regions (i.e., sets of adjacent pixels).
+
+\par The impact of proving the hypothesis would contribute to the following aspects:
+\begin{itemize}
+	\item Improving the detection of overlapping topics;
+	\item Reducing the noisiness of MSI data;
+	\item Motivating the further research in applying spatial \\smoothing to MSI data sets.
+\end{itemize} 
+Speaking of the overlapping topic detection and the reduced noisiness, both contributions would improve the performance of MSI pattern recognition. Additionally, the research project assesses the scale of a basic auto-regressive topic model impact. A performance improvement would set a basis to tune state-of-the-art auto-regression approaches on MSI data.
+
+\par To my knowledge, the spatial smoothing has not yet been thoroughly studied by the scientific community. For this reason, we will provide clear methodology and experiment execution settings. The study will assess a broad range of topic modelling parameters and a diverse data set complexity range. 
+
+% ___________________________________________________________________________
+\section{Relevant Research}
+
+\lipsum[1-3]
+
+% ___________________________________________________________________________
+\section{Methodology}
+
+\lipsum[1-3]
+
+% ___________________________________________________________________________
+ \section{Experiments}
+
+\lipsum[1-3]
+
+% ___________________________________________________________________________
+\section{Conclusion}
+
+\lipsum[1]
+
+% ___________________________________________________________________________
+\bibliographystyle{abbrv}
+\bibliography{iow}
+
+\end{document}

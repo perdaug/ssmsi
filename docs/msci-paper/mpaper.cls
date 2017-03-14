@@ -475,11 +475,14 @@ breaklines=true,
 %    \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
 %%    \global\@topnum\z@   % Prevents figures from going at top of page.
    \twocolumn[
-   {\hfill \includegraphics[width=60mm]{CompSci_colour.pdf}}
+   {\hfill 
+   \includegraphics[width=60mm]{CompSci_colour.pdf}
+   }
    \begin{center}%
    \line(1,0){500} \vskip .2cm
      {\ttlfnt \@title \par} \vskip .3cm
      {\subttlfnt {\@author}  (\subttlfnt \@matricnum)} \vskip .1cm
+     % {\subttlfnt {\@author}} \vskip .1cm
      \vskip .2cm
      {\subttlfnt {\@date}} \vskip .1cm
    \line(1,0){500}

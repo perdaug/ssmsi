@@ -1,3 +1,9 @@
+14/03/2017
+- Implemented a corpus generator
+- Tuned the bne look-up params to factor_{norm} = 5 and it = 50
+- Applied the AR model to bne data
+- Report: wrote the problem statement
+- Visualiser: familiarised with the plt-like figure migration
 23/02/2017
 - Summing alpha_k for the acceptance rate
 20/02/2017
