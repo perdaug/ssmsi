@@ -39,12 +39,12 @@ class DTM_Alpha(object):
         '''
         Counter and array initialisation
         '''
-        self.n_it_sampl_last = 0
-        self.n_upd_alpha = 0
-        self.n_it_alpha = 0
-        self.hist_theta = []
-        self.hist_alpha = []
-        self.hist_z = []
+        self.n_it_sampl_last = None
+        self.n_upd_alpha = None
+        self.n_it_alpha = None
+        self.hist_theta = None
+        self.hist_alpha = None
+        self.hist_phi = None
         '''
         The parameters initialised later in the work-flow
         '''
@@ -55,10 +55,8 @@ class DTM_Alpha(object):
         self.n_zw = None
         self.n_dz = None
         self.n_z = None
+        self.hist_z = None
         self.corpus = None
-
-        self.phi_norm = []
-        self.phi_softmax = []
 # ===========================================================================
 
     def load_fit(self, path_file, n_it=0):
@@ -75,7 +73,7 @@ class DTM_Alpha(object):
         if not self.snapshot:
             self._initialise(corpus)
         for it in range(self.n_it_sampl_last, self.n_it_sampl_last + n_it):
-            if (it - 1) % 5 == 0:
+            if it != 0 and it % 25 == 0:
                 self._print_status(it)
             self._update_alpha()
             self._sample_topics()
@@ -83,6 +81,9 @@ class DTM_Alpha(object):
             self._store_theta()
             if self.verbose_init:
                 self.verbose_init = False
+            if it == 50:
+                # print(self.hist_theta[0])
+                print(self.hist_phi[it])
         self.n_it_sampl_last += n_it
 
     def _print_status(self, it):
@@ -94,6 +95,15 @@ class DTM_Alpha(object):
     def _initialise(self, corpus):
         t0 = time()
         print('{} has started.'.format(self.__class__.__name__))
+        '''
+        Initialise auxiliary variables
+        '''
+        self.n_it_sampl_last = 0
+        self.n_upd_alpha = 0
+        self.n_it_alpha = 0
+        self.hist_theta = []
+        self.hist_alpha = []
+        self.hist_phi = []
         self.corpus = corpus
         self.T, self.V = corpus.shape
         '''
@@ -115,6 +125,7 @@ class DTM_Alpha(object):
         self.n_zw = np.zeros((self.K, self.V), dtype=np.int)
         self.n_dz = np.zeros((self.T, self.K), dtype=np.int)
         self.n_z = np.zeros(self.K, dtype=np.int)
+        self.hist_z = []
         for d, doc in enumerate(corpus):
             self.hist_z.append([])
             for w, word in enumerate(doc):
@@ -228,8 +239,8 @@ class DTM_Alpha(object):
 
     def _sample_topics(self):
         t0 = time()
-        self.alpha2 = self.softmax(self.alpha)
-        self.beta2 = self.softmax(self.beta)
+        self.alpha_softmax = self.softmax(self.alpha)
+        self.beta_softmax = self.softmax(self.beta)
         for d, doc in enumerate(self.corpus):
             for w, _ in enumerate(doc):
                 for it, z in enumerate(self.hist_z[d][w]):
@@ -237,6 +248,7 @@ class DTM_Alpha(object):
                     self.n_zw[z, w] -= 1
                     self.n_z[z] -= 1
                     p_topic = self._calculate_p_topic(d, w)
+                    # print(p_topic)
                     z_new = np.random.choice(self.K, p=p_topic)
                     self.hist_z[d][w][it] = z_new
                     self.n_dz[d, z_new] += 1
@@ -249,10 +261,17 @@ class DTM_Alpha(object):
         return np.exp(arr) / np.sum(np.exp(arr))
 
     def _calculate_p_topic(self, idx_d, idx_w):
-        phi = (1.0 * self.n_zw[:, idx_w] + self.beta2[:, idx_w]) \
-            / (1.0 * self.n_z + self.V * self.beta2[:, idx_w])
-        theta = (1.0 * self.n_dz[idx_d, :] + self.alpha2[idx_d])
+        phi = (1.0 * self.n_zw[:, idx_w] + self.beta_softmax[:, idx_w]) \
+            / (1.0 * self.n_z + self.V * self.beta_softmax[:, idx_w])
+        theta = (1.0 * self.n_dz[idx_d, :] + self.alpha_softmax[idx_d])
+        # print(self.beta_softmax)
+        # print(self.alpha_softmax)
         p_topic = theta * phi
+        # print()
+        # print(self.n_dz[idx_d, :])
+        # print(theta)
+        # print(phi)
+        # print(p_topic)
         p_topic /= p_topic.sum()
         return p_topic
 # ___________________________________________________________________________
@@ -260,10 +279,14 @@ class DTM_Alpha(object):
     def _store_phi(self):
         # print(self.n_zw)
         # print(self.n_zd[:, None])
-        phi_pre = (1.0 * self.n_zw + self.beta) \
-            / (1.0 * self.n_z[:, None] + self.V * self.beta)
-        phi = self.softmax(phi_pre)
-        self.phi_softmax.append(phi)
+        phi = (1.0 * self.n_zw + self.beta_softmax) \
+            / (1.0 * self.n_z[:, None] + self.V * self.beta_softmax)
+        phi /= phi.sum(-1)[:, None]
+        # phi = self.softmax(phi)
+        beta = phi
+        # beta = np.random.normal(phi, self.delta_sq)
+        # beta = self.softmax(beta)
+        self.hist_phi.append(beta)
         # phi_norm = phi / np.sum(phi, axis=1)[:, None]
         # thetas_current = np.zeros(shape=phi.shape)
         # for doc_idx, theta_p_n in enumerate(phi_norm):
@@ -291,15 +314,17 @@ class DTM_Alpha(object):
     #     self.phi_softmax.append(phi_softmax)
 
     def softmax(self, arr):
+        arr_softmax = np.array(arr)
         for idx_r, row in enumerate(arr):
-            arr[idx_r] = np.exp(row) / np.sum(np.exp(row))
-        return arr
+            arr_softmax[idx_r] = np.exp(row) / np.sum(np.exp(row))
+        return arr_softmax
 
 # ___________________________________________________________________________
 
     def _store_theta(self):
-        theta_pre = (self.n_dz + self.alpha)
-        theta = self.softmax(theta_pre)
+        theta = (self.n_dz + self.alpha_softmax)
+        theta /= theta.sum(-1)[:, None]
+        # theta = self.softmax(theta_pre)
         self.hist_theta.append(np.array(theta))
         # thetas_p_norm = thetas_prev \
         #     / np.sum(thetas_prev, axis=1)[:, None]

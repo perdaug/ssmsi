@@ -4,7 +4,7 @@ VERSION
 - Python 2
 
 FUNCTION
-- Corpus pre-prodcessing
+- Corpus pre-processing
 """
 
 import numpy as np

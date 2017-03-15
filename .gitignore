@@ -4,3 +4,4 @@ notebooks/*/.ipynb_checkpoints/
 presentations/rogers-lda/
 libs/
 temp/
+**/__pycache__/*

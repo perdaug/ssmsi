@@ -1,3 +1,7 @@
+15/03/2017:
+- Visualiser: Migrated all the experiment plots
+- Experiment: Using normalisation to get the last phis
+- Visualiser: Visualising the last phis
 14/03/2017
 - Implemented a corpus generator
 - Tuned the bne look-up params to factor_{norm} = 5 and it = 50
