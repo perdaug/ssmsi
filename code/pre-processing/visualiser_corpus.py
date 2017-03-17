@@ -69,6 +69,12 @@ class Visualiser_Corpus(object):
     def softmax(self, arr):
         return np.exp(arr) / np.sum(np.exp(arr))
 
+    def softmax_matrix(self, arr):
+        arr_softmax = np.array(arr)
+        for idx_r, row in enumerate(arr):
+            arr_softmax[idx_r] = np.exp(row) / np.sum(np.exp(row))
+        return arr_softmax
+
 # ___________________________________________________________________________
 
     '''
@@ -131,9 +137,159 @@ class Visualiser_Corpus(object):
         fig = go.Figure(data=data, layout=layout)
         return fig
 
-# ___________________________________________________________________________
 
-    def plot_latent_alpha(self, history_alpha, n_it, var_init, var_basic,
+# __________________________________________________________________________
+
+    def compare_performances(self, perf_ar, perf_nonar):
+        theta_ar, phi_ar = perf_ar
+        theta_nonar, phi_nonar = perf_nonar
+        plt.figure()
+        plt.title('theta')
+        plt.plot(theta_ar, label='AR')
+        plt.plot(theta_nonar, label='Non-AR')
+        plt.legend(loc=2)
+        plt.figure()
+        plt.title('phi')
+        plt.plot(phi_ar, label='AR')
+        plt.plot(phi_nonar, label='Non-AR')
+        plt.legend(loc=2)
+
+
+
+        # print(theta_ar)
+        # plt.bar(self.linspace_V, phi[0], label='k=0')
+        # plt.bar(self.linspace_V, phi[1], label='k=1')
+        # plt.xticks(np.arange(0, 10, 1.0))
+        # plt.legend(loc=1)
+        # plt.xlabel('V')
+        # plt.ylabel(r'$\phi$')
+
+# __________________________________________________________________________
+# LATENT PLOTS
+
+    def plot_latent_thetas(self, thetas):
+        '''
+        Axis formatting
+        '''
+        from matplotlib.ticker import MaxNLocator
+        ax = plt.figure().gca()
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        '''
+        Pre-processing
+        '''
+        thetas = thetas.T
+        '''
+        Plotting
+        '''
+        for theta in thetas:
+            plt.plot(self.linspace_t, theta)
+        plt.xlabel('t')
+        plt.ylabel(r'$\theta$')
+
+    def plot_latent_phis(self, phis, title):
+        '''
+        Axis formatting
+        '''
+        index = np.arange(10)
+        bar_width = 0.2
+        '''
+        Plotting
+        '''
+        plt.figure()
+        plt.title(title)
+        for idx, phi in enumerate(phis):
+            plt.bar(idx * bar_width + self.linspace_V, phi, bar_width)
+        plt.xticks(index + bar_width, np.arange(0, 10, 1.0))
+        plt.xlabel('v')
+        plt.ylabel(r'$\phi$')
+
+    def plot_latent_alpha(self, alpha):
+        '''
+        Axis formatting
+        '''
+        from matplotlib.ticker import MaxNLocator
+        ax = plt.figure().gca()
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        '''
+        Pre-processing
+        '''
+        alphas = alpha.T
+        '''
+        Plotting
+        '''
+        for alpha in alphas:
+            plt.plot(self.linspace_t, alpha)
+        plt.xlabel('t')
+        plt.ylabel(r'$\alpha$')
+
+# ___________________________________________________________________________
+# INIT PLOTS
+
+    def plot_init_betas(self, betas):
+        '''
+        Axis formatting
+        '''
+        index = np.arange(10)
+        bar_width = 0.2
+        '''
+        Plotting
+        '''
+        plt.figure()
+        for idx, beta in enumerate(betas):
+            plt.bar(idx * bar_width + self.linspace_V, beta, bar_width)
+        plt.xticks(index + bar_width, np.arange(0, 10, 1.0))
+        plt.xlabel('v')
+        plt.ylabel(r'$\beta$')
+
+    def plot_init_thetas(self, alphas=None, thetas=None):
+        '''
+        Integer axis labelling
+        '''
+        from matplotlib.ticker import MaxNLocator
+        ax = plt.figure().gca()
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        '''
+        Pre-processing
+        '''
+        if alphas is not None:
+            alphas_softmax = self.softmax_matrix(alphas)
+            thetas = alphas_softmax.T
+        if thetas is not None:
+            thetas = thetas.T
+        '''
+        Plotting
+        '''
+        for theta in thetas:
+            plt.plot(self.linspace_t, theta)
+        plt.xlabel('t')
+        plt.ylabel(r'$\theta$')
+
+    def plot_init_alphas(self, alphas):
+        if alphas is None:
+            print('No alphas used.')
+            return
+        '''
+        Integer axis labelling
+        '''
+        from matplotlib.ticker import MaxNLocator
+        ax = plt.figure().gca()
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        '''
+        Pre-processing
+        '''
+        alphas = alphas.T
+        '''
+        Plotting
+        '''
+        for alpha in alphas:
+            plt.plot(self.linspace_t, alpha)
+        plt.xlabel('t')
+        plt.ylabel(r'$\alpha$')
+
+# __________________________________________________________________________
+# BACKLOG
+
+    def plot_latent_alpha2(self, history_alpha, n_it, var_init, var_basic,
                           var_prop):
         '''
         Calculate the softmax values
@@ -167,35 +323,3 @@ class Visualiser_Corpus(object):
         plt.legend(loc=1)
         plt.xlabel('t')
         plt.ylabel(r'$\theta$')
-
-# ___________________________________________________________________________
-
-    def plot_init_betas(self, beta):
-        plt.figure(1)
-        plt.bar(self.linspace_V, beta[0], label='k=0')
-        plt.bar(self.linspace_V, beta[1], label='k=1')
-        plt.xticks(np.arange(0, 10, 1.0))
-        plt.legend(loc=1)
-        plt.xlabel('V')
-        plt.ylabel(r'$\beta$')
-# ___________________________________________________________________________
-   
-    def plot_init_alphas(self, alphas):
-        from matplotlib.ticker import MaxNLocator
-        ax = plt.figure().gca()
-        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-
-        alphas_softmax = np.zeros(shape=alphas.shape)
-        for t, alpha_t in enumerate(alphas):
-            alphas_softmax[t] = self.softmax(alpha_t)
-        alphas_softmax = alphas_softmax.T
-        labels = ['k=0', 'k=1']
-        for y_arr, label in zip(alphas_softmax, labels):
-            plt.plot(self.linspace_t, y_arr, label=label)
-
-        plt.xlabel('t')
-        plt.ylabel(r'softmax($\alpha$)')
-        plt.legend(loc=1)
-
-
-

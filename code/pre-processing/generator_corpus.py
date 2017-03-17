@@ -17,8 +17,10 @@ class Generator_Corpus(object):
     - pp: pre-processed
     '''
     def __init__(self, alphas, beta, xi, T):
-        self.alphas = alphas
+        self.alphas = self.softmax(alphas)
+        # TODO: apply softmax for non-trivial betas
         self.beta = beta
+        # self.beta = self.softmax(beta)
         self.xi = xi
         self.K, self.V = self.beta.shape
         self.vocab = self._generate_vocab()
@@ -45,4 +47,11 @@ class Generator_Corpus(object):
                 if w_key not in corpus[d]:
                     corpus[d][w_key] = 0
                 corpus[d][w_key] += 1
+
         return corpus
+
+    def softmax(self, arr):
+        arr_softmax = np.array(arr)
+        for idx_r, row in enumerate(arr):
+            arr_softmax[idx_r] = np.exp(row) / np.sum(np.exp(row))
+        return arr_softmax

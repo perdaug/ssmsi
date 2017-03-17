@@ -26,15 +26,13 @@ class DTM_Alpha(object):
     - delta_sq is the variance for alpha'[t]
     '''
     def __init__(self, K=None, sigma_0_sq=None, sigma_sq=None, delta_sq=None,
-                 autoreg=False, snapshot=False, beta=None,
-                 verbose_init=True):
+                 autoreg=False, snapshot=False, verbose_init=True):
         self.K = K
         self.sigma_0_sq = sigma_0_sq
         self.sigma_sq = sigma_sq
         self.delta_sq = delta_sq
         self.autoreg = autoreg
         self.snapshot = snapshot
-        self.beta = beta
         self.verbose_init = verbose_init
         '''
         Counter and array initialisation
@@ -48,6 +46,7 @@ class DTM_Alpha(object):
         '''
         The parameters initialised later in the work-flow
         '''
+        self.burnin = None
         self.beta = None
         self.T = None
         self.V = None
@@ -59,45 +58,52 @@ class DTM_Alpha(object):
         self.corpus = None
 # ===========================================================================
 
-    def load_fit(self, path_file, n_it=0):
+    def load_fit(self, path_file, n_it_add=0):
         vars_loaded = pd.read_pickle(path_file)
         for var in vars(self):
             if var is 'snapshot':
                 setattr(self, 'snapshot', True)
             else:
                 setattr(self, var, vars_loaded[var])
-        self.fit(n_it=n_it)
+        self.fit(n_it=n_it_add)
 # ===========================================================================
 
-    def fit(self, n_it, corpus=None):
+    def fit(self, n_it, n_burn_it=0, corpus=None):
+        print('{} has started.'.format(self.__class__.__name__))
         if not self.snapshot:
             self._initialise(corpus)
+        if self.burnin:
+            print('The burn-in started.')
         for it in range(self.n_it_sampl_last, self.n_it_sampl_last + n_it):
-            if it != 0 and it % 25 == 0:
-                self._print_status(it)
+            self._update_status(it, n_burn_it)
             self._update_alpha()
             self._sample_topics()
-            self._store_phi()
-            self._store_theta()
+            if not self.burnin:
+                self._store_phi()
+                self._store_theta()
+                # self._calculate_perplexity()
             if self.verbose_init:
                 self.verbose_init = False
-            if it == 50:
-                # print(self.hist_theta[0])
-                print(self.hist_phi[it])
         self.n_it_sampl_last += n_it
+        print('{} has finished.'.format(self.__class__.__name__))
 
-    def _print_status(self, it):
-        print('Iteration: {}'.format(it))
-        rate_alpha_update = 1.0 * self.n_upd_alpha / self.n_it_alpha
-        print('Alpha update rate: {:.2f}'.format(rate_alpha_update))
+
+    def _update_status(self, it, n_burn_it):
+        if it != 0 and it % 50 == 0:
+            print('Iteration: {}'.format(it))
+            rate_alpha_update = 1.0 * self.n_upd_alpha / self.n_it_alpha
+            print('Alpha update rate: {:.2f}'.format(rate_alpha_update))
+        if it == n_burn_it:
+            print('Burn-in finished.')
+            self.burnin = False
 # ___________________________________________________________________________
 
     def _initialise(self, corpus):
         t0 = time()
-        print('{} has started.'.format(self.__class__.__name__))
         '''
         Initialise auxiliary variables
         '''
+        self.burnin = True
         self.n_it_sampl_last = 0
         self.n_upd_alpha = 0
         self.n_it_alpha = 0
@@ -248,7 +254,6 @@ class DTM_Alpha(object):
                     self.n_zw[z, w] -= 1
                     self.n_z[z] -= 1
                     p_topic = self._calculate_p_topic(d, w)
-                    # print(p_topic)
                     z_new = np.random.choice(self.K, p=p_topic)
                     self.hist_z[d][w][it] = z_new
                     self.n_dz[d, z_new] += 1
@@ -261,89 +266,49 @@ class DTM_Alpha(object):
         return np.exp(arr) / np.sum(np.exp(arr))
 
     def _calculate_p_topic(self, idx_d, idx_w):
-        phi = (1.0 * self.n_zw[:, idx_w] + self.beta_softmax[:, idx_w]) \
-            / (1.0 * self.n_z + self.V * self.beta_softmax[:, idx_w])
+        phi = (1.0 * self.n_zw[:, idx_w] + self.beta[:, idx_w]) \
+            / (1.0 * self.n_z + self.V * self.beta[:, idx_w])
         theta = (1.0 * self.n_dz[idx_d, :] + self.alpha_softmax[idx_d])
-        # print(self.beta_softmax)
-        # print(self.alpha_softmax)
         p_topic = theta * phi
-        # print()
-        # print(self.n_dz[idx_d, :])
-        # print(theta)
-        # print(phi)
-        # print(p_topic)
         p_topic /= p_topic.sum()
         return p_topic
-# ___________________________________________________________________________
-
-    def _store_phi(self):
-        # print(self.n_zw)
-        # print(self.n_zd[:, None])
-        phi = (1.0 * self.n_zw + self.beta_softmax) \
-            / (1.0 * self.n_z[:, None] + self.V * self.beta_softmax)
-        phi /= phi.sum(-1)[:, None]
-        # phi = self.softmax(phi)
-        beta = phi
-        # beta = np.random.normal(phi, self.delta_sq)
-        # beta = self.softmax(beta)
-        self.hist_phi.append(beta)
-        # phi_norm = phi / np.sum(phi, axis=1)[:, None]
-        # thetas_current = np.zeros(shape=phi.shape)
-        # for doc_idx, theta_p_n in enumerate(phi_norm):
-        #     theta_current = np.random.dirichlet(theta_p_n)
-        #     thetas_current[doc_idx, :] = theta_current
-        # print(thetas_current)
-
-        # phi_softmax = self.softmax(phi)
-        # self.phi_norm.append(phi_norm)
-    #     self.phi_softmax.append(phi_softmax)
-    # def _store_phi(self):
-    #     print(self.n_zw)
-    #     print(self.n_z[:, None])
-    #     phi = (1.0 * self.n_zw + self.beta) \
-    #         / (1.0 * self.n_z[:, None] + self.V * self.beta)
-    #     phi_norm = phi / np.sum(phi, axis=1)[:, None]
-    #     thetas_current = np.zeros(shape=phi.shape)
-    #     for doc_idx, theta_p_n in enumerate(phi_norm):
-    #         theta_current = np.random.dirichlet(theta_p_n)
-    #         thetas_current[doc_idx, :] = theta_current
-    #     print(thetas_current)
-
-    #     phi_softmax = self.softmax(phi)
-    #     self.phi_norm.append(phi_norm)
-    #     self.phi_softmax.append(phi_softmax)
 
     def softmax(self, arr):
         arr_softmax = np.array(arr)
         for idx_r, row in enumerate(arr):
             arr_softmax[idx_r] = np.exp(row) / np.sum(np.exp(row))
         return arr_softmax
+# ___________________________________________________________________________
+
+    def _store_phi(self):
+        phi = (1.0 * self.n_zw + self.beta_softmax) \
+            / (1.0 * self.n_z[:, None] + self.V * self.beta_softmax)
+        phi /= phi.sum(-1)[:, None]
+        self.hist_phi.append(phi)
 
 # ___________________________________________________________________________
 
     def _store_theta(self):
         theta = (self.n_dz + self.alpha_softmax)
         theta /= theta.sum(-1)[:, None]
-        # theta = self.softmax(theta_pre)
         self.hist_theta.append(np.array(theta))
-        # thetas_p_norm = thetas_prev \
-        #     / np.sum(thetas_prev, axis=1)[:, None]
-        # print()
-        # print(thetas_p_norm[0])
-#
-        # th_softmax = self.softmax(thetas_p_norm)
-        # print(th_softmax[0])
-        # thetas_current = th_softmax
 
-        # thetas_current = np.zeros(shape=thetas_prev.shape)
-        # for doc_idx, theta_p_n in enumerate(thetas_p_norm):
-        #     theta_current = np.random.dirichlet(theta_p_n)
-        #     thetas_current[doc_idx, :] = theta_current
-        # print(thetas_current[0])
-
-
-        # self.hist_theta.append(np.array(thetas_current))
 # ___________________________________________________________________________
+
+    def _calculate_perplexity(self):
+        # TODO: Needs more studying.
+        perp = 0
+        for t in range(self.T):
+            for v in range(self.V):
+                sum_k = 0
+                for k in range(self.K):
+                    sum_k += self.hist_theta[-1][t, k] * self.beta[k, v]
+                perp += self.corpus[t, v] * np.log(sum_k)
+        perp /= self.corpus.sum()
+        perp = np.exp(-perp)
+
+# ___________________________________________________________________________
+
 
 
 PATH_HOME = os.path.expanduser('~') + '/Projects/ssmsi/'
