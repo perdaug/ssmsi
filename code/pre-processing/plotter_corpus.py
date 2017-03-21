@@ -15,7 +15,7 @@ class Visualiser_Corpus(object):
         self.l_row = l_row
         self.l_column = l_column
         self.n_columns, self.map_coord = self._generate_coordinates()
-#____________________________________________________________________________
+# ___________________________________________________________________________
 
     def _extract_vocab(self):
         vocab = []
@@ -24,7 +24,7 @@ class Visualiser_Corpus(object):
                 if word not in vocab:
                     vocab.append(word)
         return vocab
-#____________________________________________________________________________
+# ___________________________________________________________________________
 
     def _generate_coordinates(self):
         s_column, s_row = self._calc_sizes_map()
@@ -54,7 +54,7 @@ class Visualiser_Corpus(object):
         s_column = int(math.floor(s_column_r))
         s_row = s_scan - s_column
         return s_column, s_row
-#____________________________________________________________________________
+# ___________________________________________________________________________
 
     def locate_word(self):
         # Mapping to the z values.

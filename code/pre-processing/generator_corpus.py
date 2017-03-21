@@ -16,11 +16,12 @@ class Generator_Corpus(object):
     Terms:
     - pp: pre-processed
     '''
-    def __init__(self, alphas, beta, xi, T):
-        self.alphas = self.softmax(alphas)
-        # TODO: apply softmax for non-trivial betas
-        self.beta = beta
-        # self.beta = self.softmax(beta)
+    def __init__(self, alpha_init, theta_init, beta_init, xi, T):
+        if alpha_init is not None:
+            self.theta = self._softmax_matrix(alpha_init)
+        elif theta_init is not None:
+            self.theta = theta_init
+        self.beta = beta_init
         self.xi = xi
         self.K, self.V = self.beta.shape
         self.vocab = self._generate_vocab()
@@ -39,7 +40,7 @@ class Generator_Corpus(object):
             corpus[d] = {}
             N = np.random.poisson(self.xi)
             for w in range(N):
-                topic_distrib = np.random.multinomial(1, self.alphas[d])
+                topic_distrib = np.random.multinomial(1, self.theta[d])
                 z = np.where(topic_distrib == 1)[0][0]
                 word_distrib = np.random.multinomial(1, self.beta[z])
                 w = np.where(word_distrib == 1)[0][0]
@@ -50,7 +51,7 @@ class Generator_Corpus(object):
 
         return corpus
 
-    def softmax(self, arr):
+    def _softmax_matrix(self, arr):
         arr_softmax = np.array(arr)
         for idx_r, row in enumerate(arr):
             arr_softmax[idx_r] = np.exp(row) / np.sum(np.exp(row))

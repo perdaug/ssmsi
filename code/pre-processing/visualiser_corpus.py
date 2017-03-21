@@ -3,14 +3,17 @@ import numpy as np
 import math
 import plotly.graph_objs as go
 import matplotlib.pyplot as plt
+import os
 # ___________________________________________________________________________
 
 
 class Visualiser_Corpus(object):
 
-    def __init__(self, corpus, vocab, n_rows, l_row, l_column):
+    def __init__(self, corpus, vocab, n_rows, l_row, l_column, path_plots,
+                 save=True):
         self.corpus = corpus
         # self.vocab = self._extract_vocab()
+        self.path_plots = path_plots
         self.vocab = vocab
         self.T = len(self.corpus)
         self.V = len(self.vocab)
@@ -20,6 +23,10 @@ class Visualiser_Corpus(object):
         self.n_columns, self.map_coord = self._generate_coordinates()
         self.linspace_t = np.linspace(0, self.T - 1, num=self.T)
         self.linspace_V = np.linspace(0, self.V - 1, num=self.V)
+        self.save = save
+
+        if not os.path.exists(self.path_plots):
+            os.makedirs(self.path_plots)
 
 # ___________________________________________________________________________
     '''
@@ -140,34 +147,44 @@ class Visualiser_Corpus(object):
 
 # __________________________________________________________________________
 
-    def compare_performances(self, perf_ar, perf_nonar):
+    def compare_performances(self, perf_ar, perf_nonar, s_batch):
         theta_ar, phi_ar = perf_ar
         theta_nonar, phi_nonar = perf_nonar
-        plt.figure()
-        plt.title('theta')
+        '''
+        Axis formatting
+        '''
+        from matplotlib.ticker import MaxNLocator
+        '''
+        Plotting thetas
+        '''
+        ax = plt.figure().gca()
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        plt.title(r'$\theta$')
         plt.plot(theta_ar, label='AR')
         plt.plot(theta_nonar, label='Non-AR')
         plt.legend(loc=2)
-        plt.figure()
-        plt.title('phi')
+        plt.ylabel('Total error')
+        plt.xlabel('Batch no. (s_batch = {})'.format(s_batch))
+        if self.save:
+            plt.savefig(self.path_plots + 'performance_thetas.png', dpi=300)
+        '''
+        Plotting phis
+        '''
+        ax = plt.figure().gca()
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        plt.title(r'$\phi$')
         plt.plot(phi_ar, label='AR')
         plt.plot(phi_nonar, label='Non-AR')
         plt.legend(loc=2)
-
-
-
-        # print(theta_ar)
-        # plt.bar(self.linspace_V, phi[0], label='k=0')
-        # plt.bar(self.linspace_V, phi[1], label='k=1')
-        # plt.xticks(np.arange(0, 10, 1.0))
-        # plt.legend(loc=1)
-        # plt.xlabel('V')
-        # plt.ylabel(r'$\phi$')
+        plt.ylabel('Total error')
+        plt.xlabel('Batch no. (s_batch = {})'.format(s_batch))
+        if self.save:
+            plt.savefig(self.path_plots + 'performance_phis.png', dpi=300)
 
 # __________________________________________________________________________
 # LATENT PLOTS
 
-    def plot_latent_thetas(self, thetas):
+    def plot_latent_thetas(self, thetas, title):
         '''
         Axis formatting
         '''
@@ -185,6 +202,10 @@ class Visualiser_Corpus(object):
             plt.plot(self.linspace_t, theta)
         plt.xlabel('t')
         plt.ylabel(r'$\theta$')
+        plt.title(title)
+        if self.save:
+            name_file = 'latent_thetas_{}.png'.format(title)
+            plt.savefig(self.path_plots + name_file, dpi=300)
 
     def plot_latent_phis(self, phis, title):
         '''
@@ -202,8 +223,12 @@ class Visualiser_Corpus(object):
         plt.xticks(index + bar_width, np.arange(0, 10, 1.0))
         plt.xlabel('v')
         plt.ylabel(r'$\phi$')
+        plt.title(title)
+        if self.save:
+            name_file = 'latent_phis_{}.png'.format(title)
+            plt.savefig(self.path_plots + name_file, dpi=300)
 
-    def plot_latent_alpha(self, alpha):
+    def plot_latent_alpha(self, alpha, title):
         '''
         Axis formatting
         '''
@@ -221,6 +246,11 @@ class Visualiser_Corpus(object):
             plt.plot(self.linspace_t, alpha)
         plt.xlabel('t')
         plt.ylabel(r'$\alpha$')
+        plt.title(title)
+        if self.save:
+            name_file = 'latent_alphas_{}.png'.format(title)
+            plt.savefig(self.path_plots + name_file, dpi=300)
+
 
 # ___________________________________________________________________________
 # INIT PLOTS
@@ -290,7 +320,7 @@ class Visualiser_Corpus(object):
 # BACKLOG
 
     def plot_latent_alpha2(self, history_alpha, n_it, var_init, var_basic,
-                          var_prop):
+                           var_prop):
         '''
         Calculate the softmax values
         '''

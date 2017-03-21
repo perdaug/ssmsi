@@ -1,8 +1,9 @@
+**/*.pyc
+**/*.fdb_latexmk
+**/*.log
 **/*.gz
 **/*.pkl
 data/
-**/.ipynb_checkpoints/
-presentations/rogers-lda/
-libs/
-**/.DS_Store/*
-**/__pycache__/*
+**/.ipynb_checkpoints
+**/.DS_Store
+**/__pycache__

@@ -1,4 +1,9 @@
+21/03/2017:
+- Evaluation: Defined the preliminary tables
+- Implementation: Fixed the topic matching
+- Evaluation: Separated the training and the assessment
 17/03/2017:
+- Report: structure for background and data pre-processing
 - Corpus generation: establishing a standard for corpus storage 
 - Visualisation: generalised plotting functionality
 16/03/2017:
