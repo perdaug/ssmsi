@@ -15,8 +15,6 @@
 \author{Arijus Pleska}
 \matricnum{2019828P}
 
-\maketitle
-
 % ___________________________________________________________________________
 \begin{abstract}
 \lipsum[1]
@@ -25,32 +23,131 @@
 % ___________________________________________________________________________
 \section{Introduction}
 
-\lipsum[1-3]
+% Purpose:
+% - A spatial smoothing application in visual data using unsupervised ML
+% - Focus: Metabolomics and topic modelling
+\par In this research paper, we assess an application of spatial smoothing in visual data; that is, we induce continuity among data elements. The spatial smoothing application is particularly targeted to be applied for unsupervised pattern recognition. To be more specific, our focus is to model a biomedical application in the field of metabolomics. Furthermore, we limit the scope of applied unsupervised machine learning techniques to the branch of topic modelling.  
+
+% Basis:
+% - Visual data: MSI application in metabolomics
+% - MSI data structure
+\par The characteristics of our utilised metabolomics data are expressed in the form of mass spectrometry imaging (MSI). Effectively, we use MSI to visualise the metabolomics data in the form of spatial distribution. Speaking of the metabolomics data, it contains information about ionised metabolites. Note that metabolites are molecules produced by the chemical process of metabolism; whereas by ionisation, we refer to the method used to sample metabolites. In other words, MSI data is a visualisation of ion (sampled metabolite) distributions: the complete dataset is the whole image; the image's pixel is a particular sampling region; and each region contains intensities of ions with unique mass-over-charge $m/z$ values. 
+
+% Basis:
+% - Unsupervised machine learning: Topic modelling
+% - topic modelling w.r.t. MSI
+\par Speaking of our machine learning application, topic modelling is a technique used to infer unlabelled topic distributions based on data's underlying semantic structure. With respect to MSI data, we can model the topic distributions over an image and its every pixel; furthermore, topic modelling can express the types of ions corresponding to particular topics. Since a topic model is a statistical approach to perceive real metabolomics data, the utilised topic models are tuned to reflect the metabolomics environment as good as possible. Relating to our research targets, spatial smoothing is one of such environment settings.
+
+% Research Problem:
+% - Noisiness
+% -- Fragmentation
+% -- Retention time
+% - Loss of information
+% -- Overlapping topics
+\par The basis of the project's research problems comes from the limitations of current metabolite sampling techniques. The main limitation is the loss of information caused by the metabolite ionisation. As a consequence, the MSI data is noisy. To expand on the noisiness, it is caused by metabolite fragmentation and the limitation to tune different metabolite retention times. By metabolite fragmentation, we refer to a metabolite split; the split would cause the captured ions to possess unexpected values. Speaking of the retention time, the intensity value of each ion types varies with respect to time; therefore, since each ion is captured at a different state of its retention, each ion type would possess some variance with respect to its intensity. Finally, note that the loss of information might be also caused by overlapping ion topics. Since different ion topics can contain same ion types, the topic possessing a lower ion intensity value would be overwhelmed and, thus, not reflected in the MSI data.
+% Contributions:
+% - A specific and extensive assessment of the SS application
+% - A tuned topic model and well-organised experiment settings
+\par
+\lipsum[1]
+
+% The paper's organisation
+\par
+\lipsum[1]
+
 
 % ___________________________________________________________________________
 \section{Background}
-\lipsum[1]
+
+% Intro
+% - Preliminaries: Introduce the rationale of LDA
+% - Terminology: Define the applied topic modelling terminology
+% - MSI Data characteristics: Introduce the qualities of the data
+\par The background section covers the basis concepts used throughout the paper. At the start, we provide a high-level overview on the general topic modelling concepts. Then, we define the terminology used throughout the paper. Finally, we introduce the characteristic qualities of MSI data.  
+
 \subsection{Preliminaries}
-\lipsum[1-3]
-% Summary of the used terminology
+
+% LDA Intro:
+% - Generative model
+% - Bayesian methods
+% - Assumptions
+\par 
+\lipsum[1]
+
+% Generatitive model:
+% - Generative process
+\par 
+\lipsum[1]
+
+% Bayesian methods
+% - Inference: sampling
+\par 
+\lipsum[1]
+
+% Assumptions
+% - Exchengeability (BoW)
+% - Discrete data
+\par 
+\lipsum[1]
+
 \subsection{Terminology}
-\subsection{The analysed data sets}
+
+% Terminology intro:
+% - Introduce the design
+% - Set a listing for future reference
+\par 
+\lipsum[1]
+
+% LDA design
+\par 
+\lipsum[1]
+
+% The terminology listing
+\par 
+\lipsum[1]
+
+\subsection{MSI Data Characteristics}
+
+% MSI dataset intro:
+% - Introduce the raw data format
+% - Describe the data pre-processing requirements
+\par 
+\lipsum[1]
+
+% Raw data format
+% - Data meaning
+\par 
+\lipsum[1]
+
+% Data pre-processing requirements
+% - Vocabulary generation
+% - Intensity normalisation
+% - Dismissing inferior information
+\par 
 \lipsum[1]
 
 % ___________________________________________________________________________
 \section{Statement of Problem}
 
-\par To start with, we set the hypothesis of this research project to \textit{`The noisiness of MSI pixels could be reduced by applying a topic model tuned for spatial smoothing'.} By spatial smoothing, it is meant that the topic model would have an auto-regressive treatment among the pixels. As an example, we assume that adjacent pixels would have similar latent topic distributions. This assumption corresponds to the nature of our data sets -- a metabolite construction (i.e., a topic) would be distributed among nearby regions (i.e., sets of adjacent pixels).
+% Hypothesis
+% - A topic is continuous throughout nearby regions
+\par To start with, we set the hypothesis of this research project to \textit{`The noisiness of MSI pixels can be reduced by applying a topic model tuned for spatial smoothing'.} By spatial smoothing, it is meant that the topic model would have an auto-regressive treatment among the pixels. As an example, we assume that adjacent pixels would have similar latent topic distributions. This assumption corresponds to the nature of our datasets -- a metabolite construction (i.e., a topic) is continuous throughout nearby regions (i.e., sets of adjacent pixels).
 
-\par The impact of proving the hypothesis would contribute to the following aspects:
+% Contributions
+% - Naive AR model application
+% - Motivating for the state-of-the-art AR model application
+\par The impact of proving the hypothesis would bring the following contributions:
 \begin{itemize}
 	\item Improving the detection of overlapping topics;
 	\item Reducing the noisiness of MSI data;
-	\item Motivating the further research in applying spatial \\smoothing to MSI data sets.
+	\item Motivating the further research in applying spatial \\smoothing to MSI data.
 \end{itemize} 
-Speaking of the overlapping topic detection and the reduced noisiness, both contributions would improve the performance of MSI pattern recognition. Additionally, the research project assesses the scale of a basic auto-regressive topic model impact. A performance improvement would set a basis to tune state-of-the-art auto-regression approaches on MSI data.
+Speaking of the overlapping topic detection and the reduced noisiness, both contributions would improve the performance of MSI pattern recognition. Additionally, we measure the changes in the performances upon varying the complexity of the data. Ultimately, if a naive spatial smoothing application displayed performance improvements, we would set a basis to apply state-of-the-art auto-regression approaches on MSI data.
 
-\par To my knowledge, the impact of the spatial smoothing application to the MSI domain has not yet been thoroughly studied. For the latter reason, this research project will serve as an exploratory assessment on the spatial smoothing application: we will introduce the rationale behind the applied methodology; also, we will clearly define the range of the experiment settings. To give a brief intuition about the methodology, the study will assess the domain-specific parameter tuning and its impact on a diverse range of synthetic data sets.
+% Approach
+% - Clearly define the experiment settings
+% - Tune the models by studying synthetic datasets.
+\par To my knowledge, the impact of the spatial smoothing application to the MSI domain has not yet been thoroughly studied. For the latter reason, this research project will serve as an exploratory assessment on the spatial smoothing application: we will introduce the rationale behind the applied methodology; also, we will clearly define the range of the experiment settings. To give a brief intuition about the methodology, the study will assess the domain-specific parameter tuning and its impact on a diverse range of synthetic datasets.
 
 % ___________________________________________________________________________
 \section{Relevant Research}

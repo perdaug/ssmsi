@@ -131,7 +131,6 @@ INPUT paper_ssmsi.out
 INPUT paper_ssmsi.out
 INPUT paper_ssmsi.out
 OUTPUT paper_ssmsi.out
-INPUT CompSci_colour.pdf
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aeti9.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
 INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/se-ascii-print.def

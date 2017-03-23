@@ -25,8 +25,9 @@ class DTM_Alpha(object):
     - sigma_sq is the variance for alpha[t]
     - delta_sq is the variance for alpha'[t]
     '''
-    def __init__(self, K=None, sigma_0_sq=None, sigma_sq=None, delta_sq=None,
-                 autoreg=False, snapshot=False, verbose_init=True):
+    def __init__(self, K=None, beta=None, sigma_0_sq=None, sigma_sq=None,
+                 delta_sq=None, autoreg=False, snapshot=False,
+                 verbose_init=True):
         self.K = K
         self.sigma_0_sq = sigma_0_sq
         self.sigma_sq = sigma_sq
@@ -34,6 +35,7 @@ class DTM_Alpha(object):
         self.autoreg = autoreg
         self.snapshot = snapshot
         self.verbose_init = verbose_init
+        self.beta = beta
         '''
         Counter and array initialisation
         '''
@@ -47,7 +49,6 @@ class DTM_Alpha(object):
         The parameters initialised later in the work-flow
         '''
         self.burnin = None
-        self.beta = None
         self.T = None
         self.V = None
         self.alpha = None
@@ -77,16 +78,15 @@ class DTM_Alpha(object):
         for it in range(self.n_it_sampl_last, self.n_it_sampl_last + n_it):
             self._update_status(it, n_burn_it)
             self._update_alpha()
-            self._sample_topics()
+            self._assign_topics()
             if not self.burnin:
-                self._store_phi()
-                self._store_theta()
+                self._sample_phi()
+                self._sample_theta()
                 # self._calculate_perplexity()
             if self.verbose_init:
                 self.verbose_init = False
         self.n_it_sampl_last += n_it
         print('{} has finished.'.format(self.__class__.__name__))
-
 
     def _update_status(self, it, n_burn_it):
         if it != 0 and it % 50 == 0:
@@ -115,8 +115,6 @@ class DTM_Alpha(object):
         '''
         Initialise hyper-parameters
         '''
-        if self.beta is None:
-            self._init_beta()
         self.alpha = np.zeros(shape=(self.T, self.K))
         self.alpha[0] = np.random.normal(0, self.sigma_0_sq, self.K)
         for t in range(1, self.T):
@@ -145,14 +143,6 @@ class DTM_Alpha(object):
                     self.n_z[z] += 1
         if self.verbose_init:
             print('Initialisation run-time: {:.2f}'.format(time() - t0))
-
-    def _init_beta(self):
-        mean_entry = 1. / self.V
-        mean_matrix = np.full(fill_value=mean_entry,
-                              shape=(self.K, self.V))
-        distrib_gamma = np.random.standard_gamma(mean_matrix)
-        distrib_gamma_norm = distrib_gamma / distrib_gamma.sum(-1)[:, None]
-        self.beta = distrib_gamma_norm
 # ___________________________________________________________________________
 
     '''
@@ -243,10 +233,9 @@ class DTM_Alpha(object):
         return t3
 # ___________________________________________________________________________
 
-    def _sample_topics(self):
+    def _assign_topics(self):
         t0 = time()
-        self.alpha_softmax = self.softmax(self.alpha)
-        self.beta_softmax = self.softmax(self.beta)
+        self.alpha_softmax = self._softmax(self.alpha)
         for d, doc in enumerate(self.corpus):
             for w, _ in enumerate(doc):
                 for it, z in enumerate(self.hist_z[d][w]):
@@ -262,41 +251,42 @@ class DTM_Alpha(object):
         if self.verbose_init:
             print('Gibbs sampling run-time: {:.2f}'.format(time() - t0))
 
-    def _softmax_vector(self, arr):
-        return np.exp(arr) / np.sum(np.exp(arr))
-
     def _calculate_p_topic(self, idx_d, idx_w):
-        phi = (1.0 * self.n_zw[:, idx_w] + self.beta[:, idx_w]) \
-            / (1.0 * self.n_z + self.V * self.beta[:, idx_w])
-        theta = (1.0 * self.n_dz[idx_d, :] + self.alpha_softmax[idx_d])
-        p_topic = theta * phi
+        term_left = (1.0 * self.n_zw[:, idx_w] + self.beta) \
+            / (1.0 * self.n_z + self.V * self.beta)
+        term_right = self.alpha_softmax[idx_d]
+        p_topic = term_left * term_right
         p_topic /= p_topic.sum()
         return p_topic
 
-    def softmax(self, arr):
+    def _softmax(self, arr):
         arr_softmax = np.array(arr)
         for idx_r, row in enumerate(arr):
             arr_softmax[idx_r] = np.exp(row) / np.sum(np.exp(row))
         return arr_softmax
 # ___________________________________________________________________________
 
-    def _store_phi(self):
-        phi = (1.0 * self.n_zw + self.beta_softmax) \
-            / (1.0 * self.n_z[:, None] + self.V * self.beta_softmax)
-        phi /= phi.sum(-1)[:, None]
+    def _sample_phi(self):
+        alphas_dir = (1.0 * self.n_zw + self.beta)
+        phi = []
+        for alpha_dir in alphas_dir:
+            phi_topic = np.random.dirichlet(alpha_dir)
+            phi.append(phi_topic)
         self.hist_phi.append(phi)
-
 # ___________________________________________________________________________
 
-    def _store_theta(self):
-        theta = (self.n_dz + self.alpha_softmax)
-        theta /= theta.sum(-1)[:, None]
+    def _sample_theta(self):
+        alphas_dir = self.alpha_softmax
+        theta = []
+        for alpha_dir in alphas_dir:
+            theta_doc = np.random.dirichlet(alpha_dir)
+            theta.append(theta_doc)
         self.hist_theta.append(np.array(theta))
 
 # ___________________________________________________________________________
+# BACKLOG
 
     def _calculate_perplexity(self):
-        # TODO: Needs more studying.
         perp = 0
         for t in range(self.T):
             for v in range(self.V):
@@ -309,27 +299,25 @@ class DTM_Alpha(object):
 
 # ___________________________________________________________________________
 
-
-
 PATH_HOME = os.path.expanduser('~') + '/Projects/ssmsi/'
 PATH_DATA = PATH_HOME + 'data/corpora_processed/'
 
 
 def main():
     corpus_pp = pd.read_pickle(PATH_DATA + 'corpus_synthetic_nparray.pkl')
-    vocab = pd.read_pickle(PATH_DATA + 'vocab_synthetic.pkl')
-    sigma_0_sq = 1
-    sigma_sq = 0.01
-    delta_sq = 1
-    K = 2
-    autoreg = True
-    clf = DTM_Alpha(K=K, sigma_0_sq=sigma_0_sq, sigma_sq=sigma_sq,
-                    delta_sq=delta_sq, autoreg=autoreg)
+    # vocab = pd.read_pickle(PATH_DATA + 'vocab_synthetic.pkl')
+    # sigma_0_sq = 1
+    # sigma_sq = 0.01
+    # delta_sq = 1
+    # K = 2
+    # autoreg = True
+    # clf = DTM_Alpha(K=K, sigma_0_sq=sigma_0_sq, sigma_sq=sigma_sq,
+    #                 delta_sq=delta_sq, autoreg=autoreg)
     # beta = np.array([[0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0],
     #                 [0, 0, 0.2, 0, 0, 0, 0, 0.3, 0.3, 0.2]])
     # clf.beta = beta
-    n_it = 10
-    clf.fit(n_it=n_it, corpus=corpus_pp)
+    # n_it = 10
+    # clf.fit(n_it=n_it, corpus=corpus_pp)
 
 
 if __name__ == '__main__':

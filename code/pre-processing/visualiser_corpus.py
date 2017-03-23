@@ -9,8 +9,8 @@ import os
 
 class Visualiser_Corpus(object):
 
-    def __init__(self, corpus, vocab, n_rows, l_row, l_column, path_plots,
-                 save=True):
+    def __init__(self, corpus, vocab, n_rows, l_row, l_column,
+                 path_plots=None, save=True):
         self.corpus = corpus
         # self.vocab = self._extract_vocab()
         self.path_plots = path_plots
@@ -25,8 +25,9 @@ class Visualiser_Corpus(object):
         self.linspace_V = np.linspace(0, self.V - 1, num=self.V)
         self.save = save
 
-        if not os.path.exists(self.path_plots):
-            os.makedirs(self.path_plots)
+        if self.path_plots is not None:
+            if not os.path.exists(self.path_plots):
+                os.makedirs(self.path_plots)
 
 # ___________________________________________________________________________
     '''
