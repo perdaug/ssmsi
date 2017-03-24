@@ -62,59 +62,74 @@
 % - MSI Data characteristics: Introduce the qualities of the data
 \par The background section covers the basis of the concepts used throughout the paper. At the start, we provide a high-level overview of the general topic modelling concepts. Then, we define the terminology used throughout the paper. Finally, we introduce the characteristic qualities of the MSI data.  
 
-\subsection{Preliminaries}
+\subsection{Topic Modelling Preliminaries}
 
 % LDA Intro:
 % - Hierarchical structure
 % - Generative model
 % - Bayesian methods
 % - Assumptions
-\par The research project targets a specific branch of topic models. The branch consists of Latent Dirichlet Allocation (LDA) derivatives. Note that the initial LDA model was introduced by Blei et al. \cite{blei2003latent}. One of the model's key characteristics is the three-level hierarchical treatment of the data. In the context of the utilised MSI data, the hierarchical structure can be perceived as follows: in the highest, level we have an MSI image; in the middle level, we have a pixel of an MSI image; and in the lowest level, we have the intensities of particular ions in a pixel.
+\par The research project targets a specific branch of topic models. The branch consists of Latent Dirichlet Allocation (LDA) derivatives. Note that the initial LDA model was introduced by Blei et al. \cite{blei2003latent}. One of the model's key characteristics is the three-level hierarchical treatment of the data. In the context of the utilised MSI data, the hierarchical structure can be perceived as follows: in the highest level, we have an MSI image; in the middle level, we have a pixel of an MSI image; and in the lowest level, we have the intensities of particular ions in a pixel.
 
 % Generatitive model:
 % - Generative process
-\par Another model's key characteristic is the generative treatment of the data. By the generative model, we mean that the latent data instances are treated as a result of a mixture of underlying parameters drawn from probability distributions. In other words, the generative data treatment induces randomness in the end products of the data; however, note that the source of the data -- the lowest level parameters of the probability distributions -- remain the same. The key aspect of the generative model is the degree of freedom in the connections of random variables; this notion allows modelling more realistic, thus, more complex data relations. Ultimately, the rationale of the generative model is based on recovering the underlying probability distributions. Effectively, in order to recover the generative process of the data, we delve into the applications of Bayesian methods.
+\par Another model's key characteristic is the generative treatment of the data. By the generative model, we mean that the latent data instances are treated as a result of a mixture of underlying parameters drawn from probability distributions. In other words, the generative data treatment induces randomness in the end products of the data; however, note that the source of the data -- the lowest level parameters of the probability distributions -- remain the same. The key aspect of the generative model is the degree of freedom in the connections of random variables; this notion allows modelling more realistic, thus, more complex data relations. Ultimately, the rationale of the generative model is based on recovering the underlying semantic structure. Effectively, in order to recover the generative process of the data, we delve into the applications of Bayesian methods.
 
 % Bayesian methods
 % - Inference: sampling
-\par 
-\lipsum[1]
+% - Connection to LDA
+\par By applying Bayes' rule, we can express the underlying semantic structure can be expressed in the form of posterior probability distributions. However, note that we can not analytically compute such posterior expressions. Instead, we can estimate the the posterior distributions using optimisation or direct sampling. In this project, we particularly focus on the underlying semantic structure's inference using direct sampling. Speaking of the sampling-based inference method applications to LDA-like models, the ground-work has been established by Griffiths and Steyvers \cite{griffiths2004finding}. The authors have utilised a collapsed Gibbs sampling -- a Markov chain Monte Carlo (MCMC) algorithm -- in order integrate the uncertainty out and sample only the parameters of interest. More specific details about the rationale of the collapsed Gibbs sampling application will be provided in Section 4. 
 
 % Assumptions
 % - Exchengeability (BoW)
 % - Discrete data
-\par 
-\lipsum[1]
+\par Relating to the initial LDA model, the authors have set the following assumptions for the utilised data: exchangeability among the inner components of the lower and middle data hierarchy levels; and discrete treatment of the lower-level data. By exchangeability, it is meant that the components follow the bag-of-words principle; that is, the order of the data has no correlation with the underlying semantic structure. Speaking of the discrete data treatment, it is assumed that the lower-level components have no spatial connection. With respect to our project, both assumption types -- exchangeability and discreteness -- do not correspond to the characteristics of the MSI data. Therefore, we will establish a methodology to relax the latter assumptions.
 
-\subsection{Terminology}
+\subsection{Topic Modelling Terminology}
 
 % Terminology intro:
-% - Introduce the design
-% - Set a listing for future reference
-\par 
-\lipsum[1]
-In the context of MSI data, \textit{the corpus} is the whole image of a sample; \textit{the document} is an MSI image's pixel; and {the word} is a chosen range of an ion's mass-over-charge values. Note that with respect to every the range of the mass-over-charge values
-
+% - Introduce the three-level hierarchical structure
+\par In this subsection, we introduce the topic modelling terminology. In order to put the MSI data in the topic modelling context, the components of  LDA's three-level hierarchical structure are defined as follows: \textit{the corpus} is the whole image of a sample; \textit{the document} is an MSI image's pixel; and \textit{the word} is an interval of mass-over-charge values corresponding to a particular ion. Starting from now on, we will use the latter topic modelling concepts to introduce the LDA model's architecture and notation.
 
 % LDA design
-\par 
-\lipsum[1]
+% - Graphical model
+\par Since LDA-like models are also graphical models, the dependence of random variables can be illustrated using graphs. In order to familiarise with the architecture and the variables of LDA-like models, we provide Figure \ref{fig:arch_LDA-init} illustrating the initial LDA model in the plate notation.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.25\textwidth]{LDA-initial.png}
+  \caption{The initial LDA model's architecture.}
+  \label{fig:arch_LDA-init}
+\end{figure}
+The circles indicate the model's variables: the coloured circle corresponds to the observable variable, whereas the uncoloured circles corresponds to the hidden variables. Effectively, the hidden variables define the model's underlying structure. Speaking of the plates, the plate denoted by $K$ corresponds to the number of topics; the plate denoted by $T$ corresponds to the number of documents and the plate denoted by $N$ corresponds to the number of words. Effectively, the letters in the bottom right corners indicate the total number of variables. Therefore, a corpus has $T$ number of documents, and each document has $N$ number of words.
 
-% The terminology listing
-\par 
-\lipsum[1]
+% Terminology
+% - Parameter meaning
+% - Listing
+\par Before providing a listing with the definitions of the LDA variables, we will briefly introduce the purpose of the variables. The variables denoted by $\theta$ and $\phi$ correspond to the underlying probability distributions (e.g., in the case of the initial LDA model, we use Dirichlet distributions). It follows that the variables denoted by $\alpha$ and $\beta$ act as the parameters of the latter probability distributions; note that in the context of machine learning, such auxiliary parameters are called hyper-parameters. Effectively, \textit{a hyper-parameter} allows to tune a machine learning model for a particular dataset application. As a side reference, note that by \textit{a vocabulary} we refer to a collection of terms reflecting a fixed range of the words. At this point, we provide the following list containing the definitions of the initial LDA model's variables: 
+\begin{itemize}
+	\item $K$ is the number of topics;
+	\item $T$ is the number of documents;
+	\item $N$ is the number of words per document;
+	\item $V$ is the size of a vocabulary;
+	\item $w$ is a word;
+	\item $z$ is a word's topic assignment;
+	\item $\theta_t$ is the topic distribution over document $t$;
+	\item $\phi_k$ is the vocabulary term distribution over topic $k$;
+	\item $\alpha$ is the hyper-parameter for the topic distributions;
+	\item $\beta$ is the hyper-parameter for the vocabulary term distributions.
+\end{itemize}
 
 \subsection{MSI Data Characteristics}
 
 % MSI dataset intro:
 % - Introduce the raw data format
 % - Describe the data pre-processing requirements
-\par 
-\lipsum[1]
+\par In this subsection, we will introduce the qualities of the raw MSI data. Furthermore, we will set the requirements for the raw data's pre-processing; note that the pre-processing serves as an auxiliary method making the raw MSI data compatible for a scalable topic modelling application. As a side note, we establish the basis of our MSI data by working on the data in the mzML format. Conveniently, we apply the \texttt{pymzml} Python library to parse the MSI data. 
 
 % Raw data format
 % - Data meaning
-\par 
+% - Explain the raw data by looking into it
+\par The raw MSI data contains a collection mass spectrum with the mass and the intensity values of each captured ion. Effectively, each mass spectrum corresponds to a particular pixel of an MSI image.
 \lipsum[1]
 
 % Data pre-processing requirements

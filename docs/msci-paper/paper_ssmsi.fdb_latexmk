@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex paper_ssmsi"] 1490352898 "paper_ssmsi.aux" "paper_ssmsi.bbl" "paper_ssmsi" 1490352899
+["bibtex paper_ssmsi"] 1490389583 "paper_ssmsi.aux" "paper_ssmsi.bbl" "paper_ssmsi" 1490389584
   "/usr/local/texlive/2016/texmf-dist/bibtex/bst/base/abbrv.bst" 1292289607 20329 b5fed53e10044d0f8112183785c759b1 ""
-  "bibliography.bib" 1488549692 10807 862682fa65310e84b93b9bb3b4be7631 ""
-  "paper_ssmsi.aux" 1490352899 1648 219d533cc22f4e919d8401e06b532399 ""
+  "bibliography.bib" 1490361589 11100 8ecba547e2bbe6fc48c782b9da062c0c ""
+  "paper_ssmsi.aux" 1490389584 1957 c901193a0775bb1d7653eb410abef249 ""
   "paper_ssmsi.bcf" 0 -1 0 ""
   (generated)
   "paper_ssmsi.bbl"
   "paper_ssmsi.blg"
-["pdflatex"] 1490352898 "paper_ssmsi.tex" "paper_ssmsi.pdf" "paper_ssmsi" 1490352899
+["pdflatex"] 1490389583 "paper_ssmsi.tex" "paper_ssmsi.pdf" "paper_ssmsi" 1490389584
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/adobe/helvetic/phvb8t.tfm" 1136768653 6628 34c39492c0adc454c1c199922bba8363 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/adobe/helvetic/phvbo8t.tfm" 1136768653 6880 fe6c7967f27585f6fa9876f3af14edd2 ""
@@ -18,8 +18,10 @@
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/adobe/times/ptmr8t.tfm" 1136768653 6672 e3ab9e37e925f3045c9005e6d1473d56 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/adobe/times/ptmri8t.tfm" 1136768653 6944 94c55ad86e6ea2826f78ba2240d50df9 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
+  "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aebx9.tfm" 1136768653 6136 f018bb7c4752765acd3d9fae550960a1 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aer9.tfm" 1136768653 6076 dd5a5352d066d5b2d2092b63c8cabf28 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aeti9.tfm" 1136768653 7240 b5c2a48053d60f3c984fb3fe77523873 ""
+  "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aett9.tfm" 1136768653 1380 19ca13114324160be390bab24cecf734 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex9.tfm" 1246382020 996 a18840b13b499c08ac2de96a99eda4bc ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -45,6 +47,7 @@
   "/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/se-ascii-print.def" 1463608860 3154 688330b6ca706e672a9310fc1a549476 ""
   "/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/stringenc.sty" 1463608860 21411 4c6135fd98dd4f5499becbfc9a323deb ""
   "/usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aer.fd" 1191308783 1844 da911cbbb4e7e5dc2776545b8b9cbc06 ""
+  "/usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aett.fd" 1191308783 1265 104c75383e0b9b5fac7ca7880a6cdf30 ""
   "/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amsfonts.sty" 1359763108 5949 3f3fd50a8cc94c3d4cbf4fc66cd3df1c ""
   "/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amssymb.sty" 1359763108 13829 94730e64147574077f8ecfea9bb69af4 ""
   "/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd" 1359763108 961 6518c6525a34feb5e8250ffa91731cff ""
@@ -88,13 +91,14 @@
   "/usr/local/texlive/2016/texmf-dist/web2c/texmf.cnf" 1463093894 31953 b9489e6e586f798610c60aec1f5ec548 ""
   "/usr/local/texlive/2016/texmf-var/web2c/xetex/xelatex.fmt" 1487239038 3520368 eb9101aa53f4eba97605f76fd25c4805 ""
   "/usr/local/texlive/2016/texmf.cnf" 1463979140 577 2938757e76f31531e65cc647e3507693 ""
+  "images/LDA-initial.png" 1490365879 54742 edeb30d1ca4e17251dcdd2656ea2ae58 ""
   "mpaper.cls" 1489234496 50441 1bd750dd6f2b69ac65bbe60a0e33cf18 ""
-  "paper_ssmsi.aux" 1490352899 1648 219d533cc22f4e919d8401e06b532399 ""
-  "paper_ssmsi.bbl" 1490352898 233 fa8f9b4c2b04b8527581bca68800fe4b "bibtex paper_ssmsi"
-  "paper_ssmsi.out" 1490352899 593 c4dcb020375d38b0fb382eda149d9d48 ""
-  "paper_ssmsi.tex" 1490352895 11438 0da98f704afc8757ad0d451839018000 ""
+  "paper_ssmsi.aux" 1490389584 1957 c901193a0775bb1d7653eb410abef249 ""
+  "paper_ssmsi.bbl" 1490389583 433 04897c5cf4eb2964fc3a6020246dab31 "bibtex paper_ssmsi"
+  "paper_ssmsi.out" 1490389584 637 3acc07b36cf2a3bec576788845987cec ""
+  "paper_ssmsi.tex" 1490389582 16629 d77e13eb944d0924f577a1343cbf78cb ""
   (generated)
-  "paper_ssmsi.out"
-  "paper_ssmsi.pdf"
-  "paper_ssmsi.aux"
   "paper_ssmsi.log"
+  "paper_ssmsi.out"
+  "paper_ssmsi.aux"
+  "paper_ssmsi.pdf"

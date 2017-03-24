@@ -1,4 +1,6 @@
 24/03/2017:
+- Paper: Finished 2/3 sections of the background
+- Study: https://www.coursera.org/learn/ml-clustering-and-retrieval/lecture/qC5gv/what-is-collapsed-gibbs-sampling
 - Paper: bibliography
 - Paper: Finished intro
 22/03/2017:

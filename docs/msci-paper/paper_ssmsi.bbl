@@ -5,4 +5,10 @@ D.~M. Blei, A.~Y. Ng, and M.~I. Jordan.
 \newblock Latent dirichlet allocation.
 \newblock {\em Journal of machine Learning research}, 3(Jan):993--1022, 2003.
 
+\bibitem{griffiths2004finding}
+T.~L. Griffiths and M.~Steyvers.
+\newblock Finding scientific topics.
+\newblock {\em Proceedings of the National academy of Sciences}, 101(suppl
+  1):5228--5235, 2004.
+
 \end{thebibliography}

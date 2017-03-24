@@ -153,6 +153,11 @@ INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT images/LDA-initial.png
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aebx9.tfm
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aett.fd
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aett.fd
+INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aett9.tfm
 INPUT paper_ssmsi.bbl
 INPUT paper_ssmsi.bbl
 INPUT paper_ssmsi.aux
