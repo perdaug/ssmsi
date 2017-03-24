@@ -48,13 +48,10 @@
 % Contributions:
 % - A specific and extensive assessment of the SS application
 % - A tuned topic model and well-organised experiment settings
-\par
-\lipsum[1]
+\par In this paper, we contribute to the research in MSI by carrying an extensive assessment of the spatial smoothing application. The assessment is carried in both quantitative and qualitative manners: we assess the performance on a number of diverse datasets; also, our experiments are designed to reflect the nature of the MSI data reflecting computational metabolomics. Furthermore, we provide a Python implementation of a tuned topic model; also, we establish maintainable experiment settings. By the tuned topic model, we mean that the model's implementation is particularly designed to meet the characteristics of the MSI data. Speaking of the experiment settings, note that we are carrying the experiments using Jupyter notebooks. Effectively, the use of the notebooks creates a portable and well-documented environment to initialise the experiment settings and execute the topic modelling. As a result, external parties could run the released notebooks and reproduce the experiment results in a swift manner.
 
 % The paper's organisation
-\par
-\lipsum[1]
-
+\par The paper is organised in the following order: in Section 2, we discuss the background of the research project; in Section 3, we provide a formal definition of the assessed research problems; in Section 4, we review the results of the relevant research; in Section 5, we establish the rationale of the applied methodology; in Section 6, we introduce the experiments results; finally, in Section 7, we conclude the findings. 
 
 % ___________________________________________________________________________
 \section{Background}
@@ -63,21 +60,20 @@
 % - Preliminaries: Introduce the rationale of LDA
 % - Terminology: Define the applied topic modelling terminology
 % - MSI Data characteristics: Introduce the qualities of the data
-\par The background section covers the basis concepts used throughout the paper. At the start, we provide a high-level overview on the general topic modelling concepts. Then, we define the terminology used throughout the paper. Finally, we introduce the characteristic qualities of MSI data.  
+\par The background section covers the basis of the concepts used throughout the paper. At the start, we provide a high-level overview of the general topic modelling concepts. Then, we define the terminology used throughout the paper. Finally, we introduce the characteristic qualities of the MSI data.  
 
 \subsection{Preliminaries}
 
 % LDA Intro:
+% - Hierarchical structure
 % - Generative model
 % - Bayesian methods
 % - Assumptions
-\par 
-\lipsum[1]
+\par The research project targets a specific branch of topic models. The branch consists of Latent Dirichlet Allocation (LDA) derivatives. Note that the initial LDA model was introduced by Blei et al. \cite{blei2003latent}. One of the model's key characteristics is the three-level hierarchical treatment of the data. In the context of the utilised MSI data, the hierarchical structure can be perceived as follows: in the highest, level we have an MSI image; in the middle level, we have a pixel of an MSI image; and in the lowest level, we have the intensities of particular ions in a pixel.
 
 % Generatitive model:
 % - Generative process
-\par 
-\lipsum[1]
+\par Another model's key characteristic is the generative treatment of the data. By the generative model, we mean that the latent data instances are treated as a result of a mixture of underlying parameters drawn from probability distributions. In other words, the generative data treatment induces randomness in the end products of the data; however, note that the source of the data -- the lowest level parameters of the probability distributions -- remain the same. The key aspect of the generative model is the degree of freedom in the connections of random variables; this notion allows modelling more realistic, thus, more complex data relations. Ultimately, the rationale of the generative model is based on recovering the underlying probability distributions. Effectively, in order to recover the generative process of the data, we delve into the applications of Bayesian methods.
 
 % Bayesian methods
 % - Inference: sampling
@@ -97,6 +93,8 @@
 % - Set a listing for future reference
 \par 
 \lipsum[1]
+In the context of MSI data, \textit{the corpus} is the whole image of a sample; \textit{the document} is an MSI image's pixel; and {the word} is a chosen range of an ion's mass-over-charge values. Note that with respect to every the range of the mass-over-charge values
+
 
 % LDA design
 \par 
@@ -171,6 +169,6 @@ Speaking of the overlapping topic detection and the reduced noisiness, both cont
 
 % ___________________________________________________________________________
 \bibliographystyle{abbrv}
-\bibliography{iow}
+\bibliography{bibliography}
 
 \end{document}
