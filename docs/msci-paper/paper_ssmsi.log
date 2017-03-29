@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.2.16)  29 MAR 2017 15:18
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.2.16)  29 MAR 2017 21:17
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -466,78 +466,87 @@ LaTeX Info: Redefining \nameref on input line 12.
 \@outlinefile=\write3
 \openout3 = `paper_ssmsi.out'.
 
-
+File: CompSci_colour.pdf Graphic file (type QTm)
+ <use  "CompSci_colour.pdf" >
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
 File: se-ascii-print.def 2016/05/16 v1.11 stringenc: Printable ASCII characters
 
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 34.
+LaTeX Font Info:    Try loading font information for U+msa on input line 36.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 34.
+LaTeX Font Info:    Try loading font information for U+msb on input line 36.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (5.66792pt too wide) in paragraph at lines 34--35
+Overfull \hbox (5.66792pt too wide) in paragraph at lines 36--37
 \T1/aer/m/n/9 the form of spa-tial dis-tri-bu-tion. Speak-ing of the metabolomi
 cs
  []
 
 
-Overfull \hbox (2.49818pt too wide) in paragraph at lines 34--35
+Overfull \hbox (2.49818pt too wide) in paragraph at lines 36--37
 \T1/aer/m/n/9 data, it con-tains in-for-ma-tion about ionised metabo-lites. Not
 e
  []
 
 [1
 
+
 ]
 File: images/LDA-initial.png Graphic file (type QTm)
  <use  "images/LDA-initial.png" >
-Overfull \hbox (2.00475pt too wide) in paragraph at lines 96--104
+Overfull \hbox (2.00475pt too wide) in paragraph at lines 98--106
 \T1/aer/m/n/9 pen-dence of ran-dom vari-ables can be il-lus-trated us-ing graph
 s.
  []
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
 Underfull \vbox (badness 1558) has occurred while \output is active []
 
-LaTeX Font Info:    Try loading font information for T1+aett on input line 127.
+ [2]
+LaTeX Font Info:    Try loading font information for T1+aett on input line 129.
 
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-) [2]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+) [3]
+File: images/dtm-architecture.png Graphic file (type QTm)
 
- [3]
+<use  "images/dtm-architecture.png" >
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (5.35165pt too wide) in paragraph at lines 240--241
+[]\T1/aer/m/n/9 Speaking of the spa-tial smooth-ing ap-pli-ca-tion, to my knowl
+-
+ []
+
 [4] (./paper_ssmsi.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 253.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 264.
 - LAST -
-Extra skip:16.37755pt
-Left:327.7pt/2.25pt
-Right:311.32245pt/2.25pt
-Output:331.76122pt
+Extra skip:0.73741pt
+Left:640.5pt/1.74596pt
+Right:641.50854pt/0.0pt
+Output:641.25427pt
  [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 253.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 264.
  (./paper_ssmsi.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 253.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 253.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 253.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 264.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 264.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 264.
  ) 
 Here is how much of TeX's memory you used:
- 11449 strings out of 493591
- 158589 string characters out of 6143546
- 347147 words of memory out of 5000000
- 14737 multiletter control sequences out of 15000+600000
+ 11458 strings out of 493591
+ 158750 string characters out of 6143546
+ 353337 words of memory out of 5000000
+ 14744 multiletter control sequences out of 15000+600000
  40178 words of font info for 50 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
- 36i,12n,46p,1100b,363s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,12n,46p,1100b,359s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on paper_ssmsi.pdf (5 pages).

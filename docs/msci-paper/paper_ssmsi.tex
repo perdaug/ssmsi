@@ -15,9 +15,11 @@
 \author{Arijus Pleska}
 \matricnum{2019828P}
 
+\maketitle
+
 % ___________________________________________________________________________
 \begin{abstract}
-\lipsum[1]
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu libero, nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue eu neque. Pellentesque habitant morbi tris- tique senectus et netus et malesuada fames ac turpis egestas. Mauris ut leo. Cras viverra metus rhoncus sem. Nulla et lectus vestibulum urna fringilla ultrices. Phasellus eu tellus sit amet tortor gravida placerat
 \end{abstract}
 
 % ___________________________________________________________________________
@@ -172,7 +174,7 @@ Speaking of the overlapping topic detection and the reduced noisiness, both cont
 % -- blei2012probabilistic
 % -- Gibbs sampling
 % -- DTM
-\par In this section, we will review the groundwork on the following aspects: the pre-processing of MSI data; the rationale of the utilised topic models; and the applications of topic modelling on MSI data. Note that the covered groundwork is selected to reflect the rationale of the utilised techniques. In order to establish the basis of the state-of-the-art computational metabolomics methodology, we have consulted the survey carried by Alonso et al. \cite{alonso2015analytical}; speaking of the key probabilistic topic modelling branches, we have consulted the survey carried by Blei \cite{blei2012probabilistic}. 
+\par In this section, we will review the groundwork on the following aspects: the pre-processing of MSI data; the rationale of the utilised topic models; and novel approaches exploiting the characteristics of MSI data. Note that the covered groundwork is selected to reflect the rationale of the utilised techniques. In order to establish the basis of the state-of-the-art computational metabolomics methodology, we have consulted the survey carried by Alonso et al. \cite{alonso2015analytical}; speaking of the key probabilistic topic modelling branches, we have consulted the survey carried by Blei \cite{blei2012probabilistic}. 
 
 \subsection{MSI Data Pre-processing}
 
@@ -194,14 +196,14 @@ Speaking of the overlapping topic detection and the reduced noisiness, both cont
 % -- smith2014proteomics
 \par The last reviewed MSI data pre-processing techniques addresses the MSI data noisiness. Even though the MSI data noise reduction is an open research problem going well beyond data pre-processing, Smith et al. \cite{smith2014proteomics} have shown that the application of a general data pre-processing routine displays performance improvements. For example, the authors have induced a lower intensity bound. Effectively, the intensity values below the intensity threshold would be treated as insignificant and/or as a product of data capturing device imperfections. By applying this procedure, the authors have successfully reduced the data dimensionality and, thus, increased the data scalability.
 
-\subsection{Prospective Topic Modelling Methodology}
+\subsection{Prospective Topic Models}
 
 % Intro
 % - Inference
 % - Derivatives
 % - Gibbs sampling
 % -- griffiths2004finding
-\par In this subsection, we review the key characteristics of the prospective topic modelling inference techniques and model variations. Speaking of the inference, we have the employed the rationale of a sampling-based LDA model. Griffiths and Steyvers \cite{griffiths2004finding} have displayed a successful application of the collapsed Gibbs sampler for the inference of both textual and visual topics. Note that by the collapsed sampler, it is meant that the topic assignment inference is not directly impacted by the measurements of topic and term distributions; instead, the sampling is based on the notion of counts. In mathematical terms, the authors suggest obtaining a topic assignment's probability from the following expression:
+\par In this subsection, we review the key characteristics of the prospective topic modelling inference techniques and model variations. Speaking of the inference techniques, we have employed the rationale of a sampling-based LDA model. Griffiths and Steyvers \cite{griffiths2004finding} have displayed a successful application of the collapsed Gibbs sampler for the topic inference of both textual and visual data. To expand on the collapsed sampling, the technique allows skipping the estimation of $\theta$ and $\phi$ values; instead, the inference is based on the notion of the assignment counts. In order to estimate a topic assignment's probability, the authors suggest using the following expression:
 \begin{equation}
 P(z_i = k | z_{-i}, w) \propto \dfrac{n_{-i, k}^{(w_i)} + \beta}{n_{-i, k}^{(\cdot)} + V\beta}\cdot \dfrac{n_{-i, k}^{(t_i)} + \alpha}{n_{-i, \cdot}^{(t_i)} + K\alpha},
 \end{equation}
@@ -210,24 +212,33 @@ note that $i$ refers to the current iteration ($-i$ refers to the previous itera
 \phi_{k,w} & \sim \mbox{Dirichlet}\bigg(\dfrac{n_{k}^{(w)} + \beta}{n_{k}^{(\cdot)} + W\beta}\bigg),\\
 \theta_{t,k} & \sim \mbox{Dirichlet}\bigg(\dfrac{n_{k}^{(t)} + \alpha}{n^{(t)} + K\alpha}\bigg).
 \end{align}
-Essentially, accurate representations of $\theta$ and $\phi$ are obtained by taking the average of their values generated upon the Gibbs sampler execution's iterations.
-
+Essentially, more accurate representations of $\theta$ and $\phi$ are obtained by running the Gibbs sampler until a sufficient convergence: we preserve the $\theta$ and $\phi$ values of each iteration; when the sampling is finished, the average of the preserved values is an accurate approximation of the underlying $\theta$ and $\phi$ values.
 
 % Topic modelling:
 % - DTM
 % -- blei2006dynamic
 % - SeqLDA
 % -- du2012sequential
-\par \lipsum[1]
+\par In order to relax the topic modelling assumptions of the initial LDA model, we review the model's derivatives. One of the assumptions -- word exchangeability -- is addressed by Blei and Lafferty \cite{blei2006dynamic}. 
+The authors have proposed dynamic topic model (DTM) inducing the notion of change in topic and vocabulary distributions; the model's architecture is illustrated in Figure \ref{fig:arch_dtm}.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.4\textwidth]{dtm-architecture.png}
+  \caption{The DTM architecture.}
+  \label{fig:arch_dtm}
+\end{figure}
+Ultimately, the documents of a corpus are assigned to segments with unique $\theta$ and $\phi$ values. Note that the changes in $\theta$ and $\phi$ values are impacted by their hyper-parameter updates. Since in DTM's paper the authors use variational inference, we provide a reference into an alternative dynamic topic modelling variation -- sequential LDA -- proposed by Du et al. \cite{du2012sequential}. Note that in the sequential LDA's paper, the authors display a rigorous application of the collapsed Gibbs sampler. 
 
-
-
+\subsection{Prospective Characteristics of MSI Data}
 % Metabolomics: spatial smoothing
-% - Spatial Chaos
-% -- palmer2016fdr
 % - TM application
 % -- van2016topic
-\par \lipsum[1]
+\par At this point, we look into the prospective topic modelling applications exploiting the characteristics of MSI data and employing spatial smoothing. To start with, Hooft et al. \cite{van2016topic} have utilised an LDA-like model to infer metabolite substructures from MSI data. The authors have established a novel approach utilising a favourable LDA's property -- the option to assign a unique vocabulary term to multiple topics. Effectively, this approach allows identifying metabolite substructures which are made of overlapping elements. 
+
+% - Spatial Chaos
+% -- palmer2016fdr
+\par Speaking of the spatial smoothing application, to my knowledge, the idea has not yet been widely spread among the computational metabolomics community. Nevertheless, a recent study by Palmer et al. \cite{palmer2016fdr} have attempted to quantify spatial chaos among the partitions of MSI data. The authors have reported that the established notion of spatial chaos have improved the speed and accuracy of continuous metabolite pattern identification. 
+
 
 
 

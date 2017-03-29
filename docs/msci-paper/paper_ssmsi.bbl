@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{alonso2015analytical}
 A.~Alonso, S.~Marsal, and A.~Juli{\`a}.
@@ -10,6 +10,12 @@ A.~Alonso, S.~Marsal, and A.~Juli{\`a}.
 D.~M. Blei.
 \newblock Probabilistic topic models.
 \newblock {\em Communications of the ACM}, 55(4):77--84, 2012.
+
+\bibitem{blei2006dynamic}
+D.~M. Blei and J.~D. Lafferty.
+\newblock Dynamic topic models.
+\newblock In {\em Proceedings of the 23rd international conference on Machine
+  learning}, pages 113--120. ACM, 2006.
 
 \bibitem{blei2003latent}
 D.~M. Blei, A.~Y. Ng, and M.~I. Jordan.
@@ -35,6 +41,11 @@ T.~De~Meyer, D.~Sinnaeve, B.~Van~Gasse, E.~Tsiporkova, E.~R. Rietzschel, M.~L.
   using an adaptive, intelligent binning algorithm.
 \newblock {\em Analytical Chemistry}, 80(10):3783--3790, 2008.
 
+\bibitem{du2012sequential}
+L.~Du, W.~Buntine, H.~Jin, and C.~Chen.
+\newblock Sequential latent dirichlet allocation.
+\newblock {\em Knowledge and information systems}, 31(3):475--503, 2012.
+
 \bibitem{griffiths2004finding}
 T.~L. Griffiths and M.~Steyvers.
 \newblock Finding scientif ic topics.
@@ -47,10 +58,24 @@ S.~M. Kohl, M.~S. Klein, J.~Hochrein, P.~J. Oefner, R.~Spang, and W.~Gronwald.
   metabolomic analysis.
 \newblock {\em Metabolomics}, 8(1):146--160, 2012.
 
+\bibitem{palmer2016fdr}
+A.~Palmer, P.~Phapale, I.~Chernyavsky, R.~Lavigne, D.~Fay, A.~Tarasov,
+  V.~Kovalev, J.~Fuchser, S.~Nikolenko, C.~Pineau, et~al.
+\newblock Fdr-controlled metabolite annotation for high-resolution imaging mass
+  spectrometry.
+\newblock {\em Nature Methods}, 2016.
+
 \bibitem{smith2014proteomics}
 R.~Smith, A.~D. Mathis, D.~Ventura, and J.~T. Prince.
 \newblock Proteomics, lipidomics, metabolomics: a mass spectrometry tutorial
   from a computer scientist's point of view.
 \newblock {\em BMC bioinformatics}, 15(7):S9, 2014.
+
+\bibitem{van2016topic}
+J.~J.~J. van~der Hooft, J.~Wandy, M.~P. Barrett, K.~E. Burgess, and S.~Rogers.
+\newblock Topic modeling for untargeted substructure exploration in
+  metabolomics.
+\newblock {\em Proceedings of the National Academy of Sciences}, page
+  201608041, 2016.
 
 \end{thebibliography}

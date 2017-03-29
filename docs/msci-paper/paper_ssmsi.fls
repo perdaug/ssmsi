@@ -131,6 +131,7 @@ INPUT paper_ssmsi.out
 INPUT paper_ssmsi.out
 INPUT paper_ssmsi.out
 OUTPUT paper_ssmsi.out
+INPUT CompSci_colour.pdf
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aeti9.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
 INPUT /usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
@@ -158,6 +159,7 @@ INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aebx9.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aett.fd
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aett.fd
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aett9.tfm
+INPUT images/dtm-architecture.png
 INPUT paper_ssmsi.bbl
 INPUT paper_ssmsi.bbl
 INPUT paper_ssmsi.aux

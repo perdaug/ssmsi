@@ -1,4 +1,5 @@
 29/03/2017:
+- Paper: Finished the literature review
 - Experiment: wrote a report on Experiment I
 - Paper: Wrote the subsection on MSI data pre-processing
 28/03/2017:
