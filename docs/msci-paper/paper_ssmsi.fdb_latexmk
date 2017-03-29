@@ -1,13 +1,13 @@
 # Fdb version 3
-["bibtex paper_ssmsi"] 1490389583 "paper_ssmsi.aux" "paper_ssmsi.bbl" "paper_ssmsi" 1490389584
+["bibtex paper_ssmsi"] 1490797086 "paper_ssmsi.aux" "paper_ssmsi.bbl" "paper_ssmsi" 1490797087
   "/usr/local/texlive/2016/texmf-dist/bibtex/bst/base/abbrv.bst" 1292289607 20329 b5fed53e10044d0f8112183785c759b1 ""
-  "bibliography.bib" 1490361589 11100 8ecba547e2bbe6fc48c782b9da062c0c ""
-  "paper_ssmsi.aux" 1490389584 1957 c901193a0775bb1d7653eb410abef249 ""
+  "bibliography.bib" 1490740005 15448 2cacfd0236bd97979dcf8a9a694a74d0 ""
+  "paper_ssmsi.aux" 1490797087 2637 b54a92cc555505cb13853c69640a02bd ""
   "paper_ssmsi.bcf" 0 -1 0 ""
   (generated)
-  "paper_ssmsi.bbl"
   "paper_ssmsi.blg"
-["pdflatex"] 1490389583 "paper_ssmsi.tex" "paper_ssmsi.pdf" "paper_ssmsi" 1490389584
+  "paper_ssmsi.bbl"
+["pdflatex"] 1490797086 "paper_ssmsi.tex" "paper_ssmsi.pdf" "paper_ssmsi" 1490797087
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/adobe/helvetic/phvb8t.tfm" 1136768653 6628 34c39492c0adc454c1c199922bba8363 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/adobe/helvetic/phvbo8t.tfm" 1136768653 6880 fe6c7967f27585f6fa9876f3af14edd2 ""
@@ -93,12 +93,12 @@
   "/usr/local/texlive/2016/texmf.cnf" 1463979140 577 2938757e76f31531e65cc647e3507693 ""
   "images/LDA-initial.png" 1490365879 54742 edeb30d1ca4e17251dcdd2656ea2ae58 ""
   "mpaper.cls" 1489234496 50441 1bd750dd6f2b69ac65bbe60a0e33cf18 ""
-  "paper_ssmsi.aux" 1490389584 1957 c901193a0775bb1d7653eb410abef249 ""
-  "paper_ssmsi.bbl" 1490389583 433 04897c5cf4eb2964fc3a6020246dab31 "bibtex paper_ssmsi"
-  "paper_ssmsi.out" 1490389584 637 3acc07b36cf2a3bec576788845987cec ""
-  "paper_ssmsi.tex" 1490389582 16629 d77e13eb944d0924f577a1343cbf78cb ""
+  "paper_ssmsi.aux" 1490797087 2637 b54a92cc555505cb13853c69640a02bd ""
+  "paper_ssmsi.bbl" 1490797086 2216 1e54e70eae52ef74359c9e0d0b2800f5 "bibtex paper_ssmsi"
+  "paper_ssmsi.out" 1490797087 814 c4b2ed058b5b8ab63e82fb44cc52937c ""
+  "paper_ssmsi.tex" 1490797085 23492 22a4289a2278647a126e0468449b6fba ""
   (generated)
   "paper_ssmsi.log"
-  "paper_ssmsi.out"
   "paper_ssmsi.aux"
   "paper_ssmsi.pdf"
+  "paper_ssmsi.out"

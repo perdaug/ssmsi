@@ -15,7 +15,8 @@ class Helper_Experiment(object):
     def calculate_performance(self, alpha_init, beta_init, theta_init,
                               clf, s_batch):
         hist_theta = np.array(clf.hist_theta)
-        theta_init = theta_init.T
+        if alpha_init is None:
+            theta_init = theta_init.T
         generator_batch = self._split_to_batches(hist_theta, s_batch)
         performance_batch_theta = []
         performance_batch_phi = []
@@ -29,6 +30,7 @@ class Helper_Experiment(object):
             theta_latent = np.average(hist_theta_batch, axis=0)
             if alpha_init is not None:
                 theta_init = self._softmax_matrix(alpha_init)
+                theta_init = theta_init.T
             theta_latent = theta_latent.T
             matchings_topic = self._tune_thetas(theta_init, theta_latent)
             '''
@@ -74,6 +76,8 @@ class Helper_Experiment(object):
         for idx_init, row_init in enumerate(theta_init):
             row = []
             for idx_latent, row_latent in enumerate(theta_latent):
+                # print(row_init)
+                # print(row_latent)
                 diff = np.abs(row_latent - row_init).sum()
                 row.append(diff)
             matrix_dist.append(row)

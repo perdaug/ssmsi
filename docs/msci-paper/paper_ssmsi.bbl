@@ -1,14 +1,56 @@
 \begin{thebibliography}{1}
 
+\bibitem{alonso2015analytical}
+A.~Alonso, S.~Marsal, and A.~Juli{\`a}.
+\newblock Analytical methods in untargeted metabolomics: state of the art in
+  2015.
+\newblock {\em Frontiers in bioengineering and biotechnology}, 3:23, 2015.
+
+\bibitem{blei2012probabilistic}
+D.~M. Blei.
+\newblock Probabilistic topic models.
+\newblock {\em Communications of the ACM}, 55(4):77--84, 2012.
+
 \bibitem{blei2003latent}
 D.~M. Blei, A.~Y. Ng, and M.~I. Jordan.
 \newblock Latent dirichlet allocation.
 \newblock {\em Journal of machine Learning research}, 3(Jan):993--1022, 2003.
 
+\bibitem{bolstad2003comparison}
+B.~M. Bolstad, R.~A. Irizarry, M.~{\AA}strand, and T.~P. Speed.
+\newblock A comparison of normalization methods for high density
+  oligonucleotide array data based on variance and bias.
+\newblock {\em Bioinformatics}, 19(2):185--193, 2003.
+
+\bibitem{craig2006scaling}
+A.~Craig, O.~Cloarec, E.~Holmes, J.~K. Nicholson, and J.~C. Lindon.
+\newblock Scaling and normalization effects in nmr spectroscopic metabonomic
+  data sets.
+\newblock {\em Analytical chemistry}, 78(7):2262--2267, 2006.
+
+\bibitem{de2008nmr}
+T.~De~Meyer, D.~Sinnaeve, B.~Van~Gasse, E.~Tsiporkova, E.~R. Rietzschel, M.~L.
+  De~Buyzere, T.~C. Gillebert, S.~Bekaert, J.~C. Martins, and W.~Van~Criekinge.
+\newblock Nmr-based characterization of metabolic alterations in hypertension
+  using an adaptive, intelligent binning algorithm.
+\newblock {\em Analytical Chemistry}, 80(10):3783--3790, 2008.
+
 \bibitem{griffiths2004finding}
 T.~L. Griffiths and M.~Steyvers.
-\newblock Finding scientific topics.
+\newblock Finding scientif ic topics.
 \newblock {\em Proceedings of the National academy of Sciences}, 101(suppl
   1):5228--5235, 2004.
+
+\bibitem{kohl2012state}
+S.~M. Kohl, M.~S. Klein, J.~Hochrein, P.~J. Oefner, R.~Spang, and W.~Gronwald.
+\newblock State-of-the art data normalization methods improve nmr-based
+  metabolomic analysis.
+\newblock {\em Metabolomics}, 8(1):146--160, 2012.
+
+\bibitem{smith2014proteomics}
+R.~Smith, A.~D. Mathis, D.~Ventura, and J.~T. Prince.
+\newblock Proteomics, lipidomics, metabolomics: a mass spectrometry tutorial
+  from a computer scientist's point of view.
+\newblock {\em BMC bioinformatics}, 15(7):S9, 2014.
 
 \end{thebibliography}

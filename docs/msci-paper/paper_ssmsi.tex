@@ -26,7 +26,7 @@
 % Purpose:
 % - A spatial smoothing application in visual data using unsupervised ML
 % - Focus: Metabolomics and topic modelling
-\par In this research paper, we assess an application of spatial smoothing in visual data; that is, we induce continuity among data elements. The spatial smoothing application is particularly targeted to be applied for unsupervised pattern recognition. To be more specific, our focus is to model a biomedical application in the field of metabolomics. Furthermore, we limit the scope of applied unsupervised machine learning techniques to the branch of topic modelling.  
+\par In this research paper, we assess an application of spatial smoothing in visual data; that is, we induce continuity among data elements. The spatial smoothing application is particularly targeted to be applied for unsupervised pattern recognition. To be more specific, our focus is to model a biomedical application in the field of metabolomics. Furthermore, we limit the scope of the applied unsupervised machine learning techniques to the branch of topic modelling.  
 
 % Basis:
 % - Visual data: MSI application in metabolomics
@@ -124,20 +124,18 @@ The circles indicate the model's variables: the coloured circle corresponds to t
 % MSI dataset intro:
 % - Introduce the raw data format
 % - Describe the data pre-processing requirements
-\par In this subsection, we will introduce the qualities of the raw MSI data. Furthermore, we will set the requirements for the raw data's pre-processing; note that the pre-processing serves as an auxiliary method making the raw MSI data compatible for a scalable topic modelling application. As a side note, we establish the basis of our MSI data by working on the data in the mzML format. Conveniently, we apply the \texttt{pymzml} Python library to parse the MSI data. 
+\par In this subsection, we will introduce the qualities of the raw MSI data. Furthermore, we will set the requirements for the raw data's pre-processing; note that the pre-processing serves as an auxiliary method making the raw MSI data compatible for a scalable topic modelling application. As a side note, the basis of our applied MSI data characteristics is established from the mzML data format. Conveniently, we have parsed the mzML data format using the \texttt{pymzml} Python library. 
 
 % Raw data format
 % - Data meaning
 % - Explain the raw data by looking into it
-\par The raw MSI data contains a collection mass spectrum with the mass and the intensity values of each captured ion. Effectively, each mass spectrum corresponds to a particular pixel of an MSI image.
-\lipsum[1]
+\par Essentially, raw MSI data contain mass spectra of a sample -- the sample's every pixel is expressed in the form of a mass spectrum. By a mass spectrum, we refer to a map of from a mass-over-charge value to an intensity value. Ultimately, we can establish a continuous notion of the MSI data by ordering the mass-over-charge values. Note that since the sampling equipment can detect the mass-over-charge values in the millidalton (mDa) precision, the MSI data is sparse (i.e., a large portion of mass-over-charge values are mapped to the zero intensity).
 
 % Data pre-processing requirements
 % - Vocabulary generation
 % - Intensity normalisation
 % - Dismissing inferior information
-\par 
-\lipsum[1]
+\par In the context of topic modelling, the raw MSI data possess a large vocabulary (above $5000$ terms). Note that we consider every mass-to-charge value as a word; whereas every intensity value is perceived as a word occurrence count. Further, since the intensity values could spike up above $1000$, the time complexity of the latent topic inference would require pro-longed runs. To overcome the introduced scalability issues, we have carried data pre-processing -- the applied techniques are discussed in the upcoming methodology section.
 
 % ___________________________________________________________________________
 \section{Statement of Problem}
@@ -165,7 +163,73 @@ Speaking of the overlapping topic detection and the reduced noisiness, both cont
 % ___________________________________________________________________________
 \section{Relevant Research}
 
-\lipsum[1-3]
+% Intro (separate into three)
+% - MSI DATA:
+% -- alonso2015analytical
+% -- Review the metabolomics feature pre-processing
+% -- Review the metabolomics alternative approaches
+% - Review the implementation approaches
+% -- blei2012probabilistic
+% -- Gibbs sampling
+% -- DTM
+\par In this section, we will review the groundwork on the following aspects: the pre-processing of MSI data; the rationale of the utilised topic models; and the applications of topic modelling on MSI data. Note that the covered groundwork is selected to reflect the rationale of the utilised techniques. In order to establish the basis of the state-of-the-art computational metabolomics methodology, we have consulted the survey carried by Alonso et al. \cite{alonso2015analytical}; speaking of the key probabilistic topic modelling branches, we have consulted the survey carried by Blei \cite{blei2012probabilistic}. 
+
+\subsection{MSI Data Pre-processing}
+
+% Metabolomics: feature pre-processing
+% - Normalisation:
+% -- kohl2012state
+% -- bolstad2003comparison
+
+\par In order to establish a scalable topic inference, we review the following MSI data pre-processing techniques: data normalisation; feature binning; and noise reduction. To start with, data normalisation serves as a method establishing an integrable data structure. Bolstat et al. \cite{bolstad2003comparison} have proposed a data normalisation method called linear baseline scaling. Note that the method is particularly targeted at sparse datasets. Effectively, the method is applied on numerical features by executing the following work-flow: we find the largest numerical feature of all data instances; then, we calculate the scaling factors by aligning the largest values to a pre-set upper threshold; finally, we align the remaining numerical features based on the established scaling factors. Relating linear baseline scaling to applications on MSI data, Kohl et al. \cite{kohl2012state} have shown that the method's application does not produce a significant loss of information for a well-performing MSI data inference. 
+
+% - Binning
+% -- Evenly spaced 
+% -- craig2006scaling
+% -- Spectral peaks
+% -- de2008nmr
+\par Speaking of feature binning, the technique is used to merge the instances of a feature space; as a result, feature binning reduces the data dimensionality. Note that by the MSI data feature space, we refer to distinct $m/z$ values. Since raw MSI data is sparse, a successful application of feature binning is based on identifying appropriate $m/z$ boundaries reflecting unique metabolite types. To introduce some examples, the research carried by Craig et al. \cite{craig2006scaling} have utilised an equally spaced feature binning. Even though the authors have succeeded to reduce the data dimensionality, they have encountered a loss of information by splitting the metabolite topics into arbitrary regions. As an alternative approach, De et al. \cite{de2008nmr} have performed a feature binning based on the spectral peak identification. Effectively, the technique induces a dynamic notion of bin boundaries which is based on the identified intensity peak regions. As a result, the merged $m/z$ values serve as a better representation of metabolite terms.
+
+% - Denoising (removing small intensities)
+% -- smith2014proteomics
+\par The last reviewed MSI data pre-processing techniques addresses the MSI data noisiness. Even though the MSI data noise reduction is an open research problem going well beyond data pre-processing, Smith et al. \cite{smith2014proteomics} have shown that the application of a general data pre-processing routine displays performance improvements. For example, the authors have induced a lower intensity bound. Effectively, the intensity values below the intensity threshold would be treated as insignificant and/or as a product of data capturing device imperfections. By applying this procedure, the authors have successfully reduced the data dimensionality and, thus, increased the data scalability.
+
+\subsection{Prospective Topic Modelling Methodology}
+
+% Intro
+% - Inference
+% - Derivatives
+% - Gibbs sampling
+% -- griffiths2004finding
+\par In this subsection, we review the key characteristics of the prospective topic modelling inference techniques and model variations. Speaking of the inference, we have the employed the rationale of a sampling-based LDA model. Griffiths and Steyvers \cite{griffiths2004finding} have displayed a successful application of the collapsed Gibbs sampler for the inference of both textual and visual topics. Note that by the collapsed sampler, it is meant that the topic assignment inference is not directly impacted by the measurements of topic and term distributions; instead, the sampling is based on the notion of counts. In mathematical terms, the authors suggest obtaining a topic assignment's probability from the following expression:
+\begin{equation}
+P(z_i = k | z_{-i}, w) \propto \dfrac{n_{-i, k}^{(w_i)} + \beta}{n_{-i, k}^{(\cdot)} + V\beta}\cdot \dfrac{n_{-i, k}^{(t_i)} + \alpha}{n_{-i, \cdot}^{(t_i)} + K\alpha},
+\end{equation}
+note that $i$ refers to the current iteration ($-i$ refers to the previous iteration); $k$ refers to a particular topic; and $n$ refers to the count of the instances indicated by the term's superscript. If required, $\theta$ and $\phi$ can be sampled from the following distributions:
+\begin{align}
+\phi_{k,w} & \sim \mbox{Dirichlet}\bigg(\dfrac{n_{k}^{(w)} + \beta}{n_{k}^{(\cdot)} + W\beta}\bigg),\\
+\theta_{t,k} & \sim \mbox{Dirichlet}\bigg(\dfrac{n_{k}^{(t)} + \alpha}{n^{(t)} + K\alpha}\bigg).
+\end{align}
+Essentially, accurate representations of $\theta$ and $\phi$ are obtained by taking the average of their values generated upon the Gibbs sampler execution's iterations.
+
+
+% Topic modelling:
+% - DTM
+% -- blei2006dynamic
+% - SeqLDA
+% -- du2012sequential
+\par \lipsum[1]
+
+
+
+% Metabolomics: spatial smoothing
+% - Spatial Chaos
+% -- palmer2016fdr
+% - TM application
+% -- van2016topic
+\par \lipsum[1]
+
+
 
 % ___________________________________________________________________________
 \section{Methodology}

@@ -1,7 +1,15 @@
 
 import math
+
+"""
+VERSION
+- Python 2
+
+FUNCTION
+- Pre-process the 'bne' data
+"""
+
 import pymzml
-import pandas as pd
 import numpy as np
 import os
 import pickle as pkl
@@ -64,6 +72,7 @@ def main():
     for spectrum in run:
         for mass, intensity in spectrum.peaks:
             if intensity > INTENSITY_FLOOR:
+                print(intensity)
                 preprocessed_mnis.append((mass, intensity, spectrum['id']))
     mnis_dtype = [('mass', float), ('intensity', float), ('id', int)]
     mnis = np.array(preprocessed_mnis, dtype=mnis_dtype)

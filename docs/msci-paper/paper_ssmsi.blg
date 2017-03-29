@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: paper_ssmsi.aux
 The style file: abbrv.bst
 Database file #1: bibliography.bib
-You've used 2 entries,
+You've used 9 entries,
             2118 wiz_defined-function locations,
-            513 strings with 4044 characters,
-and the built_in function-call counts, 744 in all, are:
-= -- 75
-> -- 31
+            567 strings with 5702 characters,
+and the built_in function-call counts, 3558 in all, are:
+= -- 341
+> -- 216
 < -- 0
-+ -- 12
-- -- 10
-* -- 62
-:= -- 128
-add.period$ -- 6
-call.type$ -- 2
-change.case$ -- 11
++ -- 86
+- -- 76
+* -- 313
+:= -- 617
+add.period$ -- 27
+call.type$ -- 9
+change.case$ -- 65
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 22
-empty$ -- 58
-format.name$ -- 10
-if$ -- 148
+cite$ -- 9
+duplicate$ -- 99
+empty$ -- 238
+format.name$ -- 76
+if$ -- 696
 int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 2
-newline$ -- 13
-num.names$ -- 4
-pop$ -- 7
+int.to.str$ -- 9
+missing$ -- 9
+newline$ -- 48
+num.names$ -- 18
+pop$ -- 47
 preamble$ -- 1
-purify$ -- 9
+purify$ -- 56
 quote$ -- 0
-skip$ -- 15
+skip$ -- 64
 stack$ -- 0
-substring$ -- 69
-swap$ -- 2
+substring$ -- 248
+swap$ -- 9
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 8
+type$ -- 36
 warning$ -- 0
-while$ -- 8
-width$ -- 3
-write$ -- 24
+while$ -- 34
+width$ -- 10
+write$ -- 101
