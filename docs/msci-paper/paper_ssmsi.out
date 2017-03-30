@@ -9,6 +9,9 @@
 \BOOKMARK [2][-]{subsection.4.2}{Prospective\040Topic\040Models}{section.4}% 9
 \BOOKMARK [2][-]{subsection.4.3}{Prospective\040Characteristics\040of\040MSI\040Data}{section.4}% 10
 \BOOKMARK [1][-]{section.5}{Methodology}{}% 11
-\BOOKMARK [1][-]{section.6}{Experiments}{}% 12
-\BOOKMARK [1][-]{section.7}{Conclusion}{}% 13
-\BOOKMARK [1][-]{section.8}{References}{}% 14
+\BOOKMARK [2][-]{subsection.5.1}{Spatial\040Smoothing}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.2}{Auto-regressive\040Dynamic\040Topic\040Model}{section.5}% 13
+\BOOKMARK [2][-]{subsection.5.3}{Data\040Pre-processing\040and\040Generative\040Process}{section.5}% 14
+\BOOKMARK [1][-]{section.6}{Experiments}{}% 15
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 16
+\BOOKMARK [1][-]{section.8}{References}{}% 17

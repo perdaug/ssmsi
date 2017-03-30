@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \graphicspath{{images/}}
+% \usepackage{mathtools, cuted}
 
 \begin{document}
 
@@ -155,7 +156,7 @@ The circles indicate the model's variables: the coloured circle corresponds to t
 	\item Reducing the noisiness of MSI data;
 	\item Motivating the further research in applying spatial \\smoothing to MSI data.
 \end{itemize} 
-Speaking of the overlapping topic detection and the reduced noisiness, both contributions would improve the performance of MSI pattern recognition. Additionally, we measure the changes in the performances upon varying the complexity of the data. Ultimately, if a naive spatial smoothing application displayed performance improvements, we would set a basis to apply state-of-the-art auto-regression approaches on MSI data.
+To expand on the overlapping topic detection, the issue arises when two underlying topics are made of similar vocabulary terms: instead of a separate representation, the topics are merged. We intend to identify the flow of distinct topics by the application of spatial smoothing; as a consequence, the spatial smoothing would also impact the data noisiness reduction. Ultimately, if a naive spatial smoothing application displayed a performance improvement, the contribution would set a basis to utilise state-of-the-art auto-regression techniques on MSI data.
 
 % Approach
 % - Clearly define the experiment settings
@@ -204,14 +205,14 @@ Speaking of the overlapping topic detection and the reduced noisiness, both cont
 % - Gibbs sampling
 % -- griffiths2004finding
 \par In this subsection, we review the key characteristics of the prospective topic modelling inference techniques and model variations. Speaking of the inference techniques, we have employed the rationale of a sampling-based LDA model. Griffiths and Steyvers \cite{griffiths2004finding} have displayed a successful application of the collapsed Gibbs sampler for the topic inference of both textual and visual data. To expand on the collapsed sampling, the technique allows skipping the estimation of $\theta$ and $\phi$ values; instead, the inference is based on the notion of the assignment counts. In order to estimate a topic assignment's probability, the authors suggest using the following expression:
-\begin{equation}
-P(z_i = k | z_{-i}, w) \propto \dfrac{n_{-i, k}^{(w_i)} + \beta}{n_{-i, k}^{(\cdot)} + V\beta}\cdot \dfrac{n_{-i, k}^{(t_i)} + \alpha}{n_{-i, \cdot}^{(t_i)} + K\alpha},
-\end{equation}
+\begin{equation*}
+P(z_i = k | z_{-i}, w) \propto \dfrac{n_{-i, k}^{(w_i)} + \beta}{n_{-i, k}^{(\cdot)} + V\beta}\cdot \dfrac{n_{-i, k}^{(t_i)} + \alpha}{n_{-i, \cdot}^{(t_i)} + K\alpha}.
+\end{equation*}
 note that $i$ refers to the current iteration ($-i$ refers to the previous iteration); $k$ refers to a particular topic; and $n$ refers to the count of the instances indicated by the term's superscript. If required, $\theta$ and $\phi$ can be sampled from the following distributions:
-\begin{align}
+\begin{align*}
 \phi_{k,w} & \sim \mbox{Dirichlet}\bigg(\dfrac{n_{k}^{(w)} + \beta}{n_{k}^{(\cdot)} + W\beta}\bigg),\\
 \theta_{t,k} & \sim \mbox{Dirichlet}\bigg(\dfrac{n_{k}^{(t)} + \alpha}{n^{(t)} + K\alpha}\bigg).
-\end{align}
+\end{align*}
 Essentially, more accurate representations of $\theta$ and $\phi$ are obtained by running the Gibbs sampler until a sufficient convergence: we preserve the $\theta$ and $\phi$ values of each iteration; when the sampling is finished, the average of the preserved values is an accurate approximation of the underlying $\theta$ and $\phi$ values.
 
 % Topic modelling:
@@ -240,15 +241,105 @@ Ultimately, the documents of a corpus are assigned to segments with unique $\the
 \par Speaking of the spatial smoothing application, to my knowledge, the idea has not yet been widely spread among the computational metabolomics community. Nevertheless, a recent study by Palmer et al. \cite{palmer2016fdr} have attempted to quantify spatial chaos among the partitions of MSI data. The authors have reported that the established notion of spatial chaos have improved the speed and accuracy of continuous metabolite pattern identification. 
 
 
-
-
 % ___________________________________________________________________________
 \section{Methodology}
 
-\lipsum[1-3]
+% Intro
+\par In this section, we cover the rationale of a topic model tuned for a spatial smoothing application. To start with, we provide details on how to establish the auto-regressive notion among MSI data. Then, we show how to apply the auto-regression to a topic inference based on the collapsed Gibbs sampling. Further, we provide a list of the applied data pre-processing techniques for MSI data. Finally, by considering the data format induced by the pre-preprocessing, we introduce the generative MSI data process. Effectively, we apply the generative process to generate synthetic data for our experiments.
+
+\subsection{Spatial Smoothing}
+
+% Introduce AR
+% - Define the first two variances
+% - Point out that we are using the terms corresponding to the MSI data
+\par We establish the spatial smoothing among MSI data by inducing the auto-regressiveness among the pixels (documents). Before going into details, note that we cover the established methods using the previously introduced topic modelling notation. To start with, recall that by auto-regressiveness we refer to the smooth topic development among the nearby instances of an MSI corpus. In our settings, the auto-regressiveness is established by assuming that the joint probability distribution of the $\alpha$ priors is given by the following expression:
+\begin{align*}
+&p(\alpha_1,\ldots,\alpha_T) =p(\alpha_1)\prod_{t=2}^{T}{p(\alpha_t|\alpha_{t-1})}, \quad \mbox{where}\\
+&p(\alpha_1) =\mathcal{N} (\alpha_1; 0, \sigma_1^2I), \quad \mbox{and}\\
+&p(\alpha_t) =\mathcal{N} (\alpha_t; \alpha_{t-1}, \sigma^2I), \quad t>1.
+\end{align*}
+To introduce the previous expression, note that index $t$ refers to a particular pixel (a document). This means that every pixel of an MSI corpus has a unique underlying topic distribution induced by a unique $\alpha$. Further, variances $\sigma_1^2$ and $\sigma^2$ correspond to the initialisation variance and the smoothness variance, respectively. Effectively, $\sigma_1^2$ is used to create larger gaps among different topics, whereas $\sigma^2$ preserves the smoothness. Therefore, we set $\sigma_1^2$ to possess a higher value compared to $\sigma^2$.
+
+% Introduce the MH algorithm
+\par The previously introduced $\alpha$ priors serve as the initial point in estimating the true $\alpha$ values. To estimate the true $\alpha$ values, we utilise the Metropolis--Hastings (MH) algorithm. The work-flow of the MH algorithm is started by drawing the proposed state
+\begin{align*}
+&x' \sim q(x,\delta^2I).
+\end{align*}
+Note that $x$ denotes the current state, $q$ denotes the proposal distribution, and $\delta^2$ denotes the proposal variance. Note that if $\delta^2$ is large, the proposal state converges to the true posterior in larger yet random increments; alternatively, if $\delta^2$ is small, the convergence is performed in small yet uniform increments. Note that the settings for optimal convergence are unique for diverse datasets; as an example, we can find the optimal values using cross validation. Going back to the work-flow, for the second step, we consider the acceptance distributions (these are denoted by $A$) and derive the formula for the acceptance rate:
+\begin{align*}
+  \dfrac{A(x'|x)}{A(x|x')} = \dfrac{p(x'|x)}{p(x|x')}\cdot \dfrac{q(x'|x)}{q(x|x')} = \dfrac{p(x',x)}{p(x)}\cdot \dfrac{p(x')}{p(x,x')} = \dfrac{p(x')}{p(x)}.
+\end{align*}
+Note that the proposal distributions cancel out as
+\begin{align*}
+q = \mathcal{N} \quad \Longrightarrow \quad q(x'|x) = q(x|x').
+\end{align*}
+For the MH algorithm's final step, we make sure that the acceptance rate does not overflow the probability boundaries; that is, we obtain the acceptance rate denoted by $r$ using the following procedure:
+\begin{align*}
+  r = \min{\bigg(1, \dfrac{p(x')}{p(x)}\bigg)}.
+\end{align*}
+
+% Apply the MH algorithm to the MSI data
+% TODO: Softmax
+\par At this point, we apply the rationale of the introduced MH algorithm to the topic modelling context. Since we utilise the MH algorithm to update a single value at a time (i.e., we update $\alpha_{t,k}$), we make use of the following notation:
+\begin{align*}
+  \alpha^{-tk} = \alpha \setminus \alpha_{t,k}.
+\end{align*} 
+Having the previous notation in mind, the MH algorithm's application to update $\alpha$ is given as follows:
+\begin{align*}
+  &\dfrac{p(z,\alpha^{-tk},\alpha_{t, k}'|X)}{p(z,\alpha|X)} = \ldots\\
+  &\ldots = \dfrac{p(X|z,\alpha^{-tk},\alpha_{t, k}')}{p(X|z,\alpha)}\cdot \dfrac{p(z|\alpha^{-tk},\alpha_{t, k}')}{p(z|\alpha)}\cdot \dfrac{p(\alpha^{-tk},\alpha_{t, k}')}{p(\alpha)}\\
+  &\dots = \dfrac{\prod_{k=0}^K\big[\pi(\alpha_{t}')_k^{z_{t,k}}\big]\cdot p(\alpha_t'|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t')}{\prod_{k=0}^K\big[\pi(\alpha_t)_k^{z_{t,k}}\big]\cdot p(\alpha_t|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t)};\quad t \not\in \{1,T\}.
+\end{align*}
+For completeness, the expressions at the boundaries take the following form:
+\begin{align*}
+t=1 \quad \Longrightarrow \quad &\dfrac{p(\alpha^{-1k},\alpha_{1, k}')}{p(\alpha)} = \dfrac{p(\alpha_{1}')\cdot p(\alpha_{2}|\alpha_{1}')}{p(\alpha_{1})\cdot p(\alpha_{2}|\alpha_{1})},\\
+t=T \quad \Longrightarrow \quad &\dfrac{p(\alpha^{-Tk},\alpha_{T, k}')}{p(\alpha)} = \dfrac{p(\alpha_{T}'|\alpha_{T-1})}{p(\alpha_{T}|\alpha_{T-1})}.\\
+\end{align*}
+Also, note that by $\pi$ we denote the softmax function which is expressed as follows:
+\begin{align*}
+  \pi(\alpha_{t,k}) = \dfrac{\exp(\alpha_{t,k})}{\sum_{k'=1}^K \exp(\alpha_{t,k'})}
+\end{align*} 
+
+\subsection{Auto-regressive Dynamic Topic Model}
+
+% Intro
+% - Model modifications
+\par Our auto-regressive topic model is based on the rationale of the reviewed dynamic topic model. However, based on the MSI data characteristics and the application of spatial smoothing, the auto-regressive model possess the following aspects:
+\begin{itemize}
+	\item The static treatment of the $\beta$ hyper-parameter;
+	\item The Gibbs sampler utilising spatial smoothing;
+	\item The application of the log space to perform calculations.
+\end{itemize}
+In the following paragraphs, we will introduce each of the previous listings.
+
+\par Even though we utilise the rationale of DTM in order to establish the dynamic notion in the topic development, we preserve a static $\beta$ hyper-parameter. This assumption comes from the characteristics of the metabolomics-based MSI data: we expect the metabolite patterns (i.e., a topic's vocabulary) remain constant. Therefore, we have applied the architecture illustrated in Figure \ref{fig:arch_ar} below.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.4\textwidth]{ar-architecture.png}
+  \caption{The auto-regressive topic model architecture.}
+  \label{fig:arch_ar}
+\end{figure}
+
+% Gibbs Sampler changes
+\par Speaking of the Gibbs sampler's enhancement, the updated topic assignment formula takes the following form:
+\begin{equation*}
+P(z_i = k | z_{-i}, w, t) \propto \dfrac{n_{-i, k}^{(w_i)} + \beta}{n_{-i, k}^{(\cdot)} + V\beta}\cdot \pi(\alpha_{t,k}).
+\end{equation*}
+As a consequence, the sampling of $\theta$ also changes; now, we draw the topic distributions by carrying the following procedure:
+\begin{align*}
+\theta_{t,k} & \sim \mbox{Dirichlet}\big(\pi(\alpha_{t,k})\big).
+\end{align*}
+
+% 1 document per segment
+\subsection{Data Pre-processing and Generative Process}
+
+\lipsum[1]
 
 % ___________________________________________________________________________
  \section{Experiments}
+
+% Introduce Non-AR model
+% Experiment: AR tuning
 
 \lipsum[1-3]
 
