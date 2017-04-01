@@ -60,10 +60,10 @@
   "report_mh-dtm.aux" 1488282956 926 4ab3eb514ac1c4797878410bfe3e0b60 ""
   "report_mh-dtm.tex" 1488282959 11860 282a12e0357b91267b80e7ea9e47cb12 ""
   (generated)
+  "report_mh-dtm.log"
   "report_mh-dtm.dvi"
   "report_mh-dtm.aux"
-  "report_mh-dtm.log"
-["pdflatex"] 1489233619 "report_mh-dtm.tex" "report_mh-dtm.pdf" "report_mh-dtm" 1489233625
+["pdflatex"] 1490949600 "report_mh-dtm.tex" "report_mh-dtm.pdf" "report_mh-dtm" 1490949607
   "/usr/local/texlive/2016/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -124,9 +124,9 @@
   "images/init_5E+00|basic_1E-03|prop_1E+00|it_2000|autoreg_True.png" 1487549684 141655 ad081db600da786c9be649a2087ca208 ""
   "images/init_5E+00|basic_1E-04|prop_1E+00|it_2000|autoreg_True.png" 1487545620 76735 7f65a9ea01c10be549d72358dcb63e5d ""
   "images/theta_initial.png" 1487519205 25160 d15ac83abb1442258f68d0889abc07d7 ""
-  "report_mh-dtm.aux" 1489233619 926 4ab3eb514ac1c4797878410bfe3e0b60 ""
-  "report_mh-dtm.tex" 1489233610 11871 8ef2934d7aa89dfa6ada96c4ed72c7b6 ""
+  "report_mh-dtm.aux" 1490949601 926 4ab3eb514ac1c4797878410bfe3e0b60 ""
+  "report_mh-dtm.tex" 1490949600 11871 8ef2934d7aa89dfa6ada96c4ed72c7b6 ""
   (generated)
-  "report_mh-dtm.log"
   "report_mh-dtm.aux"
   "report_mh-dtm.pdf"
+  "report_mh-dtm.log"

@@ -33,6 +33,7 @@ class Generator_Corpus(object):
             vocab.append(string.ascii_lowercase[w])
         return np.array(vocab)
 # ___________________________________________________________________________
+# TODO: Beta is phi
 
     def generate_corpus(self):
         corpus = {}

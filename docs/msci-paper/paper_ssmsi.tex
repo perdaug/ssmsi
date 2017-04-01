@@ -7,6 +7,10 @@
 \usepackage{lipsum}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{caption}
+\usepackage{subcaption}
 \graphicspath{{images/}}
 % \usepackage{mathtools, cuted}
 
@@ -206,7 +210,7 @@ To expand on the overlapping topic detection, the issue arises when two underlyi
 % -- griffiths2004finding
 \par In this subsection, we review the key characteristics of the prospective topic modelling inference techniques and model variations. Speaking of the inference techniques, we have employed the rationale of a sampling-based LDA model. Griffiths and Steyvers \cite{griffiths2004finding} have displayed a successful application of the collapsed Gibbs sampler for the topic inference of both textual and visual data. To expand on the collapsed sampling, the technique allows skipping the estimation of $\theta$ and $\phi$ values; instead, the inference is based on the notion of the assignment counts. In order to estimate a topic assignment's probability, the authors suggest using the following expression:
 \begin{equation*}
-P(z_i = k | z_{-i}, w) \propto \dfrac{n_{-i, k}^{(w_i)} + \beta}{n_{-i, k}^{(\cdot)} + V\beta}\cdot \dfrac{n_{-i, k}^{(t_i)} + \alpha}{n_{-i, \cdot}^{(t_i)} + K\alpha}.
+p(z_i = k | z_{-i}, w) \propto \dfrac{n_{-i, k}^{(w_i)} + \beta}{n_{-i, k}^{(\cdot)} + V\beta}\cdot \dfrac{n_{-i, k}^{(t_i)} + \alpha}{n_{-i, \cdot}^{(t_i)} + K\alpha}.
 \end{equation*}
 note that $i$ refers to the current iteration ($-i$ refers to the previous iteration); $k$ refers to a particular topic; and $n$ refers to the count of the instances indicated by the term's superscript. If required, $\theta$ and $\phi$ can be sampled from the following distributions:
 \begin{align*}
@@ -255,10 +259,10 @@ Ultimately, the documents of a corpus are assigned to segments with unique $\the
 \par We establish the spatial smoothing among MSI data by inducing the auto-regressiveness among the pixels (documents). Before going into details, note that we cover the established methods using the previously introduced topic modelling notation. To start with, recall that by auto-regressiveness we refer to the smooth topic development among the nearby instances of an MSI corpus. In our settings, the auto-regressiveness is established by assuming that the joint probability distribution of the $\alpha$ priors is given by the following expression:
 \begin{align*}
 &p(\alpha_1,\ldots,\alpha_T) =p(\alpha_1)\prod_{t=2}^{T}{p(\alpha_t|\alpha_{t-1})}, \quad \mbox{where}\\
-&p(\alpha_1) =\mathcal{N} (\alpha_1; 0, \sigma_1^2I), \quad \mbox{and}\\
+&p(\alpha_0) =\mathcal{N} (\alpha_0; 0, \sigma_0^2I), \quad \mbox{and}\\
 &p(\alpha_t) =\mathcal{N} (\alpha_t; \alpha_{t-1}, \sigma^2I), \quad t>1.
 \end{align*}
-To introduce the previous expression, note that index $t$ refers to a particular pixel (a document). This means that every pixel of an MSI corpus has a unique underlying topic distribution induced by a unique $\alpha$. Further, variances $\sigma_1^2$ and $\sigma^2$ correspond to the initialisation variance and the smoothness variance, respectively. Effectively, $\sigma_1^2$ is used to create larger gaps among different topics, whereas $\sigma^2$ preserves the smoothness. Therefore, we set $\sigma_1^2$ to possess a higher value compared to $\sigma^2$.
+To introduce the previous expression, note that index $t$ refers to a particular pixel (a document). This means that every pixel of an MSI corpus has a unique underlying topic distribution induced by a unique $\alpha$. Further, variances $\sigma_0^2$ and $\sigma^2$ correspond to the initialisation variance and the smoothness variance, respectively. Effectively, $\sigma_0^2$ is used to create larger gaps among different topics, whereas $\sigma^2$ preserves the smoothness. Therefore, we set $\sigma_0^2$ to possess a higher value compared to $\sigma^2$.
 
 % Introduce the MH algorithm
 \par The previously introduced $\alpha$ priors serve as the initial point in estimating the true $\alpha$ values. To estimate the true $\alpha$ values, we utilise the Metropolis--Hastings (MH) algorithm. The work-flow of the MH algorithm is started by drawing the proposed state
@@ -288,7 +292,7 @@ Having the previous notation in mind, the MH algorithm's application to update $
 \begin{align*}
   &\dfrac{p(z,\alpha^{-tk},\alpha_{t, k}'|X)}{p(z,\alpha|X)} = \ldots\\
   &\ldots = \dfrac{p(X|z,\alpha^{-tk},\alpha_{t, k}')}{p(X|z,\alpha)}\cdot \dfrac{p(z|\alpha^{-tk},\alpha_{t, k}')}{p(z|\alpha)}\cdot \dfrac{p(\alpha^{-tk},\alpha_{t, k}')}{p(\alpha)}\\
-  &\dots = \dfrac{\prod_{k=0}^K\big[\pi(\alpha_{t}')_k^{z_{t,k}}\big]\cdot p(\alpha_t'|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t')}{\prod_{k=0}^K\big[\pi(\alpha_t)_k^{z_{t,k}}\big]\cdot p(\alpha_t|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t)};\quad t \not\in \{1,T\}.
+  &\dots = \dfrac{\prod_{k=1}^K\pi(\alpha_{t,k}')^{z_{t,k}}\cdot p(\alpha_t'|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t')}{\prod_{k=1}^K\pi(\alpha_{t,k})^{z_{t,k}}\cdot p(\alpha_t|\alpha_{t-1})\cdot p(\alpha_{t+1}|\alpha_t)};\quad t \not\in \{1,T\}.
 \end{align*}
 For completeness, the expressions at the boundaries take the following form:
 \begin{align*}
@@ -304,15 +308,15 @@ Also, note that by $\pi$ we denote the softmax function which is expressed as fo
 
 % Intro
 % - Model modifications
-\par Our auto-regressive topic model is based on the rationale of the reviewed dynamic topic model. However, based on the MSI data characteristics and the application of spatial smoothing, the auto-regressive model possess the following aspects:
+\par Our auto-regressive topic model is based on the rationale of the reviewed dynamic topic model. However, based on the MSI data characteristics and the application of spatial smoothing, the auto-regressive model possesses the following aspects:
 \begin{itemize}
 	\item The static treatment of the $\beta$ hyper-parameter;
 	\item The Gibbs sampler utilising spatial smoothing;
-	\item The application of the log space to perform calculations.
+	\item The application of logarithmic space to perform calculations.
 \end{itemize}
 In the following paragraphs, we will introduce each of the previous listings.
 
-\par Even though we utilise the rationale of DTM in order to establish the dynamic notion in the topic development, we preserve a static $\beta$ hyper-parameter. This assumption comes from the characteristics of the metabolomics-based MSI data: we expect the metabolite patterns (i.e., a topic's vocabulary) remain constant. Therefore, we have applied the architecture illustrated in Figure \ref{fig:arch_ar} below.
+\par Even though we utilise the rationale of DTM in order to establish the dynamic notion in the topic development, we preserve a static $\beta$ hyper-parameter. This assumption comes from the characteristics of the metabolomics-based MSI data: we expect the metabolite patterns (i.e., a topic's vocabulary) remain constant. Therefore, in our model, we utilise the architecture illustrated in Figure \ref{fig:arch_ar} below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.4\textwidth]{ar-architecture.png}
@@ -323,17 +327,96 @@ In the following paragraphs, we will introduce each of the previous listings.
 % Gibbs Sampler changes
 \par Speaking of the Gibbs sampler's enhancement, the updated topic assignment formula takes the following form:
 \begin{equation*}
-P(z_i = k | z_{-i}, w, t) \propto \dfrac{n_{-i, k}^{(w_i)} + \beta}{n_{-i, k}^{(\cdot)} + V\beta}\cdot \pi(\alpha_{t,k}).
+p(z_i = k | z_{-i}, w, t) \propto \dfrac{n_{-i, k}^{(w_i)} + \beta}{n_{-i, k}^{(\cdot)} + V\beta}\cdot \pi(\alpha_{t,k}).
 \end{equation*}
 As a consequence, the sampling of $\theta$ also changes; now, we draw the topic distributions by carrying the following procedure:
 \begin{align*}
 \theta_{t,k} & \sim \mbox{Dirichlet}\big(\pi(\alpha_{t,k})\big).
 \end{align*}
 
-% 1 document per segment
+% Calculations in the log space
+\par Finally, we address the computational stability by performing calculations in logarithmic space. Effectively, the application of logarithmic space mitigates the susceptibility to numerical underflow. Note that numerical underflow is especially relevant in the context of probabilistic models: calculations involve large products of probabilities. In logarithmic space, however, the products are transformed into sums. Speaking of our model, we applied logarithmic space for both the auto-regressive $\alpha$ update and the sampling-based inference. The updated expression for the auto-regressive $\alpha$ update is given as follows:
+\begin{alignat*}{2}
+  &\log&&\bigg[{\dfrac{p(z,\alpha^{-tk},\alpha_{t, k}'|X)}{p(z,\alpha|X)}}\bigg] = \ldots \\
+  & \ldots && = \log\big[{p(z,\alpha^{-tk},\alpha_{t, k}'|X)}\big] - \log\big[{p(z,\alpha|X)}\big]\\
+  & \ldots && = z_{t}\sum_{k=1}^K\log\big[\pi(\alpha_{t,k}')\big] + \log\big[p(\alpha_t'|\alpha_{t-1})\big] + \log\big[p(\alpha_{t+1}|\alpha_t')\big]\\
+  & && - z_{t}\sum_{k=1}^K\log\big[\pi(\alpha_{t, k})\big] + \log\big[p(\alpha_t|\alpha_{t-1})\big] + \log\big[p(\alpha_{t+1}|\alpha_t)\big].
+\end{alignat*}
+As a result, the acceptance rate takes the following expression:
+\begin{align*}
+	r_{t,k} = \exp\big[\min{\big(0, \log\big[{p(z,\alpha^{-tk},\alpha_{t, k}'|X)}\big] - \log\big[{p(z,\alpha|X)}\big]}\big)\big].
+\end{align*}
+Speaking of the updated expression for the inference, it is updated in the following way:
+\begin{align*}
+&p(z_i = k | z_{-i}, w, t) \propto \ldots\\
+&\ldots \propto \log\big[n_{-i, k}^{(w_i)} + \beta\big] - \log\big[n_{-i, k}^{(\cdot)} + V\beta\big] + \log\big[\pi(\alpha_{t,k})\big].
+\end{align*}
+
 \subsection{Data Pre-processing and Generative Process}
 
-\lipsum[1]
+% Intro
+% - The purpose of the real data
+% - Introducing the applied generative process
+\par In this subsection, we introduce the MSI data format used upon the experiments. At the start, we introduce an example of real data. Effectively, the example displays an application of the pre-processing techniques presented in the literature review section. Further, we transfer the qualities of real MSI data into our synthetic data generation module. To be more specific, we provide an algorithm for the generative data process.
+
+% Looking into real data
+% - Applying the reviewed pre-processing techniques
+% -- low intensity
+% -- bucketisation
+
+\par Before carrying the experiments, we familiarise with the raw MSI data characteristics and assessed their scalability. To be more specific, we define the characteristics of our synthetic data by pre-processing a real MSI data sample. To introduce the pre-processing details, we dismiss the words below the intensity threshold of $10$; then, we apply the following bucketisation strategy: merge adjacent vocabulary terms which differ less than $7$ mDA. Effectively, the bucketisation strategy is based on the spectral peak identification. Finally, we apply linear baseline scaling to align the highest intensities of a particular document to $25$. Most importantly, note that these settings are unique with every dataset; however, the provided values allowed us to carry experiments in a scalable manner (i.e., a single inference run would take approximately $15$ minutes).
+
+% Plots of pre- and past-normalisation
+% - Preserving the metabolotite patterns
+% - Improving the scalability (inference iteration time)
+\par At this point, we take an exemplary sample. Note that, in the sample, there are two letters inscribed with the ink corresponding to a particular mass-to-charge value. In Figure \ref{fig:comparison}, we compare the visualisation of the sample with and without the applied pre-processing.
+
+\begin{figure}[H]
+  \centering
+
+  \begin{subfigure}[b]{0.5\textwidth}
+    \caption{The term's occurrences before linear baseline scaling.}
+    \includegraphics[width=\linewidth]{pre.png}
+  \end{subfigure}%
+
+  \begin{subfigure}[b]{0.5\textwidth}
+    \caption{The term's occurrences after linear baseline scaling.}
+    \includegraphics[width=\linewidth]{post.png}
+  \end{subfigure}%
+
+  \begin{subfigure}[b]{0.5\textwidth}
+    \caption{An inferred topic corresponding to the pattern.}
+    \includegraphics[width=\linewidth]{topic.png}
+  \end{subfigure}%
+  \caption{The term's visual comparison.}
+  \label{fig:comparison}
+\end{figure}
+
+% The generative process
+% - The underlying assumption for the inference
+% - synthetic data
+% -- Large amounts of data
+% - The algorithm of the generative process
+% - 1 document is 1 segment
+\par Having a basis for a scalable inference, we transfer the identified data properties into the synthetic corpus generation. Before introducing the generative process, recall that our dynamic topic treatment is unique with respect to every document. Therefore, contrary to the reviewed dynamic topic models, our dynamic segment consists of only one document. Applying the latter aspects, we establish our utilised generative process given in Algorithm \ref{alg:dynamic_document_generation} below:
+\begin{algorithm}[H]
+\caption{The generative process for a synthetic corpus.}
+\label{alg:dynamic_document_generation}
+\begin{algorithmic}[2]
+% \State $\alpha_0 \sim \mathcal{N}(0, \sigma_0^2I)$
+\For {$t \leftarrow 1, T$}
+% \State $\alpha_t \sim \mathcal{N}(\alpha_{t-1}, \sigma^2I)$
+\State $N \sim \mbox{Poisson}(\xi)$
+\For {$n \leftarrow 1, N$}
+\State $z_{t, n} \sim \mbox{Multinomial}(\pi(\alpha_t))$
+\State $k = \{i : z_{t, n, i} = 1\}$
+\State $w_{t, n} \sim \mbox{Multinomial}(\phi_k)$
+\EndFor
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+In practical settings, the rationale of the generative process is defined as follows: the $\xi$ term represents an approximate number of words per document; $\alpha_t$ is the pre-defined auto-regressive hyper-parameter for document $t$; and $\phi_k$ is the pre-defined vocabulary term distribution for topic $k$.
+
 
 % ___________________________________________________________________________
  \section{Experiments}

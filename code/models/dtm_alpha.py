@@ -89,7 +89,7 @@ class DTM_Alpha(object):
         print('{} has finished.'.format(self.__class__.__name__))
 
     def _update_status(self, it, n_burn_it):
-        if it != 0 and it % 50 == 0:
+        if it != 0 and it % 5 == 0:
             print('Iteration: {}'.format(it))
             rate_alpha_update = 1.0 * self.n_upd_alpha / self.n_it_alpha
             print('Alpha update rate: {:.2f}'.format(rate_alpha_update))

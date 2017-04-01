@@ -9,8 +9,7 @@ import os
 
 class Visualiser_Corpus(object):
 
-    def __init__(self, corpus, no_corpus, no_experiment, vocab, n_rows, l_row,
-                 l_column, path_plots=None, save=True):
+    def __init__(self, corpus, vocab, n_rows, l_row, l_column, path_plots=None, save=True, no_corpus=None, no_experiment=None):
         self.corpus = corpus
         self.no_corpus = no_corpus
         self.no_experiment = no_experiment
@@ -93,7 +92,8 @@ class Visualiser_Corpus(object):
     def locate_word(self, word):
         # Mapping to the z values.
         z_matrix = np.zeros(shape=(self.n_rows, self.n_columns))
-        word_idx = self.vocab.index(word)
+        word_idx = np.where(self.vocab == word)
+        # word_idx = self.vocab.index(word)
         for i, doc in enumerate(self.corpus):
             if int(i) in self.map_coord:
                 doc_coord = self.map_coord[int(i)]
@@ -105,7 +105,8 @@ class Visualiser_Corpus(object):
         y_vector = np.zeros(shape=(self.n_rows, 1))
         for i in range(0, self.n_rows):
             y_vector[i] = i
-        layout = go.Layout(height=350,
+        layout = go.Layout(title="The term's occurrences after the normalisation",
+                           height=350,
                            xaxis=dict(title='x'),
                            yaxis=dict(title='y'))
         data = [go.Heatmap(z=z_matrix,
