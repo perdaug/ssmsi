@@ -89,7 +89,7 @@ class DTM_Alpha(object):
         print('{} has finished.'.format(self.__class__.__name__))
 
     def _update_status(self, it, n_burn_it):
-        if it != 0 and it % 5 == 0:
+        if it != 0 and it % 25 == 0:
             print('Iteration: {}'.format(it))
             rate_alpha_update = 1.0 * self.n_upd_alpha / self.n_it_alpha
             print('Alpha update rate: {:.2f}'.format(rate_alpha_update))
@@ -267,20 +267,29 @@ class DTM_Alpha(object):
 # ___________________________________________________________________________
 
     def _sample_phi(self):
-        alphas_dir = (1.0 * self.n_zw + self.beta)
+        phi_pre = (1.0 * self.n_zw + self.beta)
+        phi_pre /= (1.0 * self.n_z[:, None] + self.V * self.beta)
         phi = []
-        for alpha_dir in alphas_dir:
-            phi_topic = np.random.dirichlet(alpha_dir)
+        for row_phi in phi_pre:
+            phi_topic = np.random.dirichlet(row_phi)
             phi.append(phi_topic)
+        # TOFIX
+        # phi = (1.0 * self.n_zw + self.beta)
+        # phi = self._softmax(phi)
+        # phi /= np.sum(phi, axis=1)[:, None]
         self.hist_phi.append(phi)
 # ___________________________________________________________________________
 
     def _sample_theta(self):
         alphas_dir = self.alpha_softmax
         theta = []
-        for alpha_dir in alphas_dir:
-            theta_doc = np.random.dirichlet(alpha_dir)
-            theta.append(theta_doc)
+        # for alpha_dir in alphas_dir:
+        #     theta_doc = np.random.dirichlet(alpha_dir)
+        #     theta.append(theta_doc)
+        # theta = (self.n_dz + alphas_dir)
+        # theta = self._softmax(theta)
+        # TOFIX
+        theta = self.alpha_softmax
         self.hist_theta.append(np.array(theta))
 
 # ___________________________________________________________________________

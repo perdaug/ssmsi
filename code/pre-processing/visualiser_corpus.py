@@ -120,7 +120,8 @@ class Visualiser_Corpus(object):
 # ___________________________________________________________________________
 
     def locate_topic(self, id_topic, thetas):
-        theta = thetas[-1, :, :]
+        theta = thetas[-1]
+        # theta = np.average(thetas, axis=0)
         # Mapping to the z values.
         z_matrix = np.zeros(shape=(self.n_rows, self.n_columns))
         for i, doc in enumerate(theta):
@@ -170,7 +171,7 @@ class Visualiser_Corpus(object):
         plt.ylabel('Total error')
         plt.xlabel('Batch no. (s_batch = {})'.format(s_batch))
         if self.save:
-            name_file = 'performance_thetas_{}_dataset-{}.png'.format(self.no_experiment, self.no_corpus)
+            name_file = 'performance-theta_dataset-{}.png'.format(self.no_corpus)
             plt.savefig(self.path_plots + name_file, dpi=300)
         '''
         Plotting phis
@@ -184,7 +185,7 @@ class Visualiser_Corpus(object):
         plt.ylabel('Total error')
         plt.xlabel('Batch no. (s_batch = {})'.format(s_batch))
         if self.save:
-            name_file = 'performance_phis_{}_dataset-{}.png'.format(self.no_experiment, self.no_corpus)
+            name_file = 'performance-phi_dataset-{}.png'.format(self.no_corpus)
             plt.savefig(self.path_plots + name_file, dpi=300)
 
 # __________________________________________________________________________
@@ -210,7 +211,7 @@ class Visualiser_Corpus(object):
         plt.ylabel(r'$\theta$')
         plt.title(title)
         if self.save:
-            name_file = 'latent_thetas_{}_{}_dataset-{}.png'.format(title, self.no_experiment, self.no_corpus)
+            name_file = 'theta-latent_{}_dataset-{}.png'.format(title, self.no_corpus)
             plt.savefig(self.path_plots + name_file, dpi=300)
 
     def plot_latent_phis(self, phis, title):
@@ -231,7 +232,7 @@ class Visualiser_Corpus(object):
         plt.ylabel(r'$\phi$')
         plt.title(title)
         if self.save:
-            name_file = 'latent_phis_{}_{}_dataset-{}.png'.format(title, self.no_experiment, self.no_corpus)
+            name_file = 'phi-latent_{}_dataset-{}.png'.format(title, self.no_corpus)
             plt.savefig(self.path_plots + name_file, dpi=300)
 
     def plot_latent_alpha(self, alpha, title):
@@ -261,26 +262,27 @@ class Visualiser_Corpus(object):
 # ___________________________________________________________________________
 # INIT PLOTS
 
-    def plot_init_phi(self, betas):
+    def plot_init_phi(self, betas, title):
         '''
         Axis formatting
         '''
         index = np.arange(10)
-        bar_width = 0.2
+        bar_width = 0.25
         '''
         Plotting
         '''
         plt.figure()
         for idx, beta in enumerate(betas):
             plt.bar(idx * bar_width + self.linspace_V, beta, bar_width)
-        plt.xticks(index + bar_width, np.arange(0, 10, 1.0))
+        plt.xticks(index, np.arange(0, 10, 1))
         plt.xlabel('v')
         plt.ylabel(r'$\phi$')
+        plt.title(title)
         if self.save:
-            name_file = 'init_phi_{}.png'.format(self.no_experiment)
+            name_file = 'phi-init.png'
             plt.savefig(self.path_plots + name_file, dpi=300)
 
-    def plot_init_thetas(self, alphas=None, thetas=None):
+    def plot_init_thetas(self, title, alphas=None, thetas=None):
         '''
         Integer axis labelling
         '''
@@ -300,10 +302,12 @@ class Visualiser_Corpus(object):
         '''
         for theta in thetas:
             plt.plot(self.linspace_t, theta)
+        # print(self.linspace_t)
         plt.xlabel('t')
         plt.ylabel(r'$\theta$')
+        plt.title(title)
         if self.save:
-            name_file = 'init_theta_{}.png'.format(self.no_experiment)
+            name_file = 'theta-init.png'
             plt.savefig(self.path_plots + name_file, dpi=300)
 
     def plot_init_alphas(self, alphas):

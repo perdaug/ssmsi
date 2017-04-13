@@ -17,13 +17,16 @@ class Helper_Experiment(object):
         hist_theta = np.array(clf.hist_theta)
         if alpha_init is None:
             theta_init = theta_init.T
-        generator_batch = self._split_to_batches(hist_theta, s_batch)
+        # generator_batch = self._split_to_batches(hist_theta, s_batch)
         performance_batch_theta = []
         performance_batch_phi = []
         '''
         Iterate through the theta batches
         '''
-        for hist_theta_batch in generator_batch:
+        n_iter = int(len(hist_theta) / s_batch)
+        # for hist_theta_batch in generator_batch:
+        for i in range(n_iter):
+            hist_theta_batch = hist_theta[0:i * s_batch - 1]
             '''
             Pre-process and tune the thetas
             '''
@@ -48,8 +51,10 @@ class Helper_Experiment(object):
         Iterate through the phi batches
         '''
         hist_phi = np.array(clf.hist_phi)
-        generator_batch = self._split_to_batches(hist_phi, s_batch)
-        for hist_phi_batch in generator_batch:
+        # generator_batch = self._split_to_batches(hist_phi, s_batch)
+        # for hist_phi_batch in generator_batch:
+        for i in range(n_iter):
+            hist_phi_batch = hist_phi[0:i * s_batch - 1]
             phi_latent = np.average(hist_phi_batch, axis=0)
             '''
             Calculate the phi similarity

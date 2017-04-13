@@ -1,3 +1,9 @@
+13/04/2017
+- Experiment settings up to the t-test
+11/04/2017
+- Implemented the t-test
+- Fixed the BnE inference
+- Identified the experiments
 31/03/2017:
 - Paper: Finished the methodology
 30/03/2017:

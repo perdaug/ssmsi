@@ -43,7 +43,7 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibu
 % Basis:
 % - Unsupervised machine learning: Topic modelling
 % - topic modelling w.r.t. MSI
-\par Speaking of our machine learning application, topic modelling is a technique used to infer unlabelled topic distributions based on data's underlying semantic structure. With respect to MSI data, we can model the topic distributions over an image and its every pixel; furthermore, topic modelling can express the types of ions corresponding to particular topics. Since a topic model is a statistical approach to perceive real metabolomics data, the utilised topic models are tuned to reflect the metabolomics environment as good as possible. Relating to our research targets, spatial smoothing is one of such environment settings.
+\par Speaking of our machine learning application, topic modelling is a technique used to infer unlabelled topic distributions based on data's underlying semantic structure. With respect to MSI data, we can model the topic distributions over an image and its every pixel; furthermore, topic modelling can express the types of ions corresponding to particular topics. Since a topic model is a statistical approach to perceive real metabolomics data, the utilised topic models are tuned to reflect the metabolomics environment as realistically as possible. Relating to our research targets, spatial smoothing is one of such environment settings.
 
 % Research Problem:
 % - Noisiness
@@ -417,14 +417,132 @@ Speaking of the updated expression for the inference, it is updated in the follo
 \end{algorithm}
 In practical settings, the rationale of the generative process is defined as follows: the $\xi$ term represents an approximate number of words per document; $\alpha_t$ is the pre-defined auto-regressive hyper-parameter for document $t$; and $\phi_k$ is the pre-defined vocabulary term distribution for topic $k$.
 
-
 % ___________________________________________________________________________
  \section{Experiments}
 
-% Introduce Non-AR model
-% Experiment: AR tuning
+% Intro
+% - Objective: Research problem
+% -- Vocabulary term detection
+% -- Noise identification
+% - The settings
+% - The execution
+\par In this section, we assess the research problems introduced in Section 3:
+\begin{itemize}
+	\item The spatial smoothing application for recovering the underlying vocabulary term distributions;
+	\item The auto-regressive model's performance in terms of identifying the noise topic.
+\end{itemize}
+At the start of the section, we define the settings for tuning the topic models; then, we look into the settings for generating the synthetic datasets; afterwards, we introduce the scope of our experiments. Having defined the  settings, we provide several illustrative examples of the experiment execution; and finally, we show the results of all experiments.
 
-\lipsum[1-3]
+\subsection{Pre-experiment Settings}
+
+% Topic model settings
+% - Two models: AR & non-AR
+% - Remark about the variances
+\par The performance of the experiments is assessed by running auto-regressive and non-auto-regressive topic models in parallel. That is, we run the topic models with and without the pre-set assumption of spatial smoothing. For both models, we tune the variances corresponding to the $\alpha$ update introduced in Section 5. Recall that the variance $\delta^2$ is used to propose a new $\alpha$ hyper-parameter's state; the variance $\sigma_0^2$ is used to initialise $\alpha_0$; and the variance $\sigma^2$ controls spatial smoothing. Effectively, in the non-auto-regressive model, we do not have the $\sigma^2$ term as all $\alpha$ terms are initialised using $\sigma_0^2$ -- this notion relaxes the assumption of spatial smoothing.
+
+% Topic model settings
+% - AR Tuning
+\par In order to run the experiments in efficient manner, we need to identify optimal values of the previously noted variances. One reason behind the variance tuning corresponds to the rate of convergence upon the application of the Metropolis--Hastings algorithm. Based on the algorithm's rationale -- a low acceptance rate indicates slow and stable, a high acceptance rate indicate random and unstable convergence -- we would find the variance $\delta^2$ inducing the acceptance rate of around $30\%$. Another reason behind the variance tuning is related to the spatial smoothing application. Most importantly, we want to keep the variance $\sigma^2$ in tact with the rate of change of the topic smoothing throughout our data. Furthermore, since our topic development is captured in discrete space, we want to make sure that the discretisation step induced by the generative data process is smaller than the $\sigma^2$ variance; otherwise, we would fail to capture the high rate of change induced by steep topic changes.
+% MSI data settings
+% - Synthetic corpora
+% -- Fixed theta and phi
+% -- The size of the synthetic corpus 
+\par Speaking of the datasets generated for the experiments, these were designed to reflect three following aspects: the effect of overlapping topics; the effect of overlapping vocabulary terms; and the effect of noise. Note that our assessment is based on an intuitive $3$ topic scenario: $2$ topics model distinct metabolite entities, and the remaining topic models the noise topic. Speaking of the dataset size, we set $T=50$ for the number of documents per corpus and $\xi=100$ for the number of words per documents: the choice of $T$ surpasses the discretisation concern; also, as suggested by the generative algorithm given in Subsection 5.3, the use of the $\xi$ parameter establishes a slightly varying number of words in each document. However, in order to speed up the inference, we normalise the number of words per document to possess the maximum value of $50$.
+
+% Experiment settings
+% - Overlapping topics
+% - Overlapping vocabulary terms
+% - Overlapping noise vocabulary terms
+\par In the preceding figures, we illustrate the variations of the data generation settings: in Figure \ref{fig:ol_topics}, we display the setting  controlling the topic overlap; in Figure \ref{fig:ol_terms}, we display the setting controlling the topic term overlap; and in Figure \ref{fig:ol_error}, we display the setting controlling the error overlap. Note the red and green colourings indicate the synthetic metabolite topics; the green colouring indicates the noise topic; and, for the term names set in the horizontal axes of Figures \ref{fig:ol_terms} and \ref{fig:ol_error}, we use arbitrary, unique numbers. 
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+    % \caption{Enabled topic overlap.}
+    \includegraphics[width=\linewidth]{theta_topic-ol.png}
+  \end{subfigure}%
+
+  \begin{subfigure}[b]{0.48\textwidth}
+    % \caption{Disabled topic overlap.}
+    \includegraphics[width=\linewidth]{theta_topic-nonol.png}
+  \end{subfigure}%
+  \caption{Controlling the topic overlap.}
+  \label{fig:ol_topics}
+
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{phi_topic-ol_error-nonol.png}
+  \end{subfigure}%
+   \caption{Controlling the topic term overlap.}
+  \label{fig:ol_terms}
+
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{phi_topic-nonol_error-ol.png}
+  \end{subfigure}%
+   \caption{Controlling the error overlap.}
+  \label{fig:ol_error}
+\end{figure}
+
+% Experiment settings
+% - Illustration overview: example
+% - preset theta and phi
+\par Relating the latter settings to our experiments, we assessed their all eight possible permutations. To give an example of a permutation, one of the experiments would assess the ability to recover the underlying topic term distributions with the enabled topic overlap, the disabled topic term overlap, and the enabled error overlap. Speaking of the data generation, note that the latter settings directly reflect the $\theta$ and $\phi$ values of the synthetic datasets (we do not use the $\alpha$ and $\beta$ hyper-parameters). By following the latter principle, we establish clearer representation of the synthetic data; thus, simplify the performance assessment.
+
+\subsection{Experiment execution}
+
+% Evaluation
+% - Performance: topic and term recreation error
+
+\par Before going into the experiment execution, note that we assess the performance based on the models' ability to recover the underlying synthetic corpus generation settings. To wrap this assessment into a more concise terminology, the true solution corresponds to the underlying synthetic corpus generation settings; and the approximate solution corresponds to the inference results. As a result, the performance is measured by taking the difference of the true and approximate solutions. 
+
+% Specific examples
+% - # of iter & burn-in
+\par In order to introduce the rationale behind the performance assessment, we look into one of the eight experiments in more detail. Just like for all our experiments, we run both auto-regressive and non-auto-regressive models for $5000$ Gibbs sampling iterations, $1000$ of which are dedicated for the burn-in process. For each of the remaining $4000$ iterations, we sample the corresponding $\theta$ and $\phi$ values; afterwards, in every $100$th iteration, we average the stored $\theta$ and $\phi$ values, respectively; then, this average is compared to the true solution. As an example, in the $1100$th iteration, we would take the average of the $100$ stored samples; in the $1200$th iteration, we would take the average of the $200$ stored samples. In a single experiment, we would have $40$ of such batches assessing the performance -- this is illustrated in Figure \ref{fig:perf_theta} and Figure \ref{fig:perf_phi}.
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\linewidth]{performance-theta.png}
+  \end{subfigure}%
+  \caption{The $\theta$ recovery performance.}
+  \label{fig:perf_theta}
+
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\linewidth]{performance-phi.png}
+  \end{subfigure}%
+  \caption{The $\phi$ recovery performance.}
+  \label{fig:perf_phi}
+\end{figure}
+
+% The images of theta and phi recovery
+\par Relating to the previous example, the $\theta$ and $\phi$ values corresponding to the last iteration are illustrated in Figure \ref{fig:comp_theta} and Figure \ref{fig:comp_phi}. 
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{theta-ar.png}
+  \end{subfigure}%
+
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{theta-nonar.png}
+  \end{subfigure}%
+  \caption{The comparison of the $\theta$ values.}
+  \label{fig:comp_theta}
+
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{phi-ar.png}
+  \end{subfigure}%
+
+  \begin{subfigure}[b]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{phi-nonar.png}
+  \end{subfigure}%
+  \caption{The comparison of the $\phi$ values.}
+  \label{fig:comp_phi}
+\end{figure}
+ 
+% General assessment
+% - The table with the paired t-test scores
+% - Paired t-test
+% -- 10 datasets each
+\par
 
 % ___________________________________________________________________________
 \section{Conclusion}
@@ -436,3 +554,11 @@ In practical settings, the rationale of the generative process is defined as fol
 \bibliography{bibliography}
 
 \end{document}
+
+% The TODO list:
+% - Adjust p and P
+
+
+
+
+

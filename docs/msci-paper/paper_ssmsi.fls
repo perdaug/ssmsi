@@ -179,6 +179,16 @@ INPUT images/pre.png
 INPUT images/post.png
 INPUT images/topic.png
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/ae/aebx9.tfm
+INPUT images/theta_topic-ol.png
+INPUT images/theta_topic-nonol.png
+INPUT images/phi_topic-ol_error-nonol.png
+INPUT images/phi_topic-nonol_error-ol.png
+INPUT images/performance-theta.png
+INPUT images/performance-phi.png
+INPUT images/theta-ar.png
+INPUT images/theta-nonar.png
+INPUT images/phi-ar.png
+INPUT images/phi-nonar.png
 INPUT paper_ssmsi.bbl
 INPUT paper_ssmsi.bbl
 INPUT paper_ssmsi.aux
