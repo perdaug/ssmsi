@@ -168,6 +168,7 @@ INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+INPUT images/msi3.png
 INPUT images/LDA-initial.png
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aett.fd
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aett.fd
@@ -185,10 +186,10 @@ INPUT images/phi_topic-ol_error-nonol.png
 INPUT images/phi_topic-nonol_error-ol.png
 INPUT images/performance-theta.png
 INPUT images/performance-phi.png
-INPUT images/theta-ar.png
-INPUT images/theta-nonar.png
-INPUT images/phi-ar.png
-INPUT images/phi-nonar.png
+INPUT images/theta-ar_11.png
+INPUT images/theta-nonar_11.png
+INPUT images/phi-ar_11.png
+INPUT images/phi-nonar_11.png
 INPUT paper_ssmsi.bbl
 INPUT paper_ssmsi.bbl
 INPUT paper_ssmsi.aux

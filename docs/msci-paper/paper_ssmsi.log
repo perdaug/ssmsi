@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.2.16)  19 APR 2017 17:56
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2017.2.16)  20 APR 2017 22:24
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -533,7 +533,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 File: CompSci_colour.pdf Graphic file (type QTm)
  <use  "CompSci_colour.pdf" >
-Overfull \hbox (2.22774pt too wide) in paragraph at lines 40--42
+Overfull \hbox (2.22774pt too wide) in paragraph at lines 41--43
 \T1/aer/m/it/9 com-pu-ta-tional metabolomics; to be spe-cific, we as-sess wheth
 er
  []
@@ -542,122 +542,125 @@ er
 File: se-ascii-print.def 2016/05/16 v1.11 stringenc: Printable ASCII characters
 
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 54.
+LaTeX Font Info:    Try loading font information for U+msa on input line 60.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 54.
+LaTeX Font Info:    Try loading font information for U+msb on input line 60.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (5.66792pt too wide) in paragraph at lines 54--55
-\T1/aer/m/n/9 the form of spa-tial dis-tri-bu-tion. Speak-ing of the metabolomi
-cs
- []
+File: images/msi3.png Graphic file (type QTm)
+
+<use  "images/msi3.png" >
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 [1
 
 
 ]
 File: images/LDA-initial.png Graphic file (type QTm)
- <use  "images/LDA-initial.png" >
-Overfull \hbox (2.00475pt too wide) in paragraph at lines 115--123
-\T1/aer/m/n/9 pen-dence of ran-dom vari-ables can be il-lus-trated us-ing graph
-s.
- []
-
-
-Underfull \vbox (badness 1558) has occurred while \output is active []
-
- [2]
-LaTeX Font Info:    Try loading font information for T1+aett on input line 146.
+ <use  "images/LDA-initial.png" > [2]
+LaTeX Font Info:    Try loading font information for T1+aett on input line 160.
 
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 )
-Overfull \hbox (4.38795pt too wide) in paragraph at lines 164--165
+Overfull \hbox (4.38795pt too wide) in paragraph at lines 178--179
 \T1/aer/m/n/9 a metabo-lite con-struc-tion (i.e., a topic) is con-tin-u-ous thr
 ough-
  []
 
 [3]
+Overfull \hbox (4.7755pt too wide) in paragraph at lines 228--229
+\T1/aer/m/n/9 tively, the in-ten-sity val-ues be-low the in-ten-sity thresh-old
+ would
+ []
+
 File: images/dtm-architecture.png Graphic file (type QTm)
- <use  "images/dtm-architecture.png" >
-Overfull \hbox (5.35165pt too wide) in paragraph at lines 257--258
-[]\T1/aer/m/n/9 Speaking of the spa-tial smooth-ing ap-pli-ca-tion, to my knowl
+<use  "images/dtm-architecture.png" >
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (3.68686pt too wide) in paragraph at lines 271--272
+[]\T1/aer/m/n/9 Relating to the spa-tial smooth-ing ap-pli-ca-tion, to my knowl
 -
  []
 
+
+Overfull \hbox (16.50963pt too wide) in paragraph at lines 285--286
+\T1/aer/m/n/9 stances of an MSI cor-pus. In our set-tings, the auto-regressiven
+ess
+ []
+
 [4]
-Overfull \hbox (6.52872pt too wide) in paragraph at lines 308--308
+Overfull \hbox (6.52872pt too wide) in paragraph at lines 322--322
 [] 
  []
 
 File: images/ar-architecture.png Graphic file (type QTm)
 <use  "images/ar-architecture.png" > [5]
-Overfull \hbox (10.84471pt too wide) in paragraph at lines 356--356
+Overfull \hbox (10.84471pt too wide) in paragraph at lines 370--370
 [] 
  []
 
 
-Overfull \hbox (9.58266pt too wide) in paragraph at lines 360--360
+Overfull \hbox (9.58266pt too wide) in paragraph at lines 374--374
 [] 
  []
 
 File: images/pre.png Graphic file (type QTm)
 <use  "images/pre.png" >
-Overfull \hbox (12.0pt too wide) in paragraph at lines 389--393
+Overfull \hbox (12.0pt too wide) in paragraph at lines 403--407
  [][] 
  []
 
 File: images/post.png Graphic file (type QTm)
 <use  "images/post.png" >
-Overfull \hbox (12.0pt too wide) in paragraph at lines 394--398
+Overfull \hbox (12.0pt too wide) in paragraph at lines 408--412
  [][] 
  []
 
 File: images/topic.png Graphic file (type QTm)
 <use  "images/topic.png" >
-Overfull \hbox (12.0pt too wide) in paragraph at lines 399--403
+Overfull \hbox (12.0pt too wide) in paragraph at lines 413--417
  [][] 
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 415.
- [6]
+put line 429.
+[6]
 File: images/theta_topic-ol.png Graphic file (type QTm)
-
-<use  "images/theta_topic-ol.png" >
-Overfull \hbox (1.91785pt too wide) in paragraph at lines 472--476
+ <use  "images/theta_topic-ol.png" >
+Overfull \hbox (1.91785pt too wide) in paragraph at lines 470--474
  [][] 
  []
 
 File: images/theta_topic-nonol.png Graphic file (type QTm)
 <use  "images/theta_topic-nonol.png" >
-Overfull \hbox (1.91785pt too wide) in paragraph at lines 477--481
+Overfull \hbox (1.91785pt too wide) in paragraph at lines 475--479
  [][] 
  []
 
 File: images/phi_topic-ol_error-nonol.png Graphic file (type QTm)
 <use  "images/phi_topic-ol_error-nonol.png" >
-Overfull \hbox (1.91785pt too wide) in paragraph at lines 484--487
+Overfull \hbox (1.91785pt too wide) in paragraph at lines 482--485
  [][] 
  []
 
 File: images/phi_topic-nonol_error-ol.png Graphic file (type QTm)
 <use  "images/phi_topic-nonol_error-ol.png" >
-Overfull \hbox (1.91785pt too wide) in paragraph at lines 490--493
+Overfull \hbox (1.91785pt too wide) in paragraph at lines 488--491
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 13.61873pt on input line 495.
+LaTeX Warning: Float too large for page by 13.61873pt on input line 493.
 
 
 Underfull \vbox (badness 1558) has occurred while \output is active []
@@ -668,91 +671,91 @@ File: images/performance-theta.png Graphic file (type QTm)
 <use  "images/performance-theta.png" >
 File: images/performance-phi.png Graphic file (type QTm)
  <use  "images/performance-phi.png" >
-File: images/theta-ar.png Graphic file (type QTm)
+File: images/theta-ar_11.png Graphic file (type QTm)
 
-<use  "images/theta-ar.png" >
-Overfull \hbox (1.91785pt too wide) in paragraph at lines 532--535
+<use  "images/theta-ar_11.png" >
+Overfull \hbox (1.91785pt too wide) in paragraph at lines 545--548
  [][] 
  []
 
-File: images/theta-nonar.png Graphic file (type QTm)
-<use  "images/theta-nonar.png" >
-Overfull \hbox (1.91785pt too wide) in paragraph at lines 536--539
+File: images/theta-nonar_11.png Graphic file (type QTm)
+<use  "images/theta-nonar_11.png" >
+Overfull \hbox (1.91785pt too wide) in paragraph at lines 549--552
  [][] 
  []
 
-File: images/phi-ar.png Graphic file (type QTm)
-<use  "images/phi-ar.png" >
-Overfull \hbox (1.91785pt too wide) in paragraph at lines 542--545
+File: images/phi-ar_11.png Graphic file (type QTm)
+<use  "images/phi-ar_11.png" >
+Overfull \hbox (1.91785pt too wide) in paragraph at lines 555--558
  [][] 
  []
 
-File: images/phi-nonar.png Graphic file (type QTm)
-<use  "images/phi-nonar.png" >
-Overfull \hbox (1.91785pt too wide) in paragraph at lines 546--549
+File: images/phi-nonar_11.png Graphic file (type QTm)
+<use  "images/phi-nonar_11.png" >
+Overfull \hbox (1.91785pt too wide) in paragraph at lines 559--562
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 3.11874pt on input line 551.
+LaTeX Warning: Float too large for page by 3.11874pt on input line 564.
 
 
-Overfull \hbox (1.71587pt too wide) in paragraph at lines 557--558
+Overfull \hbox (1.71587pt too wide) in paragraph at lines 570--571
 []\T1/aer/m/n/9 To as-sess the auto-regressive model's per-for-mance, we have
  []
 
 [8]
-Overfull \hbox (0.98912pt too wide) in paragraph at lines 568--568
+Overfull \hbox (0.98912pt too wide) in paragraph at lines 581--581
  []|\T1/aer/m/n/9 Topic| 
  []
 
 
-Overfull \hbox (2.29918pt too wide) in paragraph at lines 570--570
+Overfull \hbox (2.29918pt too wide) in paragraph at lines 583--583
  []|$\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 5\OML/cmm/m/it/9 :\OT1/cmr/m/n/9 41$| 
  []
 
 
-Overfull \hbox (2.29918pt too wide) in paragraph at lines 571--571
+Overfull \hbox (2.29918pt too wide) in paragraph at lines 584--584
  []|$\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 9\OML/cmm/m/it/9 :\OT1/cmr/m/n/9 46$| 
  []
 
 
-Overfull \hbox (2.29918pt too wide) in paragraph at lines 571--571
+Overfull \hbox (2.29918pt too wide) in paragraph at lines 584--584
  []|$\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 0\OML/cmm/m/it/9 :\OT1/cmr/m/n/9 38$| 
  []
 
 
-Overfull \hbox (2.29918pt too wide) in paragraph at lines 573--573
+Overfull \hbox (2.29918pt too wide) in paragraph at lines 586--586
  []|$\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 2\OML/cmm/m/it/9 :\OT1/cmr/m/n/9 91$| 
  []
 
 
-Overfull \hbox (2.29918pt too wide) in paragraph at lines 573--573
+Overfull \hbox (2.29918pt too wide) in paragraph at lines 586--586
  []|$\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 3\OML/cmm/m/it/9 :\OT1/cmr/m/n/9 24$| 
  []
 
 
-Overfull \hbox (2.29918pt too wide) in paragraph at lines 574--574
+Overfull \hbox (2.29918pt too wide) in paragraph at lines 587--587
  []|$\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 5\OML/cmm/m/it/9 :\OT1/cmr/m/n/9 99$| 
  []
 
 
-Overfull \hbox (2.29918pt too wide) in paragraph at lines 574--574
+Overfull \hbox (2.29918pt too wide) in paragraph at lines 587--587
  []|$\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 1\OML/cmm/m/it/9 :\OT1/cmr/m/n/9 71$| 
  []
 
 
-Overfull \hbox (2.29918pt too wide) in paragraph at lines 575--575
+Overfull \hbox (2.29918pt too wide) in paragraph at lines 588--588
  []|$\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 1\OML/cmm/m/it/9 :\OT1/cmr/m/n/9 78$| 
  []
 
 
-Overfull \hbox (2.29918pt too wide) in paragraph at lines 575--575
+Overfull \hbox (2.29918pt too wide) in paragraph at lines 588--588
  []|$\OMS/cmsy/m/n/9 ^^@\OT1/cmr/m/n/9 1\OML/cmm/m/it/9 :\OT1/cmr/m/n/9 53$| 
  []
 
 
-Overfull \hbox (3.01286pt too wide) in paragraph at lines 609--610
+Overfull \hbox (3.01286pt too wide) in paragraph at lines 622--623
 \T1/aer/m/n/9 look-ing into the ap-pli-ca-tion of the undi-rected graph-i-cal m
 odel
  []
@@ -761,7 +764,7 @@ odel
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [9])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 623.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 636.
 - LAST -
 Extra skip:5.7684pt
 Left:293.02245pt/1.74596pt
@@ -769,19 +772,19 @@ Right:289.0pt/0.0pt
 Output:291.26122pt
 
 [10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 623.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 636.
  (./paper_ssmsi.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 623.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 623.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 623.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 636.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 636.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 636.
  ) 
 Here is how much of TeX's memory you used:
- 13140 strings out of 493591
- 187347 string characters out of 6143546
- 384404 words of memory out of 5000000
- 16390 multiletter control sequences out of 15000+600000
+ 13143 strings out of 493591
+ 187403 string characters out of 6143546
+ 384505 words of memory out of 5000000
+ 16392 multiletter control sequences out of 15000+600000
  41676 words of font info for 51 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
- 36i,13n,46p,1299b,477s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,13n,46p,1301b,477s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on paper_ssmsi.pdf (10 pages).

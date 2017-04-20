@@ -1,3 +1,5 @@
+20/04/2017
+- Improving the final draft
 19/04/2017
 - Prepared the final draft
 - Performed a code review
