@@ -3,8 +3,8 @@
 VERSION
 - Python 2
 
-FUNCTION
-- Corpus generation
+PURPOSE
+- A corpus generation for the notebooks
 """
 
 import numpy as np
@@ -12,10 +12,6 @@ import string
 
 
 class Generator_Corpus(object):
-    '''
-    Terms:
-    - pp: pre-processed
-    '''
     def __init__(self, alpha_init, theta_init, beta_init, xi, T):
         if alpha_init is not None:
             self.theta = self._softmax_matrix(alpha_init)
@@ -33,7 +29,6 @@ class Generator_Corpus(object):
             vocab.append(string.ascii_lowercase[w])
         return np.array(vocab)
 # ___________________________________________________________________________
-# TODO: Beta is phi
 
     def generate_corpus(self):
         corpus = {}
@@ -49,7 +44,6 @@ class Generator_Corpus(object):
                 if w_key not in corpus[d]:
                     corpus[d][w_key] = 0
                 corpus[d][w_key] += 1
-
         return corpus
 
     def _softmax_matrix(self, arr):

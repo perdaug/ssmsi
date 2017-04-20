@@ -12,10 +12,7 @@ import math
 
 
 class Processor_Corpus(object):
-    '''
-    Terms:
-    - pp: pre-processed
-    '''
+
     def __init__(self, corpus, vocab=None):
         self.corpus = corpus
         self.vocab = vocab
@@ -53,7 +50,7 @@ class Processor_Corpus(object):
             else:
                 factor_norm = 1.
             '''
-            Transforming into a numpy array
+            Transforming the corpus into a numpy array
             '''
             for w, word in enumerate(self.vocab):
                 if word in doc:
@@ -62,6 +59,9 @@ class Processor_Corpus(object):
         return corpus_pp
 # ___________________________________________________________________________
 
+    '''
+    Generate the coordinates for the 2-dimensional bne plotting.
+    '''
     def generate_coordinates(self, n_rows, l_row, l_column):
         s_column, s_row = self.calc_sizes(self.T, n_rows, l_row, l_column)
         x_coord = 0
@@ -89,4 +89,3 @@ class Processor_Corpus(object):
         s_column = int(math.floor(s_scan * (l_column / (l_row + l_column))))
         s_row = s_scan - s_column
         return s_column, s_row
-

@@ -3,8 +3,8 @@
 VERSION
 - Python 2
 
-FUNCTION
-- Functions to be used during the experiments
+PURPOSE
+- A experiment execution helper for the notebooks
 """
 
 import numpy as np
@@ -12,19 +12,21 @@ import numpy as np
 
 class Helper_Experiment(object):
 
+    '''
+    Calculating the error difference between the true approximated
+    values of theta and phi.
+    '''
     def calculate_performance(self, alpha_init, beta_init, theta_init,
                               clf, s_batch):
         hist_theta = np.array(clf.hist_theta)
         if alpha_init is None:
             theta_init = theta_init.T
-        # generator_batch = self._split_to_batches(hist_theta, s_batch)
         performance_batch_theta = []
         performance_batch_phi = []
         '''
         Iterate through the theta batches
         '''
         n_iter = int(len(hist_theta) / s_batch)
-        # for hist_theta_batch in generator_batch:
         for i in range(n_iter):
             hist_theta_batch = hist_theta[0:i * s_batch - 1]
             '''
@@ -35,7 +37,7 @@ class Helper_Experiment(object):
                 theta_init = self._softmax_matrix(alpha_init)
                 theta_init = theta_init.T
             theta_latent = theta_latent.T
-            matchings_topic = self._tune_thetas(theta_init, theta_latent)
+            matchings_topic = self._match_thetas(theta_init, theta_latent)
             '''
             Calculate the theta similarity
             '''
@@ -51,8 +53,6 @@ class Helper_Experiment(object):
         Iterate through the phi batches
         '''
         hist_phi = np.array(clf.hist_phi)
-        # generator_batch = self._split_to_batches(hist_phi, s_batch)
-        # for hist_phi_batch in generator_batch:
         for i in range(n_iter):
             hist_phi_batch = hist_phi[0:i * s_batch - 1]
             phi_latent = np.average(hist_phi_batch, axis=0)
@@ -69,11 +69,10 @@ class Helper_Experiment(object):
             performance_batch_phi.append(sum_phi)
         return (performance_batch_theta, performance_batch_phi)
 
-    def _split_to_batches(self, arr, s_batch):
-        for i in range(0, len(arr), s_batch):
-            yield arr[i:i + s_batch]
-
-    def _tune_thetas(self, theta_init, theta_latent):
+    '''
+    Matching the real and inferred topics
+    '''
+    def _match_thetas(self, theta_init, theta_latent):
         '''
         Create the matrix of all distances
         '''
@@ -81,14 +80,12 @@ class Helper_Experiment(object):
         for idx_init, row_init in enumerate(theta_init):
             row = []
             for idx_latent, row_latent in enumerate(theta_latent):
-                # print(row_init)
-                # print(row_latent)
                 diff = np.abs(row_latent - row_init).sum()
                 row.append(diff)
             matrix_dist.append(row)
         '''
         - Create all possible permutations
-        - Assign the dist of each perm to a dict
+        - Assign each permutation to a dictionary
         '''
         ids_topic = np.arange(len(theta_init))
         import itertools

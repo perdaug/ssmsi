@@ -5,8 +5,10 @@ import math
 VERSION
 - Python 2
 
-FUNCTION
-- Pre-process the 'bne' data
+PURPOSE
+- Pre-process the 'b and e' data
+-- 2D Mapping
+-- Vocabulary's bucketisation
 """
 
 import pymzml

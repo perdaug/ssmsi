@@ -1,19 +1,26 @@
 
+"""
+VERSION
+- Python 2
+
+PURPOSE
+- A plotting helper for the notebooks
+"""
+
 import numpy as np
 import math
 import plotly.graph_objs as go
 import matplotlib.pyplot as plt
 import os
-# ___________________________________________________________________________
 
 
 class Visualiser_Corpus(object):
 
-    def __init__(self, corpus, vocab, n_rows, l_row, l_column, path_plots=None, save=True, no_corpus=None, no_experiment=None):
+    def __init__(self, corpus, vocab, n_rows, l_row, l_column, path_plots=None,
+                 save=True, no_corpus=None, no_experiment=None):
         self.corpus = corpus
         self.no_corpus = no_corpus
         self.no_experiment = no_experiment
-        # self.vocab = self._extract_vocab()
         self.path_plots = path_plots
         self.vocab = vocab
         self.T = len(self.corpus)
@@ -31,18 +38,7 @@ class Visualiser_Corpus(object):
                 os.makedirs(self.path_plots)
 
 # ___________________________________________________________________________
-    '''
-    TODO: Enable to vocab creation
-    '''
-
-    def _extract_vocab(self):
-        vocab = []
-        for doc in self.corpus:
-            for word in doc:
-                if word not in vocab:
-                    vocab.append(word)
-        return vocab
-# ___________________________________________________________________________
+# The class's initialisation
 
     def _generate_coordinates(self):
         s_column, s_row = self._calc_sizes_map()
@@ -50,7 +46,6 @@ class Visualiser_Corpus(object):
         y_coord = self.n_rows - 1
         scanning_right = True
         map_coord = {}
-        # print(s_row)
         for j in range(0, self.n_rows):
             for i in range(0, s_row):
                 doc_id = i + s_column * j + s_row * j
@@ -75,6 +70,8 @@ class Visualiser_Corpus(object):
         return s_column, int(s_row)
 
 # ___________________________________________________________________________
+# The class's helper functions
+
     def softmax(self, arr):
         return np.exp(arr) / np.sum(np.exp(arr))
 
@@ -87,7 +84,7 @@ class Visualiser_Corpus(object):
 # ___________________________________________________________________________
 
     '''
-    Used on a pre-processed corpus
+    Plot a vocabulary term of a pre-processed corpus
     '''
     def locate_word(self, word):
         # Mapping to the z values.
@@ -105,7 +102,7 @@ class Visualiser_Corpus(object):
         y_vector = np.zeros(shape=(self.n_rows, 1))
         for i in range(0, self.n_rows):
             y_vector[i] = i
-        layout = go.Layout(title="The term's occurrences after the normalisation",
+        layout = go.Layout(title="The term's occurrences",
                            height=350,
                            xaxis=dict(title='x'),
                            yaxis=dict(title='y'))
@@ -119,9 +116,11 @@ class Visualiser_Corpus(object):
 
 # ___________________________________________________________________________
 
+    '''
+    Plot a topic based on the inferred results
+    '''
     def locate_topic(self, id_topic, thetas):
         theta = thetas[-1]
-        # theta = np.average(thetas, axis=0)
         # Mapping to the z values.
         z_matrix = np.zeros(shape=(self.n_rows, self.n_columns))
         for i, doc in enumerate(theta):
@@ -149,9 +148,11 @@ class Visualiser_Corpus(object):
         fig = go.Figure(data=data, layout=layout)
         return fig
 
-
 # __________________________________________________________________________
 
+    '''
+    Plot the theta and phi performance comparison
+    '''
     def compare_performances(self, perf_ar, perf_nonar, s_batch):
         theta_ar, phi_ar = perf_ar
         theta_nonar, phi_nonar = perf_nonar
@@ -189,7 +190,7 @@ class Visualiser_Corpus(object):
             plt.savefig(self.path_plots + name_file, dpi=300)
 
 # __________________________________________________________________________
-# LATENT PLOTS
+# The plots corresponding to the inferred results
 
     def plot_latent_thetas(self, thetas, title):
         '''
@@ -260,7 +261,7 @@ class Visualiser_Corpus(object):
 
 
 # ___________________________________________________________________________
-# INIT PLOTS
+# The plots corresponding to the initial corpus generation settings
 
     def plot_init_phi(self, betas, title):
         '''
@@ -331,41 +332,3 @@ class Visualiser_Corpus(object):
             plt.plot(self.linspace_t, alpha)
         plt.xlabel('t')
         plt.ylabel(r'$\alpha$')
-
-# __________________________________________________________________________
-# BACKLOG
-
-    def plot_latent_alpha2(self, history_alpha, n_it, var_init, var_basic,
-                           var_prop):
-        '''
-        Calculate the softmax values
-        '''
-        labels = []
-        curves = []
-        settings = []
-        colours = ['orange', 'b']
-        for it in range(0, 2):
-            idx = n_it - int(it * n_it / 2)
-            alphas_last_proposed = history_alpha[idx - 1]
-            alphas_softmax_last_proposed = np.zeros(shape=alphas_last_proposed.shape)
-            for t, alphas_last_proposed_t in enumerate(alphas_last_proposed):
-                alphas_softmax_last_proposed[t] = self.softmax(alphas_last_proposed_t)
-            alphas_softmax_last_proposed = alphas_softmax_last_proposed.T
-            for id_label, alpha in enumerate(alphas_softmax_last_proposed):
-                curves.append(alpha)
-                settings.append((colours[id_label], 1 - (it * 0.5)))
-                labels.append('k=%d, it=%d' % (id_label, idx))
-        '''
-        Plot the figure
-        '''
-        from matplotlib.ticker import MaxNLocator
-        ax = plt.figure().gca()
-        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
-        for y_arr, label, setting in zip(curves, labels, settings):
-            plt.plot(self.linspace_t, y_arr, label=label, color=setting[0],
-                     alpha=setting[1])
-        title_fig = '$\sigma_0^2=%.2f,\quad \sigma^2=%.4f,\quad \delta^2=%.1f$' % (var_init, var_basic, var_prop)
-        plt.title(title_fig)
-        plt.legend(loc=1)
-        plt.xlabel('t')
-        plt.ylabel(r'$\theta$')

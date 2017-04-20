@@ -3,27 +3,24 @@
 VERSION
 - Python 2
 
-FUNCTION
-- Infer topics by updating the alphas.
+PURPOSE
+- A topic model with spatial smoothing
 """
 
-import os
 import pandas as pd
 import numpy as np
 import copy
 from time import time
-
-np.set_printoptions(threshold=np.nan)
 
 # ___________________________________________________________________________
 
 
 class DTM_Alpha(object):
     '''
-    PARAMETERS:
-    - sigma_0_sq is the initial variance for alpha[0];
-    - sigma_sq is the variance for alpha[t]
-    - delta_sq is the variance for alpha'[t]
+    TERMS:
+    - sigma_0_sq is the initialisation variance for alpha_0;
+    - sigma_sq is the spatial smoothing variance for alpha_t
+    - delta_sq is the variance for the proposed alpha
     '''
     def __init__(self, K=None, beta=None, sigma_0_sq=None, sigma_sq=None,
                  delta_sq=None, autoreg=False, snapshot=False,
@@ -59,6 +56,9 @@ class DTM_Alpha(object):
         self.corpus = None
 # ===========================================================================
 
+    '''
+    Run a model from a captured snapshot.
+    '''
     def load_fit(self, path_file, n_it_add=0):
         vars_loaded = pd.read_pickle(path_file)
         for var in vars(self):
@@ -69,6 +69,9 @@ class DTM_Alpha(object):
         self.fit(n_it=n_it_add)
 # ===========================================================================
 
+    '''
+    Run a model.
+    '''
     def fit(self, n_it, n_burn_it=0, corpus=None):
         print('{} has started.'.format(self.__class__.__name__))
         if not self.snapshot:
@@ -82,12 +85,16 @@ class DTM_Alpha(object):
             if not self.burnin:
                 self._sample_phi()
                 self._sample_theta()
-                # self._calculate_perplexity()
             if self.verbose_init:
                 self.verbose_init = False
         self.n_it_sampl_last += n_it
         print('{} has finished.'.format(self.__class__.__name__))
 
+    '''
+    Print the status of the following:
+    - Alpha update;
+    - Burn-in.
+    '''
     def _update_status(self, it, n_burn_it):
         if it != 0 and it % 25 == 0:
             print('Iteration: {}'.format(it))
@@ -146,18 +153,14 @@ class DTM_Alpha(object):
 # ___________________________________________________________________________
 
     '''
+    FORMULA:
+    - p(z_k,a_k|x)=p(x|z_k,a_k)*p(z_k|a_k)
     TERMS:
     - p: Probability
-    - t: Term
-    - ar: Autoregressive
+    - ar: Auto-regressive
     - r: Acceptance rate
-
-    FORMULA:
-    - p(z_k,a_k|x)=p(x|z_k,a_k)*p(z_k|a_k)*p(a_k):
-    -- t1: Mult(softmax(a)_k)
-    -- t3: p(a_{k,t}|a_{k,t-1})*p(a_{k,t+1}|a_{k,t})
-    --- t31: p(a_{k,t}|a_{k,t-1})
-    --- t32: p(a_{k,t+1}|a_{k,t})
+    - term1: p(x|z_k,a_k)
+    - term2: p(z_k|a_k)
     '''
     def _update_alpha(self):
         t0 = time()
@@ -168,26 +171,28 @@ class DTM_Alpha(object):
             for k in range(0, self.K):
                 '''
                 Calculating p(z_k,a_k,a'_k|x)
+                - Note: the numerator for the acceptance rate
                 '''
                 theta_prop = self._softmax_log_vector(alpha_prop)
-                t1_prop = np.sum(self.n_dz[t] * theta_prop)
+                term1_proposed = np.sum(self.n_dz[t] * theta_prop)
                 if self.autoreg:
-                    t3_prop = self._eval_prior_ar(alpha_prop, t, k)
+                    term2_proposed = self._eval_prior_ar(alpha_prop, t, k)
                 else:
-                    t3_prop = self._eval_norm(alpha_prop[k], 0,
-                                              self.sigma_0_sq)
-                p_alpha_prop = t1_prop + t3_prop
+                    term2_proposed = self._eval_norm(alpha_prop[k], 0,
+                                                     self.sigma_0_sq)
+                p_alpha_prop = term1_proposed + term2_proposed
                 '''
                 Calculating p(z_k,a_k|x)
+                - Note: the denominator for the acceptance rate
                 '''
                 theta = self._softmax_log_vector(self.alpha[t])
-                t1 = np.sum(self.n_dz[t] * theta)
+                term1 = np.sum(self.n_dz[t] * theta)
                 if self.autoreg:
-                    t3 = self._eval_prior_ar(self.alpha[t], t, k)
+                    term2 = self._eval_prior_ar(self.alpha[t], t, k)
                 else:
-                    t3 = self._eval_norm(self.alpha[t][k], 0,
-                                         self.sigma_0_sq)
-                p_alpha = t1 + t3
+                    term2 = self._eval_norm(self.alpha[t][k], 0,
+                                            self.sigma_0_sq)
+                p_alpha = term1 + term2
                 '''
                 Calculating the acceptance rate
                 '''
@@ -203,36 +208,57 @@ class DTM_Alpha(object):
             print('Alpha update run-time: {:.2f}'.format(time() - t0))
 
     '''
-    - The constant is taken away;
-    - Executed in the log space.
+    Evaluate the Gaussian function
+    - Note: The constant is taken away;
+    - Note: Executed in log space.
     '''
     def _eval_norm(self, x, mean, dev_sq):
         product = np.dot(np.transpose(x - mean), (x - mean))
         return -0.5 * product / dev_sq
 
+    '''
+    Evaluate the softmax function
+    - Note: Executed in log space.
+    '''
     def _softmax_log(self, arr, i):
         softmax_linear = np.exp(arr[i]) / np.sum(np.exp(arr))
         return np.log(softmax_linear)
 
+    '''
+    Evaluate the softmax function 
+    - Note: Executed in log space on a whole vector.
+    '''
     def _softmax_log_vector(self, arr):
         softmax = np.exp(arr) / np.sum(np.exp(arr))
         return np.log(softmax)
 
+    '''
+    Evaluate the p(z_k|a_k) function.
+    Terms:
+    - ic: initial conditions
+    '''
     def _eval_prior_ar(self, alpha_prop, t, k):
         if t == 0:
-            t31 = self._eval_norm(alpha_prop[k], 0, self.sigma_0_sq)
+            term2_ic_0 = self._eval_norm(alpha_prop[k], 0, self.sigma_0_sq)
         else:
-            t31 = self._eval_norm(alpha_prop[k], self.alpha[t - 1][k],
-                                  self.sigma_sq)
+            term2_ic_0 = self._eval_norm(alpha_prop[k], self.alpha[t - 1][k],
+                                         self.sigma_sq)
         if t == self.T - 1:
-            t3 = t31
+            term2 = term2_ic_0
         else:
-            t32 = self._eval_norm(self.alpha[t + 1][k], alpha_prop[k],
-                                  self.sigma_sq)
-            t3 = t31 + t32
-        return t3
+            term2_ic_T = self._eval_norm(self.alpha[t + 1][k], alpha_prop[k],
+                                         self.sigma_sq)
+            term2 = term2_ic_0 + term2_ic_T
+        return term2
 # ___________________________________________________________________________
 
+    '''
+    The Gibbs sampler.
+    Terms:
+    - n_dz: topic per document count
+    - n_zw: term per topic count
+    - n_z: topic count
+    '''
     def _assign_topics(self):
         t0 = time()
         self.alpha_softmax = self._softmax(self.alpha)
@@ -251,11 +277,16 @@ class DTM_Alpha(object):
         if self.verbose_init:
             print('Gibbs sampling run-time: {:.2f}'.format(time() - t0))
 
+    '''
+    Establish the topic distribution to draw the samples from.
+    '''
     def _calculate_p_topic(self, idx_d, idx_w):
-        term_left = (1.0 * self.n_zw[:, idx_w] + self.beta) \
-            / (1.0 * self.n_z + self.V * self.beta)
-        term_right = self.alpha_softmax[idx_d]
-        p_topic = term_left * term_right
+        term_left = np.log(1.0 * self.n_zw[:, idx_w] + self.beta)
+        term_left -= np.log(1.0 * self.n_z + self.V * self.beta)
+        term_right = np.log(self.alpha_softmax[idx_d])
+
+        p_topic = term_left + term_right
+        p_topic = np.exp(p_topic - np.max(p_topic))
         p_topic /= p_topic.sum()
         return p_topic
 
@@ -273,16 +304,12 @@ class DTM_Alpha(object):
         for row_phi in phi_pre:
             phi_topic = np.random.dirichlet(row_phi)
             phi.append(phi_topic)
-        # TOFIX
-        # phi = (1.0 * self.n_zw + self.beta)
-        # phi = self._softmax(phi)
-        # phi /= np.sum(phi, axis=1)[:, None]
         self.hist_phi.append(phi)
 # ___________________________________________________________________________
 
     def _sample_theta(self):
-        alphas_dir = self.alpha_softmax
-        theta = []
+        # alphas_dir = self.alpha_softmax
+        # theta = []
         # for alpha_dir in alphas_dir:
         #     theta_doc = np.random.dirichlet(alpha_dir)
         #     theta.append(theta_doc)
@@ -291,43 +318,3 @@ class DTM_Alpha(object):
         # TOFIX
         theta = self.alpha_softmax
         self.hist_theta.append(np.array(theta))
-
-# ___________________________________________________________________________
-# BACKLOG
-
-    def _calculate_perplexity(self):
-        perp = 0
-        for t in range(self.T):
-            for v in range(self.V):
-                sum_k = 0
-                for k in range(self.K):
-                    sum_k += self.hist_theta[-1][t, k] * self.beta[k, v]
-                perp += self.corpus[t, v] * np.log(sum_k)
-        perp /= self.corpus.sum()
-        perp = np.exp(-perp)
-
-# ___________________________________________________________________________
-
-PATH_HOME = os.path.expanduser('~') + '/Projects/ssmsi/'
-PATH_DATA = PATH_HOME + 'data/corpora_processed/'
-
-
-def main():
-    corpus_pp = pd.read_pickle(PATH_DATA + 'corpus_synthetic_nparray.pkl')
-    # vocab = pd.read_pickle(PATH_DATA + 'vocab_synthetic.pkl')
-    # sigma_0_sq = 1
-    # sigma_sq = 0.01
-    # delta_sq = 1
-    # K = 2
-    # autoreg = True
-    # clf = DTM_Alpha(K=K, sigma_0_sq=sigma_0_sq, sigma_sq=sigma_sq,
-    #                 delta_sq=delta_sq, autoreg=autoreg)
-    # beta = np.array([[0, 0, 0, 0.3, 0.7, 0, 0, 0, 0, 0],
-    #                 [0, 0, 0.2, 0, 0, 0, 0, 0.3, 0.3, 0.2]])
-    # clf.beta = beta
-    # n_it = 10
-    # clf.fit(n_it=n_it, corpus=corpus_pp)
-
-
-if __name__ == '__main__':
-    main()
